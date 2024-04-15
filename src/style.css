@@ -1,0 +1,8 @@
+::selection {
+  color: #333;
+  background-color: #B3D8FF;
+}
+
+[x-cloak] {
+  display: none;
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="https://alpinejs.dev/favicon.png"/>
+    <title>Hyper</title>
+    <meta name="title" content="Hyper"/>
+    <meta name="description" content="Frontend-template that helps quickly start projects from scratch"/>
+    <meta name="keywords" content="front-end responsive utility-classes grid-layout responsive-design frontend-template tailwindcss alpinejs animate-css front-end-template"/>
+    <meta name="author" content="Ray Chang"/>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://create-alpine-app.netlify.app/intro/"/>
+    <meta property="og:title" content="Hyper"/>
+    <meta property="og:description" content="Frontend-template that helps quickly start projects from scratch"/>
+    <meta property="og:image" content="https://opengraph.githubassets.com/2469fa99cf18457e00fdde599b67f77cc3ff11f3195f336bef9e8b6ae314659d/rayc2045/create-alpine-app"/>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image"/>
+    <meta property="twitter:url" content="https://create-alpine-app.netlify.app/intro/"/>
+    <meta property="twitter:title" content="Hyper"/>
+    <meta property="twitter:description" content="Frontend-template that helps quickly start projects from scratch"/>
+    <meta property="twitter:image" content="https://opengraph.githubassets.com/2469fa99cf18457e00fdde599b67f77cc3ff11f3195f336bef9e8b6ae314659d/rayc2045/create-alpine-app"/>
+    <!-- Noto Sans TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700&display=swap"/>
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script><!-- https://tailwindcss.com, https://hyperui.dev -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="/src/style.css"/>
+    <script src="/src/app.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs-component@1.2.6/dist/component.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@imacrayon/alpine-ajax@0.5.0/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.0/dist/purify.min.js" defer></script>
+  </head>
+  <body
+    x-data="{ TITLE, ...utils, localStore, router }"
+    class="min-h-svh flex flex-col"
+    style="--animate-duration: 1.2s"
+    @dragstart.prevent
+  >
+    <nav class="px-4 bg-base-100 sticky top-0 flex gap-4 border-b border-gray-200 bg-white z-[1]">
+      <a href="#/" class="py-4 font-bold text-lg text-gray-900" x-text="TITLE"></a>
+      <ul class="hidden md:flex items-center gap-4 text-sm">
+        <li>
+          <a class="inline-block py-4 hover:text-gray-500 transition" href="#/shop">
+            Shop
+          </a>
+        </li>
+        <li>
+          <a class="inline-block py-4 hover:text-gray-500 transition" href="#/collections">
+            Collections
+          </a>
+        </li>
+        <li>
+          <a class="inline-block py-4 hover:text-gray-500 transition" href="#/blog">
+            Blog
+          </a>
+        </li>
+        <li>
+          <a class="inline-block py-4 hover:text-gray-500 transition" href="#/about">
+            About
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="relative bg-gray-100 border-y border-gray-200">
+      <div class="mx-auto max-w-screen-xl px-4 py-2">
+        <a
+          href="https://github.com/rayc2045/Hyper"
+          rel="noreferrer"
+          target="_blank"
+          class="flex items-center justify-center gap-1.5 hover:opacity-75 transition"
+        >
+          <span
+            class="text-sm/none font-medium"
+            x-text="`Enjoy ${TITLE}? Give it a star on GitHub`"
+          ></span>
+          <span aria-hidden="true" role="img">🎉</span>
+        </a>
+      </div>
+      <button
+        aria-label="Close"
+        class="absolute p-1 top-[.4rem] right-3 text-sm text-gray-500"
+        @click="$el.parentNode.remove()"
+      >
+        ✕
+      </button>
+    </section>
+
+    <main
+      class="py-16 flex-1"
+      x-init="router.updatePath()"
+      x-html="router.getPageHTML()"
+      @hashchange.window="router.updatePath(); scrollToTop();"
+    ></main>
+
+    <footer class="border-t border-gray-200 bg-white">
+      <div class="mx-auto max-w-screen-xl px-4 py-8 lg:py-12">
+        <a href="#/">
+          <span class="font-medium text-lg text-gray-900 hover:text-gray-500 transition" x-text="TITLE"></span>
+        </a>
+        <div class="mt-6">
+          <p class="max-w-md text-pretty leading-relaxed text-gray-700">
+            Starter template for marketing and eCommerce websites. Powered by
+            <a
+              class="text-gray-900 hover:text-gray-500 transition underline"
+              href="https://alpinejs.dev/"
+              target="_blank"
+            >
+              Alpine.js
+            </a>
+            and
+            <a
+              class="text-gray-900 hover:text-gray-500 transition underline"
+              href="https://www.hyperui.dev/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Hyper UI
+            </a>.
+          </p>
+          <div class="mt-4 lg:flex lg:items-end lg:justify-between">
+            <ul class="flex gap-4">
+              <li>
+                <a
+                  class="text-sm text-gray-900 hover:text-gray-500 transition underline"
+                  href="#/about/faqs"
+                >
+                  FAQs
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-sm text-gray-900 hover:text-gray-500 transition underline"
+                  href="#/about/acknowledgements"
+                >
+                  Acknowledgements
+                </a>
+              </li>
+            </ul>
+            <p class="mt-4 text-sm text-gray-700 lg:mt-0">
+              &copy; <span x-text="new Date().getFullYear()"></span> Created by
+              <a
+                href="https://github.com/rayc2045"
+                target="_blank"
+                rel="noreferrer"
+                class="text-gray-900 hover:text-gray-500 transition underline"
+              >
+                Ray C
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
