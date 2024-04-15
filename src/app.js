@@ -98,7 +98,7 @@ const router = {
     this.currentPath = path.startsWith('/') ? path : '/';
   },
   async getPageHTML(path = this.currentPath) {
-    const root = '/src/pages';
+    const root = './pages';
     const page =
       this.routes.find(route => route.path === path)?.component || '/404.html';
     return await fetch(root + page).then(res => res.text());
