@@ -2,7 +2,13 @@
 
 const TITLE = 'Hyper';
 
+const { log } = console;
 const utils = {
+  log,
+  async svg(name) {
+    const res = await fetch(`./src/components/svg/${name}.html`);
+    return await res.text();
+  },
   scrollToTop() {
     scrollTo({ top: 0, behavior: 'smooth' });
   },
