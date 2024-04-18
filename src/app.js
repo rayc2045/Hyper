@@ -6,13 +6,19 @@ const { log } = console;
 const utils = {
   log,
   async svg(name) {
-    return this.fetchText(`./src/components/svg/${name}.html`);
+    return this.getData(`./src/components/svg/${name}.html`, 'text');
   },
-  async fetchData(api) {
-    return await fetch(api).then(res => res.json());
+  async getData(url, type = 'json') {
+    const response = await fetch(url);
+    return await response[type]();
   },
-  async fetchText(path) {
-    return await fetch(path).then(res => res.text());
+  async postData(url, data) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return await response.json();
   },
   async delay(delay = 0) {
     await new Promise(resolve => {
@@ -79,7 +85,7 @@ const router = {
   async getPageHTML(path = this.currentPath) {
     const page =
       this.routes.find(route => route.path === path)?.component || '/404.html';
-    return await utils.fetchText(`./src/pages${page}`);
+    return await utils.getData(`./src/pages${page}`, 'text');
   },
 };
 
@@ -94,6 +100,6 @@ const shop = {
       : this.products;
   },
   async loadProducts() {
-    this.products = await utils.fetchData(api);
+    this.products = await utils.getData(api);
   },
 };
