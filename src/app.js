@@ -87,6 +87,12 @@ const shop = {
   products: [
     // { name, category, href, description, price }
   ],
+  searchText: '',
+  get filterProducts() {
+    return this.searchText
+      ? this.products.filter(product => product.name.includes(this.searchText))
+      : this.products;
+  },
   async loadProducts() {
     this.products = await utils.fetchData(api);
   },
