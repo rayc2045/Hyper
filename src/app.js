@@ -82,3 +82,12 @@ const router = {
     return await utils.fetchText(`./src/pages${page}`);
   },
 };
+
+const shop = {
+  products: [
+    // { name, category, href, description, price }
+  ],
+  async loadProducts() {
+    this.products = await utils.fetchData(api);
+  },
+};
