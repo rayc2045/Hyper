@@ -39,7 +39,7 @@ const utils = {
   async scrollToTop() {
     scrollTo({ top: 0, behavior: 'smooth' });
     if (document.body.offsetHeight > window.innerHeight && window.scrollY > 0)
-      await this.delay(0.55);
+      await this.delay(0.6);
   },
   getScrollProgress() {
     const winScroll =
