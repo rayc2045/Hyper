@@ -146,7 +146,7 @@
     </section>
 
     <main
-      class="relative py-16 flex-1"
+      class="py-16 flex-1"
       x-init="router.updatePath()"
       x-html="router.getPageHTML()"
       @hashchange.window="await scrollToTop(); router.updatePath();"
