@@ -36,8 +36,10 @@ const utils = {
     });
     return entries;
   },
-  scrollToTop() {
+  async scrollToTop() {
     scrollTo({ top: 0, behavior: 'smooth' });
+    if (document.body.offsetHeight > window.innerHeight && window.scrollY > 0)
+      await this.delay(0.55);
   },
   getScrollProgress() {
     const winScroll =
