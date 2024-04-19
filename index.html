@@ -32,13 +32,11 @@
     <script src="./src/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@imacrayon/alpine-ajax@0.5.0/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.0/dist/purify.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ TITLE, ...utils, localStore, router, shop }"
+    x-data="{ BRAND_NAME, ...utils, localStore, router, shop }"
     class="min-h-svh flex flex-col"
-    style="--animate-duration: 1.2s"
     @dragstart.prevent
   >
     <nav
@@ -48,7 +46,7 @@
         <a
           href="#/"
           class="py-2 font-bold text-lg text-gray-900"
-          x-text="TITLE"
+          x-text="BRAND_NAME"
         ></a>
         <ul class="hidden md:flex items-center gap-4 text-sm">
           <li>
@@ -92,7 +90,7 @@
             placeholder="Search"
             x-bind="shop.searchText"
             class="w-full pl-2.5 py-2.5 pe-10 sm:text-sm rounded-md border-gray-200 shadow"
-            @focus="!shop.products.length && shop.loadProducts(); menuOpen = true"
+            @focus="!shop.products.length && await shop.loadProducts(); menuOpen = true"
             @blur="menuOpen = false"
           />
           <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
@@ -127,27 +125,27 @@
     </nav>
 
     <section class="relative bg-gray-100 border-y border-gray-200">
-      <div class="mx-auto max-w-screen-xl px-4 py-2">
+      <div class="mx-auto max-w-screen-xl px-4 flex justify-center">
         <a
           href="https://github.com/rayc2045/Hyper"
           rel="noreferrer"
           target="_blank"
-          class="flex items-center justify-center gap-1.5 hover:opacity-75 transition"
+          class="w-full flex justify-center items-center gap-1.5 hover:opacity-75 transition"
         >
           <span
             class="text-sm/none font-medium"
-            x-text="`Enjoy ${TITLE}? Give it a star on GitHub`"
+            x-text="`Enjoy ${BRAND_NAME}? Give it a star on GitHub`"
           ></span>
           <span aria-hidden="true" role="img">🎉</span>
         </a>
+        <button
+          aria-label="Close"
+          class="p-2 mr-1 text-sm text-gray-500"
+          @click="$el.parentNode.remove()"
+        >
+          ✕
+        </button>
       </div>
-      <button
-        aria-label="Close"
-        class="absolute p-1 top-[.4rem] right-3 text-sm text-gray-500"
-        @click="$el.parentNode.remove()"
-      >
-        ✕
-      </button>
     </section>
 
     <main
@@ -162,7 +160,7 @@
         <a href="#/">
           <span
             class="font-medium text-lg text-gray-900 hover:text-gray-500 transition"
-            x-text="TITLE"
+            x-text="BRAND_NAME"
           ></span>
         </a>
         <div class="mt-6">

@@ -1,12 +1,12 @@
 'use strict';
 
-const TITLE = 'Hyper';
+const BRAND_NAME = 'Hyper';
 
 const { log } = console;
 const utils = {
   log,
   async svg(name) {
-    return this.getData(`./src/components/svg/${name}.html`, 'text');
+    return await this.getData(`./src/components/svg/${name}.html`, 'text');
   },
   async getData(url, type = 'json') {
     const response = await fetch(url);
@@ -58,7 +58,7 @@ const utils = {
   },
 };
 
-const STORAGE_KEY = `${TITLE.replaceAll(' ', '-')}-hyper-app`;
+const STORAGE_KEY = `${BRAND_NAME.replaceAll(' ', '-')}-hyper-app`;
 const localStore = {
   fetch() {
     return JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -91,7 +91,7 @@ const router = {
 
 const shop = {
   products: [
-    // { name, category, href, description, price }
+    // { name, category, href, image, description, price }
   ],
   searchText: '',
   get filterProducts() {
