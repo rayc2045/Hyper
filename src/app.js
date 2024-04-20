@@ -1,8 +1,25 @@
 'use strict';
+const { log } = console;
 
 const BRAND_NAME = 'Hyper';
 
-const { log } = console;
+const prefer = {
+  motion: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+};
+
+const STORAGE_KEY = `${BRAND_NAME.replaceAll(' ', '-')}-hyper-app`;
+const localStore = {
+  fetch() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY));
+  },
+  save(id) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(id));
+  },
+  remove() {
+    localStorage.removeItem(STORAGE_KEY);
+  },
+};
+
 const utils = {
   log,
   async svg(name) {
@@ -37,6 +54,7 @@ const utils = {
     return entries;
   },
   async scrollToTop() {
+    if (!prefer.motion) return scrollTo({ top: 0 });
     scrollTo({ top: 0, behavior: 'smooth' });
     if (document.body.offsetHeight > window.innerHeight && window.scrollY > 0)
       await this.delay(0.6);
@@ -57,19 +75,6 @@ const utils = {
     const parts = num.toString().split('.');
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return parts.join('.');
-  },
-};
-
-const STORAGE_KEY = `${BRAND_NAME.replaceAll(' ', '-')}-hyper-app`;
-const localStore = {
-  fetch() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
-  },
-  save(id) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(id));
-  },
-  remove() {
-    localStorage.removeItem(STORAGE_KEY);
   },
 };
 
