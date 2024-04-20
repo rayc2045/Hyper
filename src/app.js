@@ -54,9 +54,12 @@ const utils = {
     return entries;
   },
   async scrollToTop() {
-    if (!prefer.motion) return scrollTo({ top: 0 });
-    scrollTo({ top: 0, behavior: 'smooth' });
-    if (document.body.offsetHeight > window.innerHeight && window.scrollY > 0)
+    scrollTo({ top: 0, behavior: prefer.motion ? 'smooth' : 'auto' });
+    if (
+      prefer.motion &&
+      document.body.offsetHeight > window.innerHeight &&
+      window.scrollY > 0
+    )
       await this.delay(0.6);
   },
   getScrollProgress() {
@@ -75,6 +78,16 @@ const utils = {
     const parts = num.toString().split('.');
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return parts.join('.');
+  },
+};
+
+const loader = {
+  isLoading: false,
+  start() {
+    this.isLoading = true;
+  },
+  end() {
+    this.isLoading = false;
   },
 };
 
