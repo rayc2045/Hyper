@@ -39,9 +39,7 @@
     class="min-h-svh flex flex-col"
     @dragstart.prevent
   >
-    <nav
-      class="sticky top-0 border-b border-gray-200 bg-white z-[1]"
-    >
+    <nav class="sticky top-0 border-b border-gray-200 bg-white z-[1]">
       <div class="max-w-screen-xl mx-auto px-4 py-2 flex items-center gap-4">
         <a
           href="#/"
@@ -62,7 +60,7 @@
               class="inline-block py-2 hover:text-gray-500 transition"
               href="#/collections"
             >
-              Collections
+              Pages
             </a>
           </li>
           <li>
@@ -105,14 +103,20 @@
             class="absolute right-0 top-14 z-50 w-72 rounded-md border border-gray-100 bg-white shadow-lg"
           >
             <ul class="max-h-64 space-y-1 overflow-auto p-2">
-              <template x-for="product in shop.filterProducts" :key="product.name">
+              <template
+                x-for="product in shop.filterProducts"
+                :key="product.name"
+              >
                 <li>
                   <a
                     class="flex items-center justify-between rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:bg-gray-50"
                     :href="product.href"
-                    >
-                      <span x-text="product.name"></span>
-                      <span class="block rounded bg-gray-900 px-1.5 py-0.5 text-xs text-white" x-text="product.category"></span>
+                  >
+                    <span x-text="product.name"></span>
+                    <span
+                      class="block rounded bg-gray-900 px-1.5 py-0.5 text-xs text-white"
+                      x-text="product.category"
+                    ></span>
                   </a>
                 </li>
               </template>
@@ -153,65 +157,80 @@
       <div id="router-view" class="max-w-screen-xl mx-auto px-4 py-16"></div>
     </main>
 
-    <footer class="border-t border-gray-200 bg-white">
+    <footer class="tracking-wide border-t border-gray-200 bg-white">
       <div class="max-w-screen-xl mx-auto px-4 py-8 lg:py-12">
         <a href="#/">
           <span
-            class="font-medium text-lg text-gray-900 hover:text-gray-500 transition"
+            class="font-bold text-xl text-gray-900 transition"
             x-text="BRAND_NAME"
           ></span>
         </a>
-        <div class="mt-6">
-          <p class="max-w-md text-pretty leading-relaxed text-gray-700">
-            Starter template for marketing and eCommerce websites. Powered by
+        <p class="mt-4 max-w-md text-pretty leading-relaxed text-gray-700">
+          Starter template for marketing and eCommerce websites. Powered by
+          <a
+            class="text-gray-700 hover:underline"
+            href="https://alpinejs.dev/"
+            target="_blank"
+          >
+            Alpine.js
+          </a>
+          and
+          <a
+            class="text-gray-700 hover:underline"
+            href="https://www.hyperui.dev/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Hyper UI </a
+          >.
+        </p>
+        <hr class="mt-12 mb-6" />
+        <div class="lg:flex lg:items-end lg:justify-between tracking-wider">
+          <ul class="hidden lg:flex gap-4">
+            <li>
+              <a
+                class="text-sm text-gray-900 hover:underline"
+                href="#/about"
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-sm text-gray-900 hover:underline"
+                href="#/contact-us"
+              >
+                Contact Us
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-sm text-gray-900 hover:underline"
+                href="#/faq"
+              >
+                FAQ
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-sm text-gray-900 hover:underline"
+                href="#/order-tracking"
+              >
+                Order Tracking
+              </a>
+            </li>
+          </ul>
+          <p class="mt-4 text-sm text-gray-700 lg:mt-0">
+            &copy; <span x-text="new Date().getFullYear()"></span> Created by
             <a
-              class="text-gray-900 hover:text-gray-500 transition underline"
-              href="https://alpinejs.dev/"
-              target="_blank"
-            >
-              Alpine.js
-            </a>
-            and
-            <a
-              class="text-gray-900 hover:text-gray-500 transition underline"
-              href="https://www.hyperui.dev/"
+              href="https://github.com/rayc2045"
               target="_blank"
               rel="noreferrer"
+              class="text-gray-900 hover:underline"
             >
-              Hyper UI </a
-            >.
+              Ray C
+            </a>
           </p>
-          <div class="mt-4 lg:flex lg:items-end lg:justify-between">
-            <ul class="flex gap-4">
-              <li>
-                <a
-                  class="text-sm text-gray-900 hover:text-gray-500 transition underline"
-                  href="#/faqs"
-                >
-                  FAQs
-                </a>
-              </li>
-              <li>
-                <a
-                  class="text-sm text-gray-900 hover:text-gray-500 transition underline"
-                  href="#/acknowledgements"
-                >
-                  Acknowledgements
-                </a>
-              </li>
-            </ul>
-            <p class="mt-4 text-sm text-gray-700 lg:mt-0">
-              &copy; <span x-text="new Date().getFullYear()"></span> Created by
-              <a
-                href="https://github.com/rayc2045"
-                target="_blank"
-                rel="noreferrer"
-                class="text-gray-900 hover:text-gray-500 transition underline"
-              >
-                Ray C
-              </a>
-            </p>
-          </div>
         </div>
       </div>
     </footer>
