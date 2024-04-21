@@ -82,7 +82,7 @@ const utils = {
 };
 
 const loader = {
-  isLoading: false,
+  isLoading: true,
   start() {
     this.isLoading = true;
   },
@@ -94,18 +94,30 @@ const loader = {
 const router = {
   routes: [
     { path: '/', component: '/home.html' },
+    { path: '/blog', component: '/blog/index.html' },
+    { path: '/about', component: '/about/index.html' },
     { path: '/faq', component: '/about/faq.html' },
     { path: '/acknowledgements', component: '/about/acknowledgements.html' },
+    { path: '/404', component: '/404.html' },
   ],
-  currentPath: '',
-  updatePath() {
-    const path = location.hash.slice(1).split('?')[0];
-    this.currentPath = path.startsWith('/') ? path : '/';
+  get currentRoute() {
+    const path = location.hash.slice(1).split('?')[0],
+      currentPath = path.startsWith('/') ? path : '/';
+    return (
+      this.routes.find(route => route.path === currentPath) ||
+      this.routes.find(route => route.path === '/404')
+    );
   },
-  async getPageHTML(path = this.currentPath) {
-    const page =
-      this.routes.find(route => route.path === path)?.component || '/404.html';
-    return await utils.getData(`./src/pages${page}`, 'text');
+  async init() {
+    const setRouteHTML = async route => {
+      route.html = await utils.getData(`./src/pages${route.component}`, 'text');
+    };
+    await setRouteHTML(this.currentRoute);
+    this.renderPage();
+    for (const route of this.routes) !route.html && (await setRouteHTML(route));
+  },
+  renderPage() {
+    document.querySelector('#router-view').innerHTML = this.currentRoute.html;
   },
 };
 

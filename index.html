@@ -35,7 +35,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ BRAND_NAME, prefer, localStore, ...utils, router, shop }"
+    x-data="{ BRAND_NAME, prefer, localStore, ...utils, loader, router, shop }"
     class="min-h-svh flex flex-col"
     @dragstart.prevent
   >
@@ -146,11 +146,12 @@
     </section>
 
     <main
-      class="py-16 flex-1"
-      x-init="router.updatePath()"
-      x-html="router.getPageHTML()"
-      @hashchange.window="await scrollToTop(); router.updatePath();"
-    ></main>
+      class="flex-1"
+      x-init="await router.init()"
+      @hashchange.window="loader.start(); await scrollToTop(); router.renderPage(); loader.end()"
+    >
+      <div id="router-view" class="max-w-screen-xl mx-auto px-4 py-16"></div>
+    </main>
 
     <footer class="border-t border-gray-200 bg-white">
       <div class="max-w-screen-xl mx-auto px-4 py-8 lg:py-12">
@@ -185,7 +186,7 @@
               <li>
                 <a
                   class="text-sm text-gray-900 hover:text-gray-500 transition underline"
-                  href="#/about/faqs"
+                  href="#/faqs"
                 >
                   FAQs
                 </a>
@@ -193,7 +194,7 @@
               <li>
                 <a
                   class="text-sm text-gray-900 hover:text-gray-500 transition underline"
-                  href="#/about/acknowledgements"
+                  href="#/acknowledgements"
                 >
                   Acknowledgements
                 </a>
