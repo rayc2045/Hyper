@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700&display=swap"/>
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./src/style.css"/>
+    <!-- <link rel="stylesheet" href="./src/style.css"/> -->
     <script src="./src/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@imacrayon/alpine-ajax@0.5.0/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -36,10 +36,10 @@
   </head>
   <body
     x-data="{ BRAND_NAME, prefer, localStore, ...utils, loader, router, shop }"
-    class="min-h-svh flex flex-col"
+    class="min-h-svh flex flex-col bg-[whitesmoke]"
     @dragstart.prevent
   >
-    <nav class="sticky top-0 border-b border-gray-200 bg-white z-[1]">
+    <nav class="sticky top-0 border-b border-gray-200 z-[1]">
       <div class="max-w-screen-xl mx-auto px-4 py-2 flex items-center gap-4">
         <a
           href="#/"
@@ -87,7 +87,7 @@
             id="Search"
             placeholder="Search"
             x-bind="shop.searchText"
-            class="w-full pl-2.5 py-2.5 pe-10 sm:text-sm rounded-md border-gray-200 shadow"
+            class="w-full pl-2.5 py-2.5 pe-10 sm:text-sm rounded-md bg-inherit border-gray-200 shadow"
             @focus="!shop.products.length && await shop.loadProducts(); menuOpen = true"
             @blur="menuOpen = false"
           />
@@ -128,7 +128,7 @@
       </div>
     </nav>
 
-    <section class="bg-gray-100 border-y border-gray-200">
+    <section class="bg-gray-200 border-y border-gray-300">
       <div class="mx-auto max-w-screen-xl px-4 flex text-sm font-medium">
         <a
           href="https://github.com/rayc2045/Hyper"
@@ -157,7 +157,7 @@
       <div id="router-view" class="max-w-screen-xl mx-auto px-4 py-16"></div>
     </main>
 
-    <footer class="tracking-wide border-t border-gray-200 bg-white">
+    <footer class="tracking-wide border-t border-gray-200">
       <div class="max-w-screen-xl mx-auto px-4 py-8 lg:py-12">
         <a href="#/">
           <span
