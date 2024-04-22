@@ -20,6 +20,16 @@ const localStore = {
   },
 };
 
+const style = {
+  btn: 'inline-block px-4 py-3 rounded text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300',
+  btnIn(color) {
+    return this.btn
+      .replace('bg-blue-600', `bg-${color}-600`)
+      .replace('hover:bg-blue-700', `hover:bg-${color}-700`)
+      .replace('focus:ring-blue-300', `focus:ring-${color}-300`);
+  },
+};
+
 const utils = {
   log,
   async svg(name) {
@@ -96,8 +106,11 @@ const router = {
     { path: '/', component: '/home.html' },
     { path: '/blog', component: '/blog/index.html' },
     { path: '/about', component: '/about/index.html' },
+    { path: '/contact-us', component: '/about/contact-us.html' },
     { path: '/faq', component: '/about/faq.html' },
-    { path: '/acknowledgements', component: '/about/acknowledgements.html' },
+    { path: '/shop', component: '/shop/index.html' },
+    { path: '/cart', component: '/shop/cart.html' },
+    { path: '/order-tracking', component: '/shop/order-tracking.html' },
     { path: '/404', component: '/404.html' },
   ],
   get currentRoute() {
