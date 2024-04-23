@@ -81,6 +81,18 @@ const utils = {
     const scrolled = (winScroll / height) * 100;
     return Math.round(scrolled) + '%';
   },
+  select(node, parent = document) {
+    return parent.querySelector(node);
+  },
+  selectAll(node, parent = document) {
+    return [...parent.querySelectorAll(node)];
+  },
+  setStyle(el, style) {
+    if (typeof el === 'string') el = select(el);
+    if (typeof style === 'string') return (el.style = style);
+    el.removeAttribute('style');
+    for (const prop in style) el.style[prop] = style[prop];
+  },
   copyText(text) {
     navigator.clipboard.writeText(text.trim());
   },
@@ -104,20 +116,19 @@ const loader = {
 const router = {
   routes: [
     { path: '/', component: '/home.html' },
-    { path: '/blog', component: '/blog/index.html' },
-    { path: '/about', component: '/about/index.html' },
-    { path: '/contact-us', component: '/about/contact-us.html' },
-    { path: '/faq', component: '/about/faq.html' },
-    { path: '/shop', component: '/shop/index.html' },
-    { path: '/cart', component: '/shop/cart.html' },
-    { path: '/order-tracking', component: '/shop/order-tracking.html' },
+    { path: '/blog', component: '/blog/index.html', title: 'Blog' },
+    { path: '/about', component: '/about/index.html', title: 'About Us' },
+    { path: '/contact-us', component: '/about/contact-us.html', title: 'Contact Us' },
+    { path: '/faq', component: '/about/faq.html', title: 'Faq' },
+    { path: '/shop', component: '/shop/index.html', title: 'Shop' },
+    { path: '/cart', component: '/shop/cart.html', title: 'Cart' },
+    { path: '/order-tracking', component: '/shop/order-tracking.html', title: 'Order Tracking' },
     { path: '/404', component: '/404.html' },
   ],
+  currentPath: '',
   get currentRoute() {
-    const path = location.hash.slice(1).split('?')[0],
-      currentPath = path.startsWith('/') ? path : '/';
     return (
-      this.routes.find(route => route.path === currentPath) ||
+      this.routes.find(route => route.path === this.currentPath) ||
       this.routes.find(route => route.path === '/404')
     );
   },
@@ -125,12 +136,21 @@ const router = {
     const setRouteHTML = async route => {
       route.html = await utils.getData(`./src/pages${route.component}`, 'text');
     };
+    this.updatePath();
     await setRouteHTML(this.currentRoute);
     this.renderPage();
     for (const route of this.routes) !route.html && (await setRouteHTML(route));
   },
+  updatePath() {
+    const path = location.hash.slice(1).split('?')[0];
+    this.currentPath = path.startsWith('/') ? path : '/';
+  },
   renderPage() {
-    document.querySelector('#router-view').innerHTML = this.currentRoute.html;
+    this.updatePath();
+    document.title = this.currentRoute.title
+      ? `${this.currentRoute.title} - ${BRAND_NAME}`
+      : BRAND_NAME;
+    utils.select('#router-view').innerHTML = this.currentRoute.html;
   },
 };
 
@@ -147,4 +167,8 @@ const shop = {
   async loadProducts() {
     this.products = await utils.getData(api);
   },
+};
+
+const cart = {
+  items: [],
 };

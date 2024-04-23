@@ -36,7 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ BRAND_NAME, prefer, localStore, style, ...utils, loader, router, shop }"
+    x-data="{ BRAND_NAME, prefer, localStore, style, ...utils, loader, router, shop, cart }"
     class="min-h-svh flex flex-col tracking-wide bg-[whitesmoke]"
     @dragstart.prevent
   >
@@ -155,7 +155,11 @@
       x-init="await router.init()"
       @hashchange.window="loader.start(); await scrollToTop(); router.renderPage(); loader.end()"
     >
-      <div id="router-view" class="max-w-screen-xl mx-auto px-4 py-12"></div>
+      <div class="max-w-screen-xl mx-auto px-4 py-12">
+        <h1 x-text="router.currentRoute.title" class="mb-2 text-4xl font-bold"></h1>
+        <p x-text="router.currentRoute.description" class="mb-12 text-lg"></p>
+        <div id="router-view"></div>
+      </div>
     </main>
 
     <footer class="border-t border-gray-300">
