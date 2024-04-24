@@ -21,7 +21,8 @@ const localStore = {
 };
 
 const style = {
-  btn: 'inline-block px-4 py-3 rounded text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300',
+  btn: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300',
+  btnDisabled: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white bg-gray-400 pointer-events-none',
   btnIn(color) {
     return this.btn
       .replace('bg-blue-600', `bg-${color}-600`)
