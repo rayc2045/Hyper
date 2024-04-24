@@ -21,13 +21,20 @@ const localStore = {
 };
 
 const style = {
-  btn: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300',
-  btnDisabled: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white bg-gray-400 pointer-events-none',
-  btnIn(color) {
-    return this.btn
-      .replace('bg-blue-600', `bg-${color}-600`)
-      .replace('hover:bg-blue-700', `hover:bg-${color}-700`)
-      .replace('focus:ring-blue-300', `focus:ring-${color}-300`);
+  btn: {
+    raw: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white',
+    get primary() {
+      return `${this.raw} bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300`;
+    },
+    get secondary() {
+      return `${this.raw} bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300`;
+    },
+    get disabled() {
+      return `${this.raw} bg-gray-400 pointer-events-none`;
+    },
+    color(tailwindColor) {
+      return `${this.raw} bg-${tailwindColor}-600 hover:bg-${tailwindColor}-700 focus:outline-none focus:ring focus:ring-${tailwindColor}-300`;
+    },
   },
 };
 

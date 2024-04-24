@@ -36,8 +36,8 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ BRAND_NAME, prefer, localStore, style, ...utils, loader, router, shop, cart }"
-    class="min-h-svh flex flex-col tracking-wide bg-[whitesmoke]"
+    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, loader, router, shop, cart }"
+    class="min-h-svh flex flex-col tracking-wide bg-gray-100"
     @dragstart.prevent
   >
     <nav class="sticky top-0 bg-inherit border-b border-gray-300 z-[1]">
@@ -157,7 +157,7 @@
     >
       <div class="max-w-screen-xl mx-auto px-4 py-12">
         <h1 x-text="router.currentRoute.title" class="mb-2 text-4xl font-bold"></h1>
-        <p x-text="router.currentRoute.description" class="mb-12 text-lg"></p>
+        <p x-show="router.currentRoute.title" x-text="router.currentRoute.description" class="mb-12 text-lg"></p>
         <div id="router-view"></div>
       </div>
     </main>
@@ -203,7 +203,7 @@
             <li>
               <a
                 class="text-sm text-gray-900 hover:underline"
-                href="#/contact-us"
+                href="#/contact"
               >
                 Contact Us
               </a>
