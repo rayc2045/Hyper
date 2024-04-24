@@ -124,10 +124,10 @@ const loader = {
 const router = {
   routes: [
     { path: '/', component: '/home.html' },
-    { path: '/blog', component: '/blog/index.html', title: 'Blog' },
+    { path: '/blog', component: '/blog/index.html', title: 'Recent from blog' },
     { path: '/about', component: '/about/index.html', title: 'About Us' },
-    { path: '/contact-us', component: '/about/contact-us.html', title: 'Contact Us' },
-    { path: '/faq', component: '/about/faq.html', title: 'Faq' },
+    { path: '/contact', component: '/about/contact.html', title: 'Contact Us' },
+    { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
     { path: '/shop', component: '/shop/index.html', title: 'Shop' },
     { path: '/cart', component: '/shop/cart.html', title: 'Cart' },
     { path: '/order-tracking', component: '/shop/order-tracking.html', title: 'Order Tracking' },
