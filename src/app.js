@@ -45,7 +45,7 @@ const style = {
 const utils = {
   log,
   async svg(name) {
-    return await this.getData(`./src/components/svg/${name}.html`, 'text');
+    return await this.getData(`./src/images/svg/${name}.svg`, 'text');
   },
   async getData(url, type = 'json') {
     const response = await fetch(url);
