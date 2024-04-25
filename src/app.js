@@ -31,10 +31,7 @@ const style = {
       return `${this.raw} bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300`;
     },
     get secondary() {
-      return `${this.raw} bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300`;
-    },
-    get disabled() {
-      return `${this.raw} bg-gray-400 pointer-events-none`;
+      return `${this.raw} bg-gray-500/80 hover:bg-gray-500 focus:outline-none focus:ring focus:ring-gray-300`;
     },
     color(tailwindColor) {
       return `${this.raw} bg-${tailwindColor}-600 hover:bg-${tailwindColor}-700 focus:outline-none focus:ring focus:ring-${tailwindColor}-300`;
