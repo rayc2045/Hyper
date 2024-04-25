@@ -23,7 +23,7 @@ const localStore = {
 const style = {
   a: {
     nav: 'inline-block py-2 hover:text-gray-500 transition',
-    footer: 'text-gray-700 hover:underline'
+    footer: 'text-gray-700 hover:underline',
   },
   btn: {
     raw: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white',
@@ -31,7 +31,7 @@ const style = {
       return `${this.raw} bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300`;
     },
     get secondary() {
-      return `${this.raw} bg-gray-500/80 hover:bg-gray-500 focus:outline-none focus:ring focus:ring-gray-300`;
+      return `${this.raw} bg-slate-500/80 hover:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-300`;
     },
     color(tailwindColor) {
       return `${this.raw} bg-${tailwindColor}-600 hover:bg-${tailwindColor}-700 focus:outline-none focus:ring focus:ring-${tailwindColor}-300`;
