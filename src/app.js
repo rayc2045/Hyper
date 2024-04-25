@@ -21,6 +21,10 @@ const localStore = {
 };
 
 const style = {
+  a: {
+    nav: 'inline-block py-2 hover:text-gray-500 transition',
+    footer: 'text-gray-700 hover:underline'
+  },
   btn: {
     raw: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white',
     get primary() {
