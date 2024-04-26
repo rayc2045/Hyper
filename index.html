@@ -25,7 +25,7 @@
     <!-- Noto Sans TC -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500,700&display=swap"/>
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./src/style.css"/>
@@ -66,6 +66,7 @@
                 Pages<span x-html="svg('arrow-down')"></span>
               </button>
               <div
+                x-cloak
                 x-show="open"
                 x-transition
                 class="absolute p-2 w-48 rounded-lg bg-gray-100 border border-gray-200 shadow-md"
@@ -107,6 +108,7 @@
             </button>
           </span>
           <div
+            x-cloak
             x-data="shop.filterProducts"
             x-show="open && shop.filterProducts.length"
             class="absolute right-0 top-14 z-50 w-72 rounded-md border border-gray-100 bg-white shadow-lg"
@@ -132,7 +134,11 @@
             </ul>
           </div>
         </div>
-        <a class="ml-auto md:ml-0 p-2" href="#/account" x-html="svg('user')"></a>
+        <a
+          class="ml-auto md:ml-0 p-2"
+          href="#/account"
+          x-html="svg('user')"
+        ></a>
         <a class="p-2" href="#/cart" x-html="svg('cart')"></a>
       </div>
     </nav>
@@ -178,29 +184,59 @@
     </main>
 
     <footer class="border-t border-gray-300">
-      <div class="max-w-screen-xl mx-auto px-4 py-8 lg:py-12">
-        <a href="#/">
-          <span
-            class="font-bold text-xl text-gray-900 transition"
-            x-text="BRAND_NAME"
-          ></span>
-        </a>
-        <p class="mt-4 max-w-md text-pretty leading-relaxed text-gray-700">
-          Starter template for marketing and eCommerce websites. Powered by
-          <a :class="a.footer" href="https://alpinejs.dev/" target="_blank">
-            Alpine.js
-          </a>
-          and
-          <a
-            :class="a.footer"
-            href="https://www.hyperui.dev/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Hyper UI</a
-          >.
-        </p>
-        <hr class="mt-12 mb-6" />
+      <aside class="max-w-screen-xl mx-auto px-4 py-8 lg:py-12">
+        <div class="grid gap-y-10 lg:flex lg:gap-x-40 xl:gap-x-64">
+          <section>
+            <h4
+              class="font-medium text-xl text-gray-900 transition"
+              x-text="BRAND_NAME"
+            ></h4>
+            <p class="mt-3 max-w-md text-pretty leading-relaxed text-gray-700">
+              Starter template for marketing and eCommerce websites. Powered by
+              <a :class="a.footer" href="https://alpinejs.dev/" target="_blank">
+                Alpine.js
+              </a>
+              and
+              <a
+                :class="a.footer"
+                href="https://www.hyperui.dev/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Hyper UI</a
+              >.
+            </p>
+            <ul class="mt-5 flex gap-4">
+              <li>
+                <a href="#" x-html="svg('instagram')"></a>
+              </li>
+              <li>
+                <a href="#" x-html="svg('twitter')"></a>
+              </li>
+              <li>
+                <a href="#" x-html="svg('facebook')"></a>
+              </li>
+            </ul>
+          </section>
+          <div class="grid gap-y-10 sm:flex sm:gap-x-20 lg:gap-x-40">
+            <section>
+              <h4 class="mb-4 font-medium">Quick Links</h4>
+              <ul class="grid gap-1">
+                <li><a :class="a.footer" href="#/about">About</a></li>
+                <li><a :class="a.footer" href="#/account">My acount</a></li>
+                <li><a :class="a.footer" href="#/account">My orders</a></li>
+              </ul>
+            </section>
+            <section>
+              <h4 class="mb-4 font-medium">Customer Care</h4>
+              <ul class="grid gap-1">
+                <li><a :class="a.footer" href="#/contact">Contact us</a></li>
+                <li><a :class="a.footer" href="#/faq">FAQs</a></li>
+              </ul>
+            </section>
+          </div>
+        </div>
+        <hr class="mt-6 lg:mt-12 mb-6" />
         <div class="lg:flex lg:items-end lg:justify-between tracking-wider">
           <ul class="hidden lg:flex gap-4">
             <li>
@@ -239,7 +275,14 @@
             </a>
           </p>
         </div>
-      </div>
+      </aside>
     </footer>
+
+    <!-- Breakpoint -->
+    <span
+      class="fixed right-5 bottom-5 text-xl text-[indianred] font-bold pointer-events-none"
+      x-text="getBreakpointName()"
+      @resize.window="$el.textContent = getBreakpointName()"
+    ></span>
   </body>
 </html>
