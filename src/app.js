@@ -81,6 +81,27 @@ const utils = {
     )
       await this.delay(0.6);
   },
+  getBreakpointName(
+    width = Math.max(
+      document.body.scrollWidth,
+      document.documentElement.scrollWidth,
+      document.body.offsetWidth,
+      document.documentElement.offsetWidth,
+      document.documentElement.clientWidth
+    )
+  ) {
+    return (
+      [
+        { device: 'small', name: 'sm', breakpoint: 640 },
+        { device: 'medium', name: 'md', breakpoint: 768 },
+        { device: 'large', name: 'lg', breakpoint: 1024 },
+        { device: 'extra large', name: 'xl', breakpoint: 1280 },
+        { device: 'extra extra large', name: '2xl', breakpoint: 1536 },
+      ]
+        .reverse()
+        .find(bp => width >= bp.breakpoint)?.name || ''
+    );
+  },
   getScrollProgress() {
     const winScroll =
       document.body.scrollTop || document.documentElement.scrollTop;
@@ -131,7 +152,8 @@ const router = {
     { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
     { path: '/shop', component: '/shop/index.html', title: 'Shop' },
     { path: '/cart', component: '/shop/cart.html', title: 'Cart' },
-    { path: '/order-tracking', component: '/shop/order-tracking.html', title: 'Order Tracking' },
+    { path: '/account', component: '/account.html', title: 'My account' },
+    { path: '/order-tracking', component: '/account/order-tracking.html', title: 'Order Tracking' },
     { path: '/404', component: '/404.html' },
   ],
   currentPath: '',
