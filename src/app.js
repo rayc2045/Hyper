@@ -26,7 +26,7 @@ const style = {
     sideMenu:
       'block px-4 py-2 rounded-lg text-sm text-gray-700 font-medium hover:bg-gray-200',
     get sideMenuActive() {
-      return this.sideMenu.replace('hover:bg-gray-200', 'bg-gray-200');
+      return `${this.sideMenu.replace('hover:bg-gray-200', 'bg-gray-200')} cursor-default pointer-events-none`;
     },
     footer: 'text-gray-700 hover:underline',
   },
