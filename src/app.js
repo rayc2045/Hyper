@@ -23,6 +23,11 @@ const localStore = {
 const style = {
   a: {
     nav: 'inline-block py-2 hover:text-gray-500 transition',
+    sideMenu:
+      'block px-4 py-2 rounded-lg text-sm text-gray-700 font-medium hover:bg-gray-200',
+    get sideMenuActive() {
+      return this.sideMenu.replace('hover:bg-gray-200', 'bg-gray-200');
+    },
     footer: 'text-gray-700 hover:underline',
   },
   btn: {
@@ -133,13 +138,13 @@ const utils = {
   },
 };
 
-const loader = {
-  isLoading: true,
-  start() {
-    this.isLoading = true;
+const sideMenu = {
+  isOpen: false,
+  open() {
+    this.isOpen = true;
   },
-  end() {
-    this.isLoading = false;
+  close() {
+    this.isOpen = false;
   },
 };
 
@@ -185,6 +190,16 @@ const router = {
   },
 };
 
+const loader = {
+  isLoading: true,
+  start() {
+    this.isLoading = true;
+  },
+  end() {
+    this.isLoading = false;
+  },
+};
+
 const shop = {
   products: [
     // { name, category, href, image, description, price }
@@ -194,6 +209,10 @@ const shop = {
     return this.searchText
       ? this.products.filter(product => product.name.includes(this.searchText))
       : this.products;
+  },
+  get categories() {
+    const categories = this.products.map(product => product.category);
+    return categories.filter((c, i) => categories.indexOf(c) === i);
   },
   async loadProducts() {
     this.products = await utils.getData(api);

@@ -36,12 +36,18 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, loader, router, shop, cart }"
+    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, sideMenu, router, loader, shop, cart }"
     class="min-h-svh flex flex-col tracking-wide bg-gray-100"
+    :class="sideMenuOpen && 'overflow-hidden'"
     @dragstart.prevent
   >
     <nav class="sticky top-0 bg-inherit border-b border-gray-300 z-[1]">
       <div class="max-w-screen-xl mx-auto px-4 py-2 flex items-center gap-4">
+        <button
+          class="p-2 rounded-full hover:bg-gray-200 transition md:hidden"
+          x-html="svg('menu')"
+          @click="sideMenu.open()"
+        ></button>
         <a
           href="#/"
           class="py-2 font-bold text-lg text-gray-900"
@@ -63,7 +69,11 @@
                 @click.outside="open = false"
                 @mouseenter="open = true"
               >
-                Pages<span x-html="svg('arrow-down')"></span>
+                Pages
+                <span
+                  x-html="svg('arrow-down')"
+                  :class="[open && '-rotate-180', prefer.motion && 'transition duration-300']"
+                ></span>
               </button>
               <div
                 x-cloak
@@ -143,7 +153,133 @@
       </div>
     </nav>
 
-    <section class="bg-gray-200 border-b border-gray-300">
+    <div
+      id="overlay"
+      x-show="sideMenu.isOpen"
+      x-transition.opacity.duration.300ms
+      class="fixed w-full h-full bg-gray-700/50 z-[1]"
+    ></div>
+    <aside
+      id="sideMenu"
+      class="fixed w-full max-w-80 h-svh flex flex-col justify-between bg-inherit border-r border-2 shadow-xl select-none z-[1]"
+      x-cloak
+      x-show="sideMenu.isOpen"
+      x-transition:enter="transition ease-gentle duration-300"
+      x-transition:enter-start="-translate-x-full"
+      x-transition:enter-end="translate-x-0"
+      x-transition:leave="transition ease-gentle duration-300"
+      x-transition:leave-start="translate-x-0"
+      x-transition:leave-end="-translate-x-full"
+      @click.outside="sideMenu.close()"
+    >
+      <div class="px-4 py-6 pt-2">
+        <div class="inline-flex">
+          <button
+            class="p-2 aspect-square rounded-full flex justify-center items-center text-gray-700 hover:bg-gray-200 transition"
+            x-html="svg('menu')"
+            @click="sideMenu.close()"
+          ></button>
+          <a
+            href="#/"
+            class="ml-4 py-2 font-bold text-lg text-gray-900"
+            x-text="BRAND_NAME"
+          ></a>
+        </div>
+        <ul class="mt-4 space-y-1">
+          <li>
+            <a
+              :class="router.currentPath === $el.href.split('#')[1] ? a.sideMenuActive : a.sideMenu"
+              href="#/"
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              :class="router.currentPath === $el.href.split('#')[1] ? a.sideMenuActive : a.sideMenu"
+              href="#/shop"
+            >
+              Shop
+            </a>
+          </li>
+          <li>
+            <a
+              :class="router.currentPath === $el.href.split('#')[1] ? a.sideMenuActive : a.sideMenu"
+              href="#/blog"
+            >
+              Blog
+            </a>
+          </li>
+        </ul>
+        <hr class="my-4" />
+        <ul>
+          <li>
+            <details class="group [&_summary::-webkit-details-marker]:hidden">
+              <summary
+                class="px-4 py-2 flex justify-between items-center text-gray-700 hover:bg-gray-200 rounded-lg cursor-pointer"
+              >
+                <span class="text-sm font-medium">Pages</span>
+                <span
+                  class="shrink-0 group-open:-rotate-180"
+                  :class="prefer.motion && 'transition duration-300'"
+                  x-html="svg('arrow-down')"
+                >
+                </span>
+              </summary>
+              <ul class="mt-2 space-y-1 px-4">
+                <template x-for="route in router.routes">
+                  <li>
+                    <a
+                      class="block px-4 py-2 rounded-lg text-sm text-gray-700 font-medium hover:bg-gray-200"
+                      :href="`#${route.path}`"
+                      x-text="route.path === '/' ? 'Home' : route.path.split('/')[1].split('-').map(str => str[0].toUpperCase() + str.slice(1)).join(' ')"
+                      role="menuitem"
+                    ></a>
+                  </li>
+                </template>
+              </ul>
+            </details>
+          </li>
+        </ul>
+        <hr class="my-4" />
+        <ul class="space-y-1">
+          <li>
+            <a
+              :class="router.currentPath === $el.href.split('#')[1] ? a.sideMenuActive : a.sideMenu"
+              href="#/about"
+            >
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              :class="router.currentPath === $el.href.split('#')[1] ? a.sideMenuActive : a.sideMenu"
+              href="#/contact"
+            >
+              Contact Us
+            </a>
+          </li>
+          <li>
+            <a
+              :class="router.currentPath === $el.href.split('#')[1] ? a.sideMenuActive : a.sideMenu"
+              href="#/faq"
+            >
+              Faq
+            </a>
+          </li>
+          <li>
+            <a
+              :class="router.currentPath === $el.href.split('#')[1] ? a.sideMenuActive : a.sideMenu"
+              href="#/order-tracking"
+            >
+              Order Tracking
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <section id="announcement" class="bg-gray-200 border-b border-gray-300">
       <div class="mx-auto max-w-screen-xl px-4 flex text-sm font-medium">
         <a
           href="https://github.com/rayc2045/Hyper"
@@ -167,7 +303,7 @@
     <main
       class="flex-1"
       x-init="await router.init()"
-      @hashchange.window="loader.start(); await scrollToTop(); router.renderPage(); loader.end()"
+      @hashchange.window="sideMenu.close(); loader.start(); await scrollToTop(); router.renderPage(); loader.end()"
     >
       <div class="max-w-screen-xl mx-auto px-4 py-12">
         <h1
@@ -206,7 +342,7 @@
                 Hyper UI</a
               >.
             </p>
-            <ul class="mt-5 flex gap-4">
+            <ul class="mt-5 flex gap-4 text-lg text-gray-800">
               <li>
                 <a href="#" x-html="svg('instagram')"></a>
               </li>
@@ -221,7 +357,7 @@
           <div class="grid gap-y-10 sm:flex sm:gap-x-20 lg:gap-x-40">
             <section>
               <h4 class="mb-4 font-medium">Quick Links</h4>
-              <ul class="grid gap-1">
+              <ul class="space-y-1">
                 <li><a :class="a.footer" href="#/about">About</a></li>
                 <li><a :class="a.footer" href="#/account">My acount</a></li>
                 <li><a :class="a.footer" href="#/account">My orders</a></li>
@@ -229,7 +365,7 @@
             </section>
             <section>
               <h4 class="mb-4 font-medium">Customer Care</h4>
-              <ul class="grid gap-1">
+              <ul class="space-y-1">
                 <li><a :class="a.footer" href="#/contact">Contact us</a></li>
                 <li><a :class="a.footer" href="#/faq">FAQs</a></li>
               </ul>
@@ -278,8 +414,8 @@
       </div>
     </footer>
 
-    <!-- Breakpoint -->
     <span
+      id="Breakpoint"
       class="fixed right-5 bottom-5 text-xl text-[indianred] font-bold pointer-events-none"
       x-text="getBreakpointName()"
       @resize.window="$el.textContent = getBreakpointName()"
