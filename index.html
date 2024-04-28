@@ -36,7 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, sideMenu, router, loader, shop, cart, user }"
+    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, sideMenu, router, shop, cart, user }"
     class="min-h-svh flex flex-col tracking-wide bg-gray-100"
     :class="sideMenu.isOpen && 'overflow-hidden'"
     @dragstart.prevent
@@ -351,7 +351,7 @@
     <main
       class="flex-1"
       x-init="await router.init()"
-      @hashchange.window="sideMenu.close(); loader.start(); await scrollToTop(); router.renderPage(); loader.end()"
+      @hashchange.window="sideMenu.close(); await scrollToTop(); router.updatePath(); router.renderPage();"
     >
       <div class="max-w-screen-xl mx-auto px-4 py-12">
         <h1

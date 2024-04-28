@@ -154,11 +154,11 @@ const sideMenu = {
 const router = {
   routes: [
     { path: '/', component: '/home.html' },
-    { path: '/blog', component: '/blog/index.html', title: 'Recent from blog' },
-    { path: '/about', component: '/about/index.html', title: 'About Us' },
+    { path: '/blog', component: '/blog/posts.html', title: 'Recent from blog' },
+    { path: '/about', component: '/about/about.html', title: 'About Us' },
     { path: '/contact', component: '/about/contact.html', title: 'Contact Us' },
     { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
-    { path: '/shop', component: '/shop/index.html', title: 'Shop' },
+    { path: '/shop', component: '/shop/products.html', title: 'Shop' },
     { path: '/cart', component: '/shop/cart.html', title: 'Cart' },
     { path: '/account', component: '/account.html', title: 'My account' },
     { path: '/order-tracking', component: '/account/order-tracking.html', title: 'Order Tracking' },
@@ -185,21 +185,10 @@ const router = {
     this.currentPath = path.startsWith('/') ? path : '/';
   },
   renderPage() {
-    this.updatePath();
     document.title = this.currentRoute.title
       ? `${this.currentRoute.title} - ${BRAND_NAME}`
       : BRAND_NAME;
     utils.select('#router-view').innerHTML = this.currentRoute.html;
-  },
-};
-
-const loader = {
-  isLoading: true,
-  start() {
-    this.isLoading = true;
-  },
-  end() {
-    this.isLoading = false;
   },
 };
 
