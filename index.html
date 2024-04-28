@@ -150,7 +150,12 @@
           class="ml-auto md:ml-0 p-2"
           x-html="svg('user')"
         ></a>
-        <a x-show="user.loggedIn" href="#/account" class="ml-auto md:ml-0">
+        <a
+          x-cloak
+          x-show="user.loggedIn"
+          href="#/account"
+          class="ml-auto md:ml-0"
+        >
           <img
             :src="user.profile.avatar"
             alt="avatar"
@@ -163,6 +168,7 @@
 
     <div
       id="overlay"
+      x-cloak
       x-show="sideMenu.isOpen"
       x-transition.opacity.duration.300ms
       class="fixed w-full h-full bg-zinc-600/50 z-[1]"
@@ -170,7 +176,7 @@
     <aside
       id="side-menu"
       class="block fixed w-full max-w-80 h-svh flex flex-col justify-between bg-inherit border-r border-2 shadow-xl select-none overflow-y-auto z-[1]"
-      x-cloak
+      style="display: none"
       x-show="sideMenu.isOpen"
       x-transition:enter="transition ease-gentle duration-300"
       x-transition:enter-start="-translate-x-full"
@@ -302,6 +308,7 @@
           <span x-html="svg('log-in')"></span>Log in
         </a>
         <a
+          x-cloak
           x-show="user.loggedIn"
           href="#/account"
           class="p-4 flex items-center gap-2 bg-gray-200 rounded-lg"
