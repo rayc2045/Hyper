@@ -78,7 +78,7 @@
               <div
                 x-cloak
                 x-show="open"
-                x-transition
+                x-transition.origin.top.left
                 class="absolute p-2 w-48 rounded-lg bg-gray-100 border border-gray-200 shadow-md"
                 role="menu"
               >
@@ -171,6 +171,7 @@
       x-transition:leave-start="translate-x-0"
       x-transition:leave-end="-translate-x-full"
       @click.outside="sideMenu.close()"
+      @resize.window="sideMenu.close()"
     >
       <div>
         <section
@@ -217,31 +218,33 @@
           <hr class="my-4" />
           <ul>
             <li>
-              <details class="group [&_summary::-webkit-details-marker]:hidden z-0">
-                <summary
-                  class="px-4 py-2 flex justify-between items-center text-gray-700 hover:bg-gray-200 rounded-lg cursor-pointer"
+              <div x-data="{ open: true }">
+                <button
+                  class="px-4 py-2 w-full flex items-center text-sm font-medium hover:bg-gray-200 rounded-lg cursor-pointer"
+                  @click="open = !open"
                 >
-                  <span class="text-sm font-medium">Pages</span>
-                  <span
-                    class="shrink-0 group-open:-rotate-180"
-                    :class="prefer.motion && 'transition duration-300'"
-                    x-html="svg('arrow-down')"
-                  >
-                  </span>
-                </summary>
-                <ul class="mt-2 space-y-1 px-4">
+                  Pages
+                  <span x-html="svg('arrow-down')" class="ml-auto"></span>
+                </button>
+                <ul
+                  x-cloak
+                  x-show="open"
+                  x-transition.origin.top
+                  class="mt-2 px-4 space-y-1"
+                  role="menu"
+                >
                   <template x-for="route in router.routes">
                     <li>
                       <a
-                        class="block px-4 py-2 rounded-lg text-sm text-gray-700 font-medium hover:bg-gray-200"
                         :href="`#${route.path}`"
                         x-text="route.path === '/' ? 'Home' : route.path.split('/')[1].split('-').map(str => str[0].toUpperCase() + str.slice(1)).join(' ')"
+                        :class="a.sideMenu"
                         role="menuitem"
                       ></a>
                     </li>
                   </template>
                 </ul>
-              </details>
+              </div>
             </li>
           </ul>
           <hr class="my-4" />
@@ -366,13 +369,28 @@
             </p>
             <ul class="mt-5 flex gap-4 text-lg text-gray-800">
               <li>
-                <a href="#" x-html="svg('instagram')"></a>
+                <a
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  x-html="svg('instagram')"
+                ></a>
               </li>
               <li>
-                <a href="#" x-html="svg('twitter')"></a>
+                <a
+                  href="https://twitter.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  x-html="svg('twitter')"
+                ></a>
               </li>
               <li>
-                <a href="#" x-html="svg('facebook')"></a>
+                <a
+                  href="https://www.facebook.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  x-html="svg('facebook')"
+                ></a>
               </li>
             </ul>
           </section>
