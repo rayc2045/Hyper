@@ -36,7 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, sideMenu, router, loader, shop, cart }"
+    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, sideMenu, router, loader, shop, cart, user }"
     class="min-h-svh flex flex-col tracking-wide bg-gray-100"
     :class="sideMenu.isOpen && 'overflow-hidden'"
     @dragstart.prevent
@@ -145,10 +145,18 @@
           </div>
         </div>
         <a
+          x-show="!user.loggedIn"
+          href="#/login"
           class="ml-auto md:ml-0 p-2"
-          href="#/account"
           x-html="svg('user')"
         ></a>
+        <a x-show="user.loggedIn" href="#/account" class="ml-auto md:ml-0">
+          <img
+            :src="user.profile.avatar"
+            alt="avatar"
+            class="size-6 rounded-full object-cover"
+          />
+        </a>
         <a class="p-2" href="#/cart" x-html="svg('cart')"></a>
       </div>
     </nav>
@@ -221,6 +229,7 @@
               <div x-data="{ open: true }">
                 <button
                   class="px-4 py-2 w-full flex items-center text-sm font-medium hover:bg-gray-200 rounded-lg cursor-pointer"
+                  :class="open && 'text-gray-500'"
                   @click="open = !open"
                 >
                   Pages
@@ -286,18 +295,29 @@
       </div>
       <section class="sticky bottom-0 p-4 bg-inherit border-t border-gray-200">
         <a
+          x-show="!user.loggedIn"
+          href="#/login"
+          class="p-4 flex items-center gap-2 bg-gray-200 rounded-lg"
+        >
+          <span x-html="svg('log-in')"></span>Log in
+        </a>
+        <a
+          x-show="user.loggedIn"
           href="#/account"
           class="p-4 flex items-center gap-2 bg-gray-200 rounded-lg"
         >
           <img
-            src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+            :src="user.profile.avatar"
             alt="avatar"
             class="size-10 rounded-full object-cover"
           />
           <div>
             <p class="text-xs">
-              <strong class="block font-medium">Eric Frusciante</strong>
-              <span> eric@frusciante.com </span>
+              <strong
+                class="block font-medium"
+                x-text="user.profile.name"
+              ></strong>
+              <span x-text="user.profile.email"></span>
             </p>
           </div>
         </a>

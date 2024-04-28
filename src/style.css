@@ -11,3 +11,7 @@
   opacity: 0.65;
   pointer-events: none;
 }
+
+#side-menu::-webkit-scrollbar {
+  width: 0;
+}
