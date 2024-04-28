@@ -230,7 +230,7 @@ const cart = {
 };
 
 const user = {
-  loggedIn: false,
+  isLoggedIn: false,
   profile: {
     avatar: '',
     name: '',

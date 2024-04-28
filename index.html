@@ -145,14 +145,14 @@
           </div>
         </div>
         <a
-          x-show="!user.loggedIn"
+          x-show="!user.isLoggedIn"
           href="#/login"
           class="ml-auto md:ml-0 p-2"
           x-html="svg('user')"
         ></a>
         <a
           x-cloak
-          x-show="user.loggedIn"
+          x-show="user.isLoggedIn"
           href="#/account"
           class="ml-auto md:ml-0"
         >
@@ -301,7 +301,7 @@
       </div>
       <section class="sticky bottom-0 p-4 bg-inherit border-t border-gray-200">
         <a
-          x-show="!user.loggedIn"
+          x-show="!user.isLoggedIn"
           href="#/login"
           class="p-4 flex items-center gap-2 bg-gray-200 rounded-lg"
         >
@@ -309,7 +309,7 @@
         </a>
         <a
           x-cloak
-          x-show="user.loggedIn"
+          x-show="user.isLoggedIn"
           href="#/account"
           class="p-4 flex items-center gap-2 bg-gray-200 rounded-lg"
         >
