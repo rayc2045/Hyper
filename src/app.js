@@ -156,7 +156,7 @@ const router = {
     { path: '/', component: '/home.html' },
     { path: '/posts', component: '/blog/blog.html', title: 'Recent from blog' },
     { path: '/posts/:post', component: '/blog/post.html' },
-    { path: '/about', component: '/about/about.html', title: 'About Us' },
+    { path: '/about', component: '/about/about-us.html', title: 'About Us' },
     { path: '/contact', component: '/about/contact.html', title: 'Contact Us' },
     { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
     { path: '/shop', component: '/shop/shop.html', title: 'Shop' },
@@ -169,22 +169,12 @@ const router = {
   ],
   currentPath: '',
   get currentRoute() {
-    const route =
+    return (
       this.routes.find(route => {
         const routePath = route.path.replace(/:[^/]+/g, '[^/]+');
         return new RegExp(`^${routePath}$`).test(this.currentPath);
-      }) || this.routes.find(route => route.path === '/404');
-
-    if (route.path.includes('/:'))
-      route.title = this.currentPath
-        .split(route.path.split('/:')[0])
-        .at(-1)
-        .slice(1)
-        .split('-')
-        .map(text => text[0].toUpperCase() + text.slice(1))
-        .join(' ');
-
-    return route;
+      }) || this.routes.find(route => route.path === '/404')
+    );
   },
   async init() {
     const loadTemplate = async route => {
