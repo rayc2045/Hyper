@@ -154,41 +154,61 @@ const sideMenu = {
 const router = {
   routes: [
     { path: '/', component: '/home.html' },
-    { path: '/blog', component: '/blog/posts.html', title: 'Recent from blog' },
+    { path: '/posts', component: '/blog/blog.html', title: 'Recent from blog' },
+    { path: '/posts/:post', component: '/blog/post.html' },
     { path: '/about', component: '/about/about.html', title: 'About Us' },
     { path: '/contact', component: '/about/contact.html', title: 'Contact Us' },
     { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
-    { path: '/shop', component: '/shop/products.html', title: 'Shop' },
-    { path: '/cart', component: '/shop/cart.html', title: 'Cart' },
+    { path: '/shop', component: '/shop/shop.html', title: 'Shop' },
+    { path: '/shop/:product', component: '/shop/product.html' },
+    { path: '/cart', component: '/shop/cart.html', title: 'My cart' },
+    { path: '/login', component: '/login.html', title: 'Log in' },
     { path: '/account', component: '/account.html', title: 'My account' },
     { path: '/order-tracking', component: '/account/order-tracking.html', title: 'Order Tracking' },
     { path: '/404', component: '/404.html' },
   ],
   currentPath: '',
   get currentRoute() {
-    return (
-      this.routes.find(route => route.path === this.currentPath) ||
-      this.routes.find(route => route.path === '/404')
-    );
+    const route =
+      this.routes.find(route => {
+        const routePath = route.path.replace(/:[^/]+/g, '[^/]+');
+        return new RegExp(`^${routePath}$`).test(this.currentPath);
+      }) || this.routes.find(route => route.path === '/404');
+
+    if (route.path.includes('/:'))
+      route.title = this.currentPath
+        .split(route.path.split('/:')[0])
+        .at(-1)
+        .slice(1)
+        .split('-')
+        .map(text => text[0].toUpperCase() + text.slice(1))
+        .join(' ');
+
+    return route;
   },
   async init() {
-    const setRouteHTML = async route => {
-      route.html = await utils.getData(`./src/pages${route.component}`, 'text');
+    const loadTemplate = async route => {
+      route.template = await utils.getData(`./src/pages${route.component}`, 'text');
     };
     this.updatePath();
-    await setRouteHTML(this.currentRoute);
+    await loadTemplate(this.currentRoute);
     this.renderPage();
-    for (const route of this.routes) !route.html && (await setRouteHTML(route));
+    for (const route of this.routes) !route.template && (await loadTemplate(route));
   },
   updatePath() {
-    const path = location.hash.slice(1).split('?')[0];
-    this.currentPath = path.startsWith('/') ? path : '/';
+    let path = location.hash.slice(1).split('?')[0];
+    if (!path.startsWith('/')) path = '/' + path;
+    if (path !== '/' && path.endsWith('/')) path = path.slice(0, -1);
+    this.currentPath = path;
   },
   renderPage() {
     document.title = this.currentRoute.title
       ? `${this.currentRoute.title} - ${BRAND_NAME}`
       : BRAND_NAME;
-    utils.select('#router-view').innerHTML = this.currentRoute.html;
+    utils
+      .select('meta[name="description"]')
+      .setAttribute('content', this.currentRoute.description);
+    utils.select('#router-view').innerHTML = this.currentRoute.template;
   },
 };
 

@@ -79,13 +79,13 @@
                 x-cloak
                 x-show="open"
                 x-transition.origin.top.left
-                class="absolute p-2 w-48 rounded-lg bg-gray-100 border border-gray-200 shadow-md"
+                class="absolute p-2 min-w-48 whitespace-nowrap rounded-lg bg-gray-100 border border-gray-200 shadow-md"
                 role="menu"
               >
                 <template x-for="route in router.routes">
                   <a
-                    :href="`#${route.path}`"
-                    x-text="route.path === '/' ? 'Home' : route.path.split('/')[1].split('-').map(str => str[0].toUpperCase() + str.slice(1)).join(' ')"
+                    :href="`#${route.path.includes('/:') ? route.path.split('/:')[0] + '/test-string' : route.path}`"
+                    x-text="route.component.split('/').at(-1).split('.html')[0].split('-').map(str => str[0].toUpperCase() + str.slice(1)).join(' ')"
                     class="block px-4 py-2 text-sm rounded-lg hover:bg-gray-200"
                     role="menuitem"
                   ></a>
@@ -94,7 +94,7 @@
             </div>
           </li>
           <li>
-            <a :class="a.nav" href="#/blog"> Blog </a>
+            <a :class="a.nav" href="#/posts"> Blog </a>
           </li>
           <li>
             <a :class="a.nav" href="#/about"> About </a>
@@ -220,7 +220,7 @@
           <li>
             <a
               :class="router.currentPath === $el.href.split('#')[1] ? a.sideMenuActive : a.sideMenu"
-              href="#/blog"
+              href="#/posts"
             >
               Blog
             </a>
@@ -248,8 +248,8 @@
                 <template x-for="route in router.routes">
                   <li>
                     <a
-                      :href="`#${route.path}`"
-                      x-text="route.path === '/' ? 'Home' : route.path.split('/')[1].split('-').map(str => str[0].toUpperCase() + str.slice(1)).join(' ')"
+                      :href="`#${route.path.includes('/:') ? route.path.split('/:')[0] + '/test-string' : route.path}`"
+                      x-text="route.component.split('/').at(-1).split('.html')[0].split('-').map(str => str[0].toUpperCase() + str.slice(1)).join(' ')"
                       :class="a.sideMenu"
                       role="menuitem"
                     ></a>
