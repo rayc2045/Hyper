@@ -100,14 +100,14 @@
             <a :class="a.nav" href="#/about"> About </a>
           </li>
         </ul>
-        <div class="hidden md:flex ml-auto relative" x-data="{ open: false }">
+        <div class="hidden md:flex ml-auto max-w-60 relative" x-data="{ open: false }">
           <label for="search" class="sr-only">Search</label>
           <input
             id="search"
             type="text"
             placeholder="Search"
             x-bind="shop.searchText"
-            class="w-full pl-2.5 py-2.5 pe-10 sm:text-sm rounded-md bg-inherit border-gray-300 shadow"
+            class="w-full pl-2.5 pr-10 py-2.5 sm:text-sm rounded-md bg-inherit border-gray-300 shadow"
             @focus="!shop.products.length && await shop.loadProducts(); open = true"
             @blur="open = false"
           />
