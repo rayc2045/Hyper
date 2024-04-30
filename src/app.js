@@ -193,8 +193,11 @@ const router = {
     const routePathFrags = this.currentRoute.path.split('/'),
       currentPathFrags = this.currentPath.split('/');
     for (let i = 0; i < routePathFrags.length; i++)
-      if (routePathFrags[i] !== currentPathFrags[i])
-        param[routePathFrags[i].split(':')[1]] = currentPathFrags[i];
+      if (routePathFrags[i] !== currentPathFrags[i]) {
+        const prop = routePathFrags[i].split(':')[1],
+          value = currentPathFrags[i];
+        param[prop] = isNaN(+value) ? value : +value;
+      }
     return param;
   },
   async init() {
