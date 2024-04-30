@@ -70,15 +70,14 @@ const utils = {
     });
   },
   getSearchQuery(url = window.location.href) {
-    if (!url.includes('?')) return null;
     const query = {};
+    if (!url.includes('?')) return query;
     url
       .split('?')[1]
       .split('&')
       .filter(p => p.length)
       .forEach(param => {
         const [prop, value] = param.split('=');
-        if (!prop) return null;
         if (query.hasOwnProperty(prop)) return; // duplicates not set again
         if (!value) return (query[prop] = true); // if no value, set 'true' as default
         if (value.toLowerCase() === 'true' || value.toLowerCase() === 'false')
@@ -166,7 +165,7 @@ const router = {
   routes: [
     { path: '/', component: '/home.html' },
     { path: '/posts', component: '/blog/blog.html', title: 'Recent from blog' },
-    { path: '/posts/:title', component: '/blog/post.html' },
+    { path: '/posts/:date/:title', component: '/blog/post.html' },
     { path: '/about', component: '/about/about-us.html', title: 'About Us' },
     { path: '/contact', component: '/about/contact.html', title: 'Contact Us' },
     { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
@@ -188,16 +187,16 @@ const router = {
     );
   },
   get currentParam() {
-    const param = { ...utils.getSearchQuery() };
+    const param = utils.getSearchQuery();
     if (!this.currentRoute.path.includes(':')) return param;
-    const routePathFrags = this.currentRoute.path.split('/'),
-      currentPathFrags = this.currentPath.split('/');
-    for (let i = 0; i < routePathFrags.length; i++)
-      if (routePathFrags[i] !== currentPathFrags[i]) {
-        const prop = routePathFrags[i].split(':')[1],
-          value = currentPathFrags[i];
+    const frags = this.currentRoute.path.split('/');
+    frags
+      .filter(frag => frag.startsWith(':'))
+      .forEach(frag => {
+        const prop = frag.split(':')[1],
+          value = this.currentPath.split('/')[frags.indexOf(frag)];
         param[prop] = isNaN(+value) ? value : +value;
-      }
+      });
     return param;
   },
   async init() {

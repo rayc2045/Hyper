@@ -84,7 +84,7 @@
               >
                 <template x-for="route in router.routes">
                   <a
-                    :href="`#${route.path.includes('/:') ? route.path.split('/:')[0] + '/test-string' : route.path}`"
+                    :href="`#${route.path.includes(':') ? route.path.split('/').map(p => p.startsWith(':') ? 'dynamic-route' : p).join('/') : route.path}`"
                     x-text="route.component.split('/').at(-1).split('.html')[0].split('-').map(str => str[0].toUpperCase() + str.slice(1)).join(' ')"
                     class="block px-4 py-2 text-sm rounded-lg hover:bg-gray-200"
                     role="menuitem"
@@ -248,7 +248,7 @@
                 <template x-for="route in router.routes">
                   <li>
                     <a
-                      :href="`#${route.path.includes('/:') ? route.path.split('/:')[0] + '/test-string' : route.path}`"
+                      :href="`#${route.path.includes(':') ? route.path.split('/').map(p => p.startsWith(':') ? 'dynamic-route' : p).join('/') : route.path}`"
                       x-text="route.component.split('/').at(-1).split('.html')[0].split('-').map(str => str[0].toUpperCase() + str.slice(1)).join(' ')"
                       :class="a.sideMenu"
                       role="menuitem"
