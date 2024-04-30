@@ -69,16 +69,19 @@ const utils = {
       setTimeout(resolve, delay * 1000);
     });
   },
-  getParamsByUrl(url = window.location.href) {
+  getUrlParam(url = window.location.href) {
     const urlSearch = url.split('?')[1];
     const urlSearchParams = new URLSearchParams(urlSearch);
-    const entries = Object.fromEntries(urlSearchParams.entries());
-    Object.keys(entries).forEach(entry => {
-      const split = entries[entry].split(' ');
-      if (split.length === 1 && split[0] === '') return (entries[entry] = []);
-      entries[entry] = split;
+    const param = Object.fromEntries(urlSearchParams.entries());
+    Object.keys(param).forEach(key => {
+      const items = param[key].split(' ');
+      if (items.length === 1) {
+        if (!items[0].length) return (param[key] = null);
+        return (param[key] = items[0]);
+      }
+      param[key] = items;
     });
-    return entries;
+    return param;
   },
   async scrollToTop() {
     scrollTo({ top: 0, behavior: prefer.motion ? 'smooth' : 'auto' });
@@ -155,12 +158,12 @@ const router = {
   routes: [
     { path: '/', component: '/home.html' },
     { path: '/posts', component: '/blog/blog.html', title: 'Recent from blog' },
-    { path: '/posts/:post', component: '/blog/post.html' },
+    { path: '/posts/:title', component: '/blog/post.html' },
     { path: '/about', component: '/about/about-us.html', title: 'About Us' },
     { path: '/contact', component: '/about/contact.html', title: 'Contact Us' },
     { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
     { path: '/shop', component: '/shop/shop.html', title: 'Shop' },
-    { path: '/shop/:product', component: '/shop/product.html' },
+    { path: '/shop/:name', component: '/shop/product.html' },
     { path: '/cart', component: '/shop/cart.html', title: 'My cart' },
     { path: '/login', component: '/login.html', title: 'Log in' },
     { path: '/account', component: '/account.html', title: 'My account' },
@@ -176,9 +179,9 @@ const router = {
       }) || this.routes.find(route => route.path === '/404')
     );
   },
-  get currentRouteParam() {
-    if (!this.currentRoute.path.includes('/:')) return null;
-    const param = {};
+  get currentParam() {
+    const param = utils.getUrlParam();
+    if (!this.currentRoute.path.includes(':')) return param;
     const routePathFrags = this.currentRoute.path.split('/'),
       currentPathFrags = this.currentPath.split('/');
     for (let i = 0; i < routePathFrags.length; i++)
