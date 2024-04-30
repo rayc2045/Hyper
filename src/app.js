@@ -69,19 +69,27 @@ const utils = {
       setTimeout(resolve, delay * 1000);
     });
   },
-  getUrlParam(url = window.location.href) {
-    const urlSearch = url.split('?')[1];
-    const urlSearchParams = new URLSearchParams(urlSearch);
-    const param = Object.fromEntries(urlSearchParams.entries());
-    Object.keys(param).forEach(key => {
-      const items = param[key].split(' ');
-      if (items.length === 1) {
-        if (!items[0].length) return (param[key] = null);
-        return (param[key] = items[0]);
-      }
-      param[key] = items;
-    });
-    return param;
+  getSearchQuery(url = window.location.href) {
+    if (!url.includes('?')) return null;
+    const query = {};
+    url
+      .split('?')[1]
+      .split('&')
+      .filter(p => p.length)
+      .forEach(param => {
+        const [prop, value] = param.split('=');
+        if (!prop) return null;
+        if (query.hasOwnProperty(prop)) return; // duplicates not set again
+        if (!value) return (query[prop] = true); // if no value, set 'true' as default
+        if (value.toLowerCase() === 'true' || value.toLowerCase() === 'false')
+          return (query[prop] = value.toLowerCase() === 'true');
+        const values = value
+          .split('+')
+          .filter(v => v.length)
+          .map(v => (isNaN(+v) ? v : +v));
+        query[prop] = values.length > 1 ? values : values[0];
+      });
+    return query;
   },
   async scrollToTop() {
     scrollTo({ top: 0, behavior: prefer.motion ? 'smooth' : 'auto' });
@@ -180,7 +188,7 @@ const router = {
     );
   },
   get currentParam() {
-    const param = utils.getUrlParam();
+    const param = { ...utils.getSearchQuery() };
     if (!this.currentRoute.path.includes(':')) return param;
     const routePathFrags = this.currentRoute.path.split('/'),
       currentPathFrags = this.currentPath.split('/');
