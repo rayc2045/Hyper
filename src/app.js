@@ -176,6 +176,16 @@ const router = {
       }) || this.routes.find(route => route.path === '/404')
     );
   },
+  get currentRouteParam() {
+    if (!this.currentRoute.path.includes('/:')) return null;
+    const param = {};
+    const routePathFrags = this.currentRoute.path.split('/'),
+      currentPathFrags = this.currentPath.split('/');
+    for (let i = 0; i < routePathFrags.length; i++)
+      if (routePathFrags[i] !== currentPathFrags[i])
+        param[routePathFrags[i].split(':')[1]] = currentPathFrags[i];
+    return param;
+  },
   async init() {
     const loadTemplate = async route => {
       route.template = await utils.getData(`./src/pages${route.component}`, 'text');
