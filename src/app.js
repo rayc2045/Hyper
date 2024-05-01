@@ -36,13 +36,23 @@ const style = {
   btn: {
     raw: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white',
     get primary() {
-      return `${this.raw} bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300`;
+      return this.color('blue');
+    },
+    get outlined() {
+      return this.outlinedColor('blue');
     },
     get secondary() {
-      return `${this.raw} bg-slate-500/80 hover:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-300`;
+      return `${this.raw.replace('text-white', 'text-slate-700')} bg-slate-300/50 border border-slate-300/50 hover:bg-slate-300/75 hover:border-slate-300/75 focus:outline-none focus:ring focus:ring-slate-200`;
     },
     color(tailwindColor) {
-      return `${this.raw} bg-${tailwindColor}-600 hover:bg-${tailwindColor}-700 focus:outline-none focus:ring focus:ring-${tailwindColor}-300`;
+      return `${this.raw} bg-${tailwindColor}-600 border border-${tailwindColor}-600 hover:bg-${tailwindColor}-700 hover:border-${tailwindColor}-700 focus:outline-none focus:ring focus:ring-${tailwindColor}-300`;
+    },
+    outlinedColor(tailwindColor) {
+      return `${this.color(tailwindColor)
+        .replace('text-white', `text-${tailwindColor}-900`)
+        .replace(`bg-${tailwindColor}-600`, 'bg-gray-100')
+        .replace(`hover:bg-${tailwindColor}-700`, `hover:bg-${tailwindColor}-50`)
+      }`;
     },
   },
 };
