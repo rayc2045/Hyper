@@ -245,8 +245,38 @@ const shop = {
       ? this.products.filter(product => product.name.toLowerCase().includes(this.searchText))
       : this.products;
   },
-  get categories() {
-    return utils.getUniques(this.products.map(product => product.category))
+  get filter() {
+    const filter = this.products.reduce(
+      (accumulator, product) => {
+        if (product.label && !accumulator.labels.includes(product.label))
+          accumulator.labels.push(product.label);
+        if (!accumulator.categories.includes(product.category))
+          accumulator.categories.push(product.category);
+        accumulator.price.min = Math.min(accumulator.price.min, product.price);
+        accumulator.price.max = Math.max(accumulator.price.max, product.price);
+        if (product.discount && !accumulator.discounts.includes(product.discount))
+          accumulator.discounts.push(product.discount);
+        product.colors.forEach(color => {
+          if (!accumulator.colors.includes(color)) accumulator.colors.push(color);
+        });
+        if (!accumulator.stocks.includes(product.stock))
+          accumulator.stocks.push(product.stock);
+        return accumulator;
+      },
+      {
+        labels: [],
+        categories: [],
+        price: {
+          min: Infinity,
+          max: 0,
+        },
+        discounts: [],
+        colors: [],
+        stocks: [],
+      }
+    );
+    filter.discounts.sort((a, b) => parseFloat(b.split('%')[0]) - parseFloat(a.split('%')[0]))
+    return filter;
   },
   async loadProducts() {
     this.products = await utils.getData('./src/data/products.json');
