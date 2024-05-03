@@ -245,41 +245,81 @@ const shop = {
       ? this.products.filter(product => product.name.toLowerCase().includes(this.searchText))
       : this.products;
   },
+  filterOption: {
+    labels: [],
+    categories: [],
+    price: { min: 0, max: 0 },
+    discounts: [],
+    colors: [],
+    stocks: [],
+  },
+  get filteredProducts() {
+    return this.products.filter(product => {
+      if (
+        this.filterOption.labels.length &&
+        !this.filterOption.labels.includes(product.label)
+      )
+        return false;
+      if (
+        this.filterOption.categories.length &&
+        !this.filterOption.categories.includes(product.category)
+      )
+        return false;
+      if (
+        product.price < this.filterOption.price.min ||
+        product.price > this.filterOption.price.max
+      )
+        return false;
+      if (
+        this.filterOption.discounts.length &&
+        !this.filterOption.discounts.includes(product.discount)
+      )
+        return false;
+      if (
+        this.filterOption.colors.length &&
+        !product.colors.some(color => this.filterOption.colors.includes(color))
+      )
+        return false;
+      if (
+        this.filterOption.stocks.length &&
+        !this.filterOption.stocks.includes(product.stock)
+      )
+        return false;
+      return true;
+    });
+  },
   get filter() {
-    const filter = this.products.reduce(
-      (accumulator, product) => {
-        if (product.label && !accumulator.labels.includes(product.label))
-          accumulator.labels.push(product.label);
-        if (!accumulator.categories.includes(product.category))
-          accumulator.categories.push(product.category);
-        accumulator.price.min = Math.min(accumulator.price.min, product.price);
-        accumulator.price.max = Math.max(accumulator.price.max, product.price);
-        if (product.discount && !accumulator.discounts.includes(product.discount))
-          accumulator.discounts.push(product.discount);
-        product.colors.forEach(color => {
-          if (!accumulator.colors.includes(color)) accumulator.colors.push(color);
-        });
-        if (!accumulator.stocks.includes(product.stock))
-          accumulator.stocks.push(product.stock);
-        return accumulator;
-      },
-      {
-        labels: [],
-        categories: [],
-        price: {
-          min: Infinity,
-          max: 0,
-        },
-        discounts: [],
-        colors: [],
-        stocks: [],
-      }
-    );
-    filter.discounts.sort((a, b) => parseFloat(b.split('%')[0]) - parseFloat(a.split('%')[0]))
+    const filter = this.products.reduce((accumulator, product) => {
+      if (product.label && !accumulator.labels.includes(product.label))
+        accumulator.labels.push(product.label);
+
+      if (!accumulator.categories.includes(product.category))
+        accumulator.categories.push(product.category);
+
+      if (accumulator.price.min === 0) accumulator.price.min = product.price;
+      accumulator.price.min = Math.min(accumulator.price.min, product.price);
+      accumulator.price.max = Math.max(accumulator.price.max, product.price);
+
+      if (product.discount && !accumulator.discounts.includes(product.discount))
+        accumulator.discounts.push(product.discount);
+
+      product.colors.forEach(color => {
+        if (!accumulator.colors.includes(color)) accumulator.colors.push(color);
+      });
+
+      if (!accumulator.stocks.includes(product.stock))
+        accumulator.stocks.push(product.stock);
+
+      return accumulator;
+    }, JSON.parse(JSON.stringify(this.filterOption)));
+
+    filter.discounts.sort((a, b) => parseFloat(b.split('%')[0]) - parseFloat(a.split('%')[0]));
     return filter;
   },
-  async loadProducts() {
+  async init() {
     this.products = await utils.getData('./src/data/products.json');
+    this.filterOption.price.min = this.filter.price.min;
+    this.filterOption.price.max = this.filter.price.max;
   },
 };
 

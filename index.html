@@ -37,7 +37,7 @@
   </head>
   <body
     x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, sideMenu, router, shop, cart, user }"
-    x-init="await shop.loadProducts()"
+    x-init="await shop.init()"
     class="min-h-svh flex flex-col tracking-wide bg-gray-100"
     :class="sideMenu.isOpen && 'overflow-hidden'"
     @dragstart.prevent
