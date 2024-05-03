@@ -32,11 +32,12 @@
     <script src="./src/app.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@imacrayon/alpine-ajax@0.5.0/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.0/dist/purify.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.x.x/dist/purify.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.x.x/dist/gsap.min.js" defer></script>
   </head>
   <body
     x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, sideMenu, router, shop, cart, user }"
+    x-init="await shop.loadProducts()"
     class="min-h-svh flex flex-col tracking-wide bg-gray-100"
     :class="sideMenu.isOpen && 'overflow-hidden'"
     @dragstart.prevent
@@ -100,16 +101,19 @@
             <a :class="a.nav" href="#/about"> About </a>
           </li>
         </ul>
-        <div class="hidden md:flex ml-auto max-w-60 relative" x-data="{ open: false }">
+        <div
+          class="hidden md:flex ml-auto max-w-60 relative"
+          x-data="{ open: false }"
+        >
           <label for="search" class="sr-only">Search</label>
           <input
             id="search"
             type="text"
             placeholder="Search"
-            x-bind="shop.searchText"
+            x-model="shop.searchText"
             class="w-full pl-2.5 pr-10 py-2.5 sm:text-sm rounded-md bg-inherit border-gray-300 shadow"
-            @focus="!shop.products.length && await shop.loadProducts(); open = true"
-            @blur="open = false"
+            @focus="open = true"
+            @click.outside="open = false"
           />
           <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
             <button type="button" class="text-gray-600 hover:text-gray-700">
@@ -119,23 +123,22 @@
           </span>
           <div
             x-cloak
-            x-data="shop.filterProducts"
-            x-show="open && shop.filterProducts.length"
-            class="absolute right-0 top-14 z-50 w-72 rounded-md border border-gray-100 bg-white shadow-lg"
+            x-show="open && shop.searchResult.length"
+            class="absolute top-14 w-72 rounded-lg bg-gray-100 border border-gray-200 shadow-lg"
           >
-            <ul class="max-h-64 space-y-1 overflow-auto p-2">
+            <ul class="p-2 max-h-64 overflow-y-auto space-y-1">
               <template
-                x-for="product in shop.filterProducts"
+                x-for="product in shop.searchResult"
                 :key="product.name"
               >
                 <li>
                   <a
-                    class="flex items-center justify-between rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:bg-gray-50"
-                    :href="product.href"
+                    class="flex items-center justify-between rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:bg-gray-50"
+                    :href="`#/shop/${product.category}/${product.name}`.toLowerCase().replaceAll(' ', '_')"
                   >
                     <span x-text="product.name"></span>
                     <span
-                      class="block rounded bg-gray-900 px-1.5 py-0.5 text-xs text-white"
+                      class="px-1.5 py-0.5 text-xs text-white rounded bg-gray-700"
                       x-text="product.category"
                     ></span>
                   </a>

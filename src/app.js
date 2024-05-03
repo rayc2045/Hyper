@@ -150,6 +150,9 @@ const utils = {
     el.removeAttribute('style');
     for (const prop in style) el.style[prop] = style[prop];
   },
+  getUniques(arr) {
+    return arr.filter((item, idx) => arr.indexOf(item) === idx);
+  },
   copyText(text) {
     navigator.clipboard.writeText(text.trim());
   },
@@ -179,7 +182,7 @@ const router = {
     { path: '/contact', component: '/about/contact.html', title: 'Contact Us' },
     { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
     { path: '/shop', component: '/shop/shop.html', title: 'Shop' },
-    { path: '/shop/:name', component: '/shop/product.html' },
+    { path: '/shop/:category/:name', component: '/shop/product.html' },
     { path: '/cart', component: '/shop/cart.html', title: 'My cart' },
     { path: '/login', component: '/login.html', title: 'Log in' },
     { path: '/account', component: '/account.html', title: 'My account' },
@@ -235,21 +238,18 @@ const router = {
 };
 
 const shop = {
-  products: [
-    // { name, category, href, image, description, price }
-  ],
+  products: [],
   searchText: '',
-  get filterProducts() {
+  get searchResult() {
     return this.searchText
-      ? this.products.filter(product => product.name.includes(this.searchText))
+      ? this.products.filter(product => product.name.toLowerCase().includes(this.searchText))
       : this.products;
   },
   get categories() {
-    const categories = this.products.map(product => product.category);
-    return categories.filter((c, i) => categories.indexOf(c) === i);
+    return utils.getUniques(this.products.map(product => product.category))
   },
   async loadProducts() {
-    this.products = await utils.getData(api);
+    this.products = await utils.getData('./src/data/products.json');
   },
 };
 
