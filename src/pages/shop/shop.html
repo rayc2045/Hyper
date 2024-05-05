@@ -1,0 +1,57 @@
+<div class="flex">
+  <div class="flex-1">
+    <div
+      x-text="`${shop.filteredProducts.length} products`"
+      class="mb-8 text-gray-500"
+    ></div>
+    <ul
+      class="sm:grid place-content-center gap-x-8 gap-y-16 tracking-wide"
+      style="grid-template-columns: repeat(auto-fit, 18em)"
+    >
+      <template x-for="product in shop.filteredProducts" :key="product.name">
+        <li
+          x-data="{
+            lowerName: product.name.toLowerCase().replaceAll(' ', '_'),
+            currentColor: product.colors[0]
+          }"
+        >
+          <a
+            :href="`#/shop/${product.category}/${lowerName}`"
+            class="block mb-1 rounded-md overflow-hidden"
+          >
+            <img
+              :src="`./src/images/products/${lowerName}_${currentColor}.png`"
+              :alt="product.name"
+              class="min-w-full"
+            />
+          </a>
+          <div
+            x-text="product.label && product.label[0].toUpperCase() + product.label.slice(1)"
+            class="text-red-500 text-xs font-semibold"
+          ></div>
+          <a
+            :href="`#/shop/${product.category}/${lowerName}`"
+            x-text="product.name"
+            class="block mb-2 text-lg font-semibold"
+            :class="!product.label.length && 'mt-5'"
+          ></a>
+          <div class="space-x-1">
+            <span
+              :class="product.discount && 'line-through text-gray-400'"
+              x-text="`$${product.price}`"
+            ></span>
+            <span
+              x-show="product.discount"
+              x-text="`$${Math.round(product.price *  (100 - product.discount.split('%')[0]) / 100) }`"
+            ></span>
+            <span
+              x-show="product.discount"
+              x-text="`-${product.discount}`"
+              class="px-2 rounded-xl text-xs text-red-600 border border-red-600"
+            ></span>
+          </div>
+        </li>
+      </template>
+    </ul>
+  </div>
+</div>
