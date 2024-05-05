@@ -19,3 +19,27 @@ body {
 #side-menu::-webkit-scrollbar {
   width: 0;
 }
+
+.white {
+  background-color: ghostwhite;
+}
+
+.gray {
+  background-color: gray;
+}
+
+.black {
+  background-color: #333;
+}
+
+.amber {
+  background-color: peru;
+}
+
+.green {
+  background-color: olivedrab;
+}
+
+.blue {
+  background-color: steelblue;
+}
