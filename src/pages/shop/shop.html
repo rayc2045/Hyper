@@ -1,49 +1,192 @@
-<div class="flex">
+<div class="flex gap-x-8">
+  <aside
+    id="filter"
+    class="hidden md:block md:w-48 lg:w-64 select-none grayscale"
+  >
+    <section class="py-8 border-t border-gray-300">
+      <h3 class="text-lg mb-8">Label</h3>
+      <template x-for="item in shop.filter.labels" :key="item">
+        <label
+          :for="`item-${item}`"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          @change="shop.filterOption.labels.includes(item) ? shop.filterOption.labels.splice(shop.filterOption.labels.indexOf(item), 1) : shop.filterOption.labels.push(item);"
+        >
+          <input
+            type="checkbox"
+            class="size-5"
+            :id="`item-${item}`"
+            :value="shop.filterOption.labels.includes(item)"
+          />
+          <span
+            x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+            class="text-gray-900"
+          ></span>
+          <span
+            x-text="`(${shop.products.filter(p => p.label === item).length})`"
+            class="text-gray-500"
+          ></span>
+        </label>
+      </template>
+    </section>
+
+    <section class="py-8 border-t border-gray-300">
+      <h3 class="text-lg mb-8">Category</h3>
+      <template x-for="item in shop.filter.categories" :key="item">
+        <label
+          :for="`item-${item}`"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          @change="shop.filterOption.categories.includes(item) ? shop.filterOption.categories.splice(shop.filterOption.categories.indexOf(item), 1) : shop.filterOption.categories.push(item);"
+        >
+          <input
+            type="checkbox"
+            class="size-5"
+            :id="`item-${item}`"
+            :value="shop.filterOption.categories.includes(item)"
+          />
+          <span
+            x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+            class="text-gray-900"
+          ></span>
+          <span
+            x-text="`(${shop.products.filter(p => p.category === item).length})`"
+            class="text-gray-500"
+          ></span>
+        </label>
+      </template>
+    </section>
+
+    <section class="py-8 border-t border-gray-300">
+      <h3 class="text-lg mb-8">Discount</h3>
+      <template x-for="item in shop.filter.discounts" :key="item">
+        <label
+          :for="`item-${item}`"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          @change="shop.filterOption.discounts.includes(item) ? shop.filterOption.discounts.splice(shop.filterOption.discounts.indexOf(item), 1) : shop.filterOption.discounts.push(item);"
+        >
+          <input
+            type="checkbox"
+            class="size-5"
+            :id="`item-${item}`"
+            :value="shop.filterOption.discounts.includes(item)"
+          />
+          <span
+            x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+            class="text-gray-900"
+          ></span>
+          <span
+            x-text="`(${shop.products.filter(p => p.discount === item).length})`"
+            class="text-gray-500"
+          ></span>
+        </label>
+      </template>
+    </section>
+
+    <section class="py-8 border-t border-gray-300">
+      <h3 class="text-lg mb-8">Color</h3>
+      <template x-for="item in shop.filter.colors" :key="item">
+        <label
+          :for="`item-${item}`"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          @change="shop.filterOption.colors.includes(item) ? shop.filterOption.colors.splice(shop.filterOption.colors.indexOf(item), 1) : shop.filterOption.colors.push(item);"
+        >
+          <input
+            type="checkbox"
+            class="size-5"
+            :id="`item-${item}`"
+            :value="shop.filterOption.colors.includes(item)"
+          />
+          <span
+            x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+            class="text-gray-900"
+          ></span>
+          <span
+            x-text="`(${shop.products.filter(p => p.colors.includes(item)).length})`"
+            class="text-gray-500"
+          ></span>
+        </label>
+      </template>
+    </section>
+
+    <section class="py-8 border-t border-gray-300">
+      <h3 class="text-lg mb-8">Stock</h3>
+      <template x-for="item in shop.filter.stocks" :key="item">
+        <label
+          :for="`item-${item}`"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          @change="shop.filterOption.stocks.includes(item) ? shop.filterOption.stocks.splice(shop.filterOption.stocks.indexOf(item), 1) : shop.filterOption.stocks.push(item);"
+        >
+          <input
+            type="checkbox"
+            class="size-5"
+            :id="`item-${item}`"
+            :value="shop.filterOption.stocks.includes(item)"
+          />
+          <span
+            x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+            class="text-gray-900"
+          ></span>
+          <span
+            x-text="`(${shop.products.filter(p => p.stock === item).length})`"
+            class="text-gray-500"
+          ></span>
+        </label>
+      </template>
+    </section>
+  </aside>
   <div class="flex-1">
     <div
-      x-text="`${shop.filteredProducts.length} products`"
+      x-text="`${shop.filteredProducts.length} product${shop.filteredProducts.length > 1 && 's'}`"
       class="mb-8 text-gray-500"
     ></div>
     <ul
-      class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-12 tracking-wide"
+      class="grid place-content-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 tracking-wide"
     >
       <template x-for="product in shop.filteredProducts" :key="product.name">
         <li
           x-data="{
             lowerName: product.name.toLowerCase().replaceAll(' ', '_'),
-            currentColor: product.colors[0]
+            currentColor: product.colors[0],
           }"
         >
           <a
-            :href="`#/shop/${product.category}/${lowerName}`"
-            class="block mb-1 rounded-md overflow-hidden"
+            :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
+            class="rounded-md overflow-hidden"
           >
             <img
               :src="`./src/images/products/${lowerName}_${currentColor}.png`"
               :alt="product.name"
+              loading="lazy"
               class="min-w-full"
             />
           </a>
 
-          <div
+          <small
             x-text="product.label && product.label[0].toUpperCase() + product.label.slice(1)"
             class="text-red-500 text-xs font-semibold"
-          ></div>
-          <a
-            :href="`#/shop/${product.category}/${lowerName}`"
-            x-text="`${product.name}${product.colors.length > 1 && ` (${currentColor})`}`"
-            class="block mb-1 text-lg font-semibold"
-            :class="!product.label.length && 'mt-5'"
-          ></a>
+          ></small>
 
-          <div class="space-x-1">
+          <a
+            :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
+            class="block mb-1"
+            :class="!product.label.length && 'mt-5'"
+          >
+            <h3 class="font-semibold">
+              <span x-text="product.name"></span>
+              <template x-if="product.colors.length > 1">
+                <span x-text="`(${currentColor})`">()</span>
+              </template>
+            </h3>
+          </a>
+
+          <div class="space-x-1 text-sm">
             <span
               :class="product.discount && 'line-through text-gray-400'"
               x-text="`$${product.price}`"
             ></span>
             <span
               x-show="product.discount"
-              x-text="`$${Math.round(product.price *  (100 - product.discount.split('%')[0]) / 100) }`"
+              x-text="`$${Math.round(product.price * (100 - product.discount.split('%')[0]) / 100) }`"
+              class="text-gray-600"
             ></span>
             <span
               x-show="product.discount"
@@ -54,7 +197,7 @@
 
           <template x-if="product.colors.length > 1">
             <div class="mt-3 flex gap-x-1.5">
-              <template x-for="color in product.colors">
+              <template x-for="color in product.colors" :key="color">
                 <button
                   class="w-5 aspect-square rounded-full border border-gray-500 pointer"
                   :class="color"
