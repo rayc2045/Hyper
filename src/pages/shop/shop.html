@@ -1,14 +1,11 @@
 <div class="flex gap-x-8">
-  <aside
-    id="filter"
-    class="hidden md:block md:w-48 lg:w-64 select-none grayscale"
-  >
+  <aside id="filter" class="hidden md:block md:w-48 lg:w-64 select-none">
     <section class="py-8 border-t border-gray-300">
       <h3 class="text-lg mb-8">Label</h3>
       <template x-for="item in shop.filter.labels.toSorted()" :key="item">
         <label
           :for="`item-${item}`"
-          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
           @change="shop.filterOption.labels.includes(item) ? shop.filterOption.labels.splice(shop.filterOption.labels.indexOf(item), 1) : shop.filterOption.labels.push(item);"
         >
           <input
@@ -34,7 +31,7 @@
       <template x-for="item in shop.filter.categories.toSorted()" :key="item">
         <label
           :for="`item-${item}`"
-          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
           @change="shop.filterOption.categories.includes(item) ? shop.filterOption.categories.splice(shop.filterOption.categories.indexOf(item), 1) : shop.filterOption.categories.push(item);"
         >
           <input
@@ -60,7 +57,7 @@
       <template x-for="item in shop.filter.discounts" :key="item">
         <label
           :for="`item-${item}`"
-          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
           @change="shop.filterOption.discounts.includes(item) ? shop.filterOption.discounts.splice(shop.filterOption.discounts.indexOf(item), 1) : shop.filterOption.discounts.push(item);"
         >
           <input
@@ -86,7 +83,7 @@
       <template x-for="item in shop.filter.colors.toSorted()" :key="item">
         <label
           :for="`item-${item}`"
-          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
           @change="shop.filterOption.colors.includes(item) ? shop.filterOption.colors.splice(shop.filterOption.colors.indexOf(item), 1) : shop.filterOption.colors.push(item);"
         >
           <input
@@ -112,7 +109,7 @@
       <template x-for="item in shop.filter.stocks.toSorted()" :key="item">
         <label
           :for="`item-${item}`"
-          class="mt-4 flex items-center gap-x-2 cursor-pointer"
+          class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
           @change="shop.filterOption.stocks.includes(item) ? shop.filterOption.stocks.splice(shop.filterOption.stocks.indexOf(item), 1) : shop.filterOption.stocks.push(item);"
         >
           <input
@@ -147,28 +144,39 @@
             lowerName: product.name.toLowerCase().replaceAll(' ', '_'),
             currentColor: product.colors[0],
           }"
+          :class="product.stock !== 'in stock' && 'disabled'"
         >
           <a
             :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
-            class="rounded-md overflow-hidden"
+            class="block rounded-md overflow-hidden"
           >
             <img
               :src="`./src/images/products/${lowerName}_${currentColor}.png`"
               :alt="product.name"
               loading="lazy"
-              class="min-w-full"
+              class="min-w-full hover:brightness-95 transition"
             />
           </a>
 
-          <small
-            x-text="product.label && product.label[0].toUpperCase() + product.label.slice(1)"
-            class="text-red-500 text-xs font-semibold"
-          ></small>
+          <small class="text-xs font-semibold">
+            <template x-if="product.stock === 'in stock'">
+              <span
+                x-text="product.label && product.label[0].toUpperCase() + product.label.slice(1)"
+                class="text-red-500"
+              ></span>
+            </template>
+            <template x-if="product.stock !== 'in stock'">
+              <span
+                x-text="product.stock[0].toUpperCase() + product.stock.slice(1)"
+                class="text-blue-500"
+              ></span>
+            </template>
+          </small>
 
           <a
             :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
             class="block mb-1"
-            :class="!product.label.length && 'mt-5'"
+            :class="(product.stock === 'in stock' && !product.label.length) && 'mt-5'"
           >
             <h3
               x-text="`${product.name}${product.colors.length > 1 ? ` (${currentColor})` : ''}`"
