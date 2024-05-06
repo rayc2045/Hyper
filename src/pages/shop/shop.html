@@ -5,7 +5,7 @@
   >
     <section class="py-8 border-t border-gray-300">
       <h3 class="text-lg mb-8">Label</h3>
-      <template x-for="item in shop.filter.labels" :key="item">
+      <template x-for="item in shop.filter.labels.toSorted()" :key="item">
         <label
           :for="`item-${item}`"
           class="mt-4 flex items-center gap-x-2 cursor-pointer"
@@ -31,7 +31,7 @@
 
     <section class="py-8 border-t border-gray-300">
       <h3 class="text-lg mb-8">Category</h3>
-      <template x-for="item in shop.filter.categories" :key="item">
+      <template x-for="item in shop.filter.categories.toSorted()" :key="item">
         <label
           :for="`item-${item}`"
           class="mt-4 flex items-center gap-x-2 cursor-pointer"
@@ -83,7 +83,7 @@
 
     <section class="py-8 border-t border-gray-300">
       <h3 class="text-lg mb-8">Color</h3>
-      <template x-for="item in shop.filter.colors" :key="item">
+      <template x-for="item in shop.filter.colors.toSorted()" :key="item">
         <label
           :for="`item-${item}`"
           class="mt-4 flex items-center gap-x-2 cursor-pointer"
@@ -109,7 +109,7 @@
 
     <section class="py-8 border-t border-gray-300">
       <h3 class="text-lg mb-8">Stock</h3>
-      <template x-for="item in shop.filter.stocks" :key="item">
+      <template x-for="item in shop.filter.stocks.toSorted()" :key="item">
         <label
           :for="`item-${item}`"
           class="mt-4 flex items-center gap-x-2 cursor-pointer"
@@ -135,7 +135,7 @@
   </aside>
   <div class="flex-1">
     <div
-      x-text="`${shop.filteredProducts.length} product${shop.filteredProducts.length > 1 && 's'}`"
+      x-text="`${shop.filteredProducts.length} product${shop.filteredProducts.length > 1 ? 's' : ''}`"
       class="mb-8 text-gray-500"
     ></div>
     <ul
@@ -170,29 +170,27 @@
             class="block mb-1"
             :class="!product.label.length && 'mt-5'"
           >
-            <h3 class="font-semibold">
-              <span x-text="product.name"></span>
-              <template x-if="product.colors.length > 1">
-                <span x-text="`(${currentColor})`">()</span>
-              </template>
-            </h3>
+            <h3
+              x-text="`${product.name}${product.colors.length > 1 ? ` (${currentColor})` : ''}`"
+              class="font-semibold"
+            ></h3>
           </a>
 
-          <div class="space-x-1 text-sm">
+          <div class="space-x-1">
             <span
               :class="product.discount && 'line-through text-gray-400'"
               x-text="`$${product.price}`"
             ></span>
-            <span
-              x-show="product.discount"
-              x-text="`$${Math.round(product.price * (100 - product.discount.split('%')[0]) / 100) }`"
-              class="text-gray-600"
-            ></span>
-            <span
-              x-show="product.discount"
-              x-text="`-${product.discount}`"
-              class="px-2 rounded-xl text-xs text-red-600 border border-red-600"
-            ></span>
+            <template x-if="product.discount">
+              <span
+                x-text="`$${Math.round(product.price * (100 - product.discount.split('%')[0]) / 100) }`"
+                class="text-gray-600"
+              ></span>
+              <span
+                x-text="`-${product.discount}`"
+                class="px-2 rounded-xl text-xs text-red-600 border border-red-600"
+              ></span>
+            </template>
           </div>
 
           <template x-if="product.colors.length > 1">
