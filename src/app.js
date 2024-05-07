@@ -34,7 +34,7 @@ const style = {
     footer: 'text-gray-700 hover:underline',
   },
   btn: {
-    raw: 'inline-block px-4 py-3 rounded-md text-sm select-none font-medium text-white transform active:scale-95 transition',
+    raw: 'inline-block px-4 py-3 flex items-center rounded-md text-sm select-none font-medium text-white transform active:scale-95 transition',
     get primary() {
       return this.color('zinc');
     },
@@ -42,10 +42,10 @@ const style = {
       return this.outlinedColor('zinc');
     },
     get secondary() {
-      return `${this.raw.replace('text-white','text-slate-700')} bg-slate-300/50 border border-slate-300/50 hover:bg-slate-300/75 hover:border-slate-300/75`;
+      return `${this.raw.replace('text-white','text-slate-700')} bg-slate-300/50 border-2 border-slate-300/50 hover:bg-slate-300/75 hover:border-slate-300/75`;
     },
     color(tailwindColor) {
-      return `${this.raw} bg-${tailwindColor}-600 border border-${tailwindColor}-600 hover:bg-${tailwindColor}-700 hover:border-${tailwindColor}-700`;
+      return `${this.raw} bg-${tailwindColor}-600 border-2 border-${tailwindColor}-600 hover:bg-${tailwindColor}-700 hover:border-${tailwindColor}-700`;
     },
     outlinedColor(tailwindColor) {
       return `${this.color(tailwindColor)
