@@ -43,7 +43,7 @@
     @dragstart.prevent
   >
     <nav class="sticky top-0 bg-inherit border-b border-gray-300 z-[1]">
-      <div class="max-w-screen-xl mx-auto px-4 py-2 flex items-center gap-4">
+      <div class="max-w-screen-xl mx-auto px-4 py-2 flex items-center gap-x-2 md:gap-x-4">
         <button
           class="p-2 rounded-full hover:bg-gray-200 transition md:hidden"
           x-html="svg('menu')"
@@ -190,7 +190,7 @@
       @click.outside="sideMenu.close()"
       @resize.window="sideMenu.close()"
     >
-      <section class="px-4 py-2 flex bg-gray-100 border-b border-gray-300">
+      <section class="px-4 py-2 flex gap-x-2 bg-gray-100 border-b border-gray-300">
         <button
           class="p-2 aspect-square rounded-full flex justify-center items-center text-gray-700 hover:bg-gray-200 transition"
           x-html="svg('menu')"
@@ -198,7 +198,7 @@
         ></button>
         <a
           href="#/"
-          class="ml-4 py-2 font-bold text-lg text-gray-900"
+          class="py-2 font-bold text-lg text-gray-900"
           x-text="BRAND_NAME"
         ></a>
       </section>
