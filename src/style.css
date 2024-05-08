@@ -16,8 +16,38 @@ body {
   pointer-events: none;
 }
 
-#side-menu::-webkit-scrollbar {
+#side-menu::-webkit-scrollbar,
+#products-filter::-webkit-scrollbar {
   width: 0;
+}
+
+input[type='range'] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  pointer-events: none;
+}
+input[type='range']::-webkit-slider-thumb {
+  pointer-events: auto;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background-color: whitesmoke;
+  border: 2px solid #333;
+  border-radius: 50%;
+}
+input[type='range']::-moz-range-thumb {
+  pointer-events: auto;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background-color: whitesmoke;
+  border: 2px solid #333;
+  border-radius: 50%;
 }
 
 .white {
