@@ -34,24 +34,25 @@ const style = {
     footer: 'text-gray-700 hover:underline',
   },
   btn: {
-    raw: 'inline-block px-4 py-3 flex items-center rounded-md text-sm select-none font-medium text-white transform active:scale-95 transition',
-    get primary() {
-      return this.color('zinc');
+    raw: 'inline-block px-4 py-3 flex items-center rounded-md text-sm border-2 select-none font-medium active:scale-95 transition',
+    get dark() {
+      return `${this.raw} text-zinc-100 bg-zinc-600 border-zinc-600 hover:bg-zinc-700 hover:border-zinc-700`;
+    },
+    get light() {
+      return `${this.raw} text-zinc-700 bg-zinc-200 border-zinc-200 hover:brightness-95`;
     },
     get outlined() {
-      return this.outlinedColor('zinc');
+      return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-600 hover:brightness-95`;
     },
-    get secondary() {
-      return `${this.raw.replace('text-white','text-slate-700')} bg-slate-300/50 border-2 border-slate-300/50 hover:bg-slate-300/75 hover:border-slate-300/75`;
+    roundedRaw: 'p-2 aspect-square rounded-full flex justify-center items-center border-2 active:scale-95 transition',
+    get roundedDark() {
+      return this.dark.replace(this.raw, this.roundedRaw);
     },
-    color(tailwindColor) {
-      return `${this.raw} bg-${tailwindColor}-600 border-2 border-${tailwindColor}-600 hover:bg-${tailwindColor}-700 hover:border-${tailwindColor}-700`;
+    get roundedLight() {
+      return this.light.replace(this.raw, this.roundedRaw);
     },
-    outlinedColor(tailwindColor) {
-      return `${this.color(tailwindColor)
-        .replace('text-white', `text-${tailwindColor}-600`)
-        .replace(`bg-${tailwindColor}-600`, 'bg-gray-100')
-        .replace(`hover:bg-${tailwindColor}-700`, `hover:bg-gray-200/50`)}`;
+    get roundedOutlined() {
+      return this.outlined.replace(this.raw, this.roundedRaw);
     },
   },
 };
