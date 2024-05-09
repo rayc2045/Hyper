@@ -43,11 +43,11 @@
     @dragstart.prevent
   >
     <nav class="sticky top-0 bg-inherit border-b border-gray-300 z-[1]">
-      <div class="max-w-screen-xl mx-auto px-4 sm:px-8 py-2 flex items-center gap-x-2 md:gap-x-4">
+      <div class="max-w-screen-xl mx-auto px-6 md:pl-8 py-2 flex items-center gap-x-2 md:gap-x-4">
         <button
-          class="p-2 rounded-full hover:bg-gray-200 transition md:hidden"
+          class="p-2 md:hidden"
           x-html="svg('menu')"
-          @click="sideMenu.show()"
+          @click="overlay.show(); sideMenu.show()"
         ></button>
         <a
           href="#/"
@@ -187,14 +187,14 @@
       x-transition:leave="transition ease-gentle duration-300"
       x-transition:leave-start="translate-x-0"
       x-transition:leave-end="-translate-x-full"
-      @click.outside="sideMenu.hide()"
-      @resize.window="sideMenu.hide()"
+      @click.outside="sideMenu.hide(); overlay.hide();"
+      @resize.window="sideMenu.hide(); overlay.hide();"
     >
-      <section class="px-4 py-2 flex gap-x-2 bg-gray-100 border-b border-gray-300">
+      <section class="px-6 py-2 flex gap-x-2 bg-gray-100 border-b border-gray-300">
         <button
-          class="p-2 aspect-square rounded-full flex justify-center items-center text-gray-700 hover:bg-gray-200 transition"
+          class="p-2"
           x-html="svg('menu')"
-          @click="sideMenu.hide()"
+          @click="sideMenu.hide(); overlay.hide();"
         ></button>
         <a
           href="#/"
@@ -331,7 +331,7 @@
     </aside>
 
     <section id="announcement" class="bg-gray-200 border-b border-gray-300">
-      <div class="mx-auto max-w-screen-xl px-4 sm:px-8 flex text-sm font-medium">
+      <div class="mx-auto max-w-screen-xl px-4 sm:px-6 flex text-sm font-medium">
         <a
           href="https://github.com/rayc2045/Hyper"
           rel="noreferrer"
@@ -354,7 +354,7 @@
     <main
       class="flex-1"
       x-init="await router.init()"
-      @hashchange.window="sideMenu.hide(); await scrollToTop(); router.updatePath(); router.renderPage();"
+      @hashchange.window="sideMenu.hide(); overlay.hide(); await scrollToTop(); router.updatePath(); router.renderPage();"
     >
       <div class="max-w-screen-xl mx-auto px-4 sm:px-8 py-12">
         <h1
@@ -470,7 +470,7 @@
 
     <span
       id="breakpoint"
-      class="fixed right-5 bottom-5 text-xl text-[indianred] font-bold pointer-events-none"
+      class="fixed right-6 bottom-6 text-xl text-[indianred] font-bold pointer-events-none"
       x-text="getBreakpointName()"
       @resize.window="$el.textContent = getBreakpointName()"
     ></span>

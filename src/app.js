@@ -176,12 +176,10 @@ const overlay = {
 const sideMenu = {
   isShow: false,
   show() {
-    overlay.show();
     this.isShow = true;
   },
   hide() {
     this.isShow = false;
-    overlay.hide();
   },
 };
 
