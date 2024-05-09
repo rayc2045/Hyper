@@ -34,7 +34,7 @@ const style = {
     footer: 'text-gray-700 hover:underline',
   },
   btn: {
-    raw: 'inline-block px-4 py-3 flex items-center rounded-md text-sm border-2 select-none font-medium active:scale-95 transition',
+    raw: 'inline-block px-4 py-3 flex justify-center items-center rounded-md text-sm border-2 select-none font-medium active:scale-95 transition',
     get dark() {
       return `${this.raw} text-zinc-100 bg-zinc-600 border-zinc-600 hover:bg-zinc-700 hover:border-zinc-700`;
     },
