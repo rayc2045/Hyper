@@ -34,6 +34,7 @@
   </div>
   <div class="flex gap-x-12">
     <aside
+      id="side-products-filter"
       class="block fixed left-0 top-0 w-full max-w-72 h-dvh flex flex-col justify-between bg-gray-100 select-none z-[1]"
       style="display: none"
       x-show="filter.isShow"
@@ -46,9 +47,7 @@
       @click.outside="filter.hide()"
       @resize.window="filter.hide()"
     >
-      <section
-        class="px-8 py-4 shadow flex justify-between items-center text-gray-500"
-      >
+      <section class="px-8 pr-4 py-4 shadow flex justify-between items-center text-gray-500">
         <div
           x-data="{
             get length() {
@@ -65,16 +64,17 @@
         </button>
       </section>
       <div
-        id="products-filter≤md"
         x-html="component('products-filter')"
         class="flex-1 px-8 overflow-y-auto"
       ></div>
     </aside>
+
     <aside
       id="products-filter-lg"
       x-html="component('products-filter')"
       class="hidden lg:block w-48 xl:w-56 select-none"
     ></aside>
+
     <div class="flex-1">
       <ul
         id="products"
@@ -83,9 +83,9 @@
         <template x-for="product in shop.filteredProducts" :key="product.name">
           <li
             x-data="{
-            lowerName: product.name.toLowerCase().replaceAll(' ', '_'),
-            currentColor: product.colors[0],
-          }"
+              lowerName: product.name.toLowerCase().replaceAll(' ', '_'),
+              currentColor: product.colors[0],
+            }"
             :class="product.stock !== 'in stock' && 'disabled'"
           >
             <a
