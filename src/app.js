@@ -61,6 +61,9 @@ const utils = {
   async svg(name) {
     return await this.getData(`./src/images/svg/${name}.svg`, 'text');
   },
+  async component(name) {
+    return await this.getData(`./src/components/${name}.html`, 'text');
+  },
   async getData(url, type = 'json') {
     const response = await fetch(url);
     return await response[type]();

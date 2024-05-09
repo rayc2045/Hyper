@@ -1,197 +1,80 @@
-<div>
+<div
+  x-data="{
+    filter: {
+      isShow: false,
+      show() {
+        overlay.show();
+        this.isShow = true;
+      },
+      hide() {
+        this.isShow = false;
+        overlay.hide();
+      }
+    }
+  }"
+>
   <div class="mb-8 flex items-center text-gray-500">
     <div
-      x-data="{ get length() { return shop.filteredProducts.length; } }"
+      id="product-num"
+      x-data="{
+        get length() {
+          return shop.filteredProducts.length;
+        }
+      }"
       x-text="`${length} product${length > 1 ? 's' : ''}`"
     ></div>
+    <button
+      id="filter-button"
+      :class="btn.outlined"
+      class="ml-auto rounded-3xl lg:hidden"
+      @click="filter.show()"
+    >
+      <span x-html="svg('filter')"></span>&nbsp;Filters
+    </button>
   </div>
   <div class="flex gap-x-12">
     <aside
-      id="products-filter"
-      class="hidden lg:block w-48 xl:w-56 select-none"
+      class="block fixed left-0 top-0 w-full max-w-72 h-dvh flex flex-col justify-between bg-gray-100 select-none z-[1]"
+      style="display: none"
+      x-show="filter.isShow"
+      x-transition:enter="transition ease-gentle duration-300"
+      x-transition:enter-start="-translate-x-full"
+      x-transition:enter-end="translate-x-0"
+      x-transition:leave="transition ease-gentle duration-300"
+      x-transition:leave-start="translate-x-0"
+      x-transition:leave-end="-translate-x-full"
+      @click.outside="filter.hide()"
+      @resize.window="filter.hide()"
     >
-      <section class="py-8 border-t border-gray-300">
-        <h3 class="text-lg mb-8">Category</h3>
-        <template x-for="item in shop.filter.categories.toSorted()" :key="item">
-          <label
-            :for="`item-${item}`"
-            class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
-            @change="shop.filterOption.categories.includes(item) ? shop.filterOption.categories.splice(shop.filterOption.categories.indexOf(item), 1) : shop.filterOption.categories.push(item);"
-          >
-            <input
-              type="checkbox"
-              :id="`item-${item}`"
-              class="size-5 sr-only"
-            />
-            <span
-              x-show="!shop.filterOption.categories.includes(item)"
-              x-html="svg('square')"
-              class="text-gray-900"
-            ></span>
-            <span
-              x-show="shop.filterOption.categories.includes(item)"
-              x-html="svg('checkbox')"
-              class="text-gray-700"
-            ></span>
-            <span
-              x-text="`${item[0].toUpperCase() + item.slice(1)}`"
-              class="text-gray-900"
-            ></span>
-            <span
-              x-text="`(${shop.products.filter(p => p.category === item).length})`"
-              class="text-gray-500"
-            ></span>
-          </label>
-        </template>
-      </section>
-
-      <section class="py-8 border-t border-gray-300">
-        <h3 class="text-lg mb-8">Price</h3>
+      <section
+        class="px-8 py-4 shadow flex justify-between items-center text-gray-500"
+      >
         <div
-          class="relative w-[95%] h-8 mx-auto flex items-center"
-          aria-hidden="false"
+          x-data="{
+            get length() {
+              return shop.filteredProducts.length;
+            }
+          }"
+          x-text="`${length} product${length > 1 ? 's' : ''}`"
+        ></div>
+        <button
+          class="p-3 aspect-square rounded-full flex justify-center items-center text-gray-500 hover:text-gray-700 bg-gray-200 hover:bg-gray-300/80 transition"
+          @click="filter.hide()"
         >
-          <div class="w-full absolute border-t border border-gray-300"></div>
-          <div
-            class="absolute border-t border border-gray-700"
-            :class="`w-[${(shop.filterOption.price.max - shop.filterOption.price.min) / (shop.filter.price.max - shop.filter.price.min) * 100}%] left-[${(shop.filterOption.price.min - shop.filter.price.min) / shop.filter.price.max * 100}%]`"
-          ></div>
-          <input
-            type="range"
-            class="w-full absolute"
-            :min="shop.filter.price.min"
-            :max="shop.filter.price.max"
-            step="1"
-            x-model="shop.filterOption.price.min"
-            @input="if (shop.filterOption.price.min >= shop.filterOption.price.max - 50) shop.filterOption.price.min = shop.filterOption.price.max - 50;"
-            aria-label="Filter products by minimum price"
-            :aria-valuetext="shop.filterOption.price.min"
-            tabindex="0"
-          />
-          <input
-            type="range"
-            class="w-full absolute"
-            :min="shop.filter.price.min"
-            :max="shop.filter.price.max"
-            step="1"
-            x-model="shop.filterOption.price.max"
-            @input="if (shop.filterOption.price.max <= shop.filterOption.price.min + 50) shop.filterOption.price.max = shop.filterOption.price.min + 50;"
-            aria-label="Filter products by maximum price"
-            :aria-valuetext="shop.filterOption.price.max"
-            tabindex="0"
-          />
-        </div>
-        <div class="flex justify-between">
-          <span x-text="'$' + shop.filterOption.price.min"></span>
-          <span x-text="'$' + shop.filterOption.price.max"></span>
-        </div>
+          ✕
+        </button>
       </section>
-
-      <section class="py-8 border-t border-gray-300">
-        <h3 class="text-lg mb-8">Discount</h3>
-        <template x-for="item in shop.filter.discounts" :key="item">
-          <label
-            :for="`item-${item}`"
-            class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
-            @change="shop.filterOption.discounts.includes(item) ? shop.filterOption.discounts.splice(shop.filterOption.discounts.indexOf(item), 1) : shop.filterOption.discounts.push(item);"
-          >
-            <input
-              type="checkbox"
-              :id="`item-${item}`"
-              class="size-5 sr-only"
-            />
-            <span
-              x-show="!shop.filterOption.discounts.includes(item)"
-              x-html="svg('square')"
-              class="text-gray-900"
-            ></span>
-            <span
-              x-show="shop.filterOption.discounts.includes(item)"
-              x-html="svg('checkbox')"
-              class="text-gray-700"
-            ></span>
-            <span
-              x-text="`${item[0].toUpperCase() + item.slice(1)}`"
-              class="text-gray-900"
-            ></span>
-            <span
-              x-text="`(${shop.products.filter(p => p.discount === item).length})`"
-              class="text-gray-500"
-            ></span>
-          </label>
-        </template>
-      </section>
-
-      <section class="py-8 border-t border-gray-300">
-        <h3 class="text-lg mb-8">Color</h3>
-        <template x-for="item in shop.filter.colors.toSorted()" :key="item">
-          <label
-            :for="`item-${item}`"
-            class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
-            @change="shop.filterOption.colors.includes(item) ? shop.filterOption.colors.splice(shop.filterOption.colors.indexOf(item), 1) : shop.filterOption.colors.push(item);"
-          >
-            <input
-              type="checkbox"
-              :id="`item-${item}`"
-              class="size-5 sr-only"
-            />
-            <span
-              x-show="!shop.filterOption.colors.includes(item)"
-              x-html="svg('square')"
-              class="text-gray-900"
-            ></span>
-            <span
-              x-show="shop.filterOption.colors.includes(item)"
-              x-html="svg('checkbox')"
-              class="text-gray-700"
-            ></span>
-            <span
-              x-text="`${item[0].toUpperCase() + item.slice(1)}`"
-              class="text-gray-900"
-            ></span>
-            <span
-              x-text="`(${shop.products.filter(p => p.colors.includes(item)).length})`"
-              class="text-gray-500"
-            ></span>
-          </label>
-        </template>
-      </section>
-
-      <section class="py-8 border-t border-gray-300">
-        <h3 class="text-lg mb-8">Stock</h3>
-        <template x-for="item in shop.filter.stocks.toSorted()" :key="item">
-          <label
-            :for="`item-${item}`"
-            class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
-            @change="shop.filterOption.stocks.includes(item) ? shop.filterOption.stocks.splice(shop.filterOption.stocks.indexOf(item), 1) : shop.filterOption.stocks.push(item);"
-          >
-            <input
-              type="checkbox"
-              :id="`item-${item}`"
-              class="size-5 sr-only"
-            />
-            <span
-              x-show="!shop.filterOption.stocks.includes(item)"
-              x-html="svg('square')"
-              class="text-gray-900"
-            ></span>
-            <span
-              x-show="shop.filterOption.stocks.includes(item)"
-              x-html="svg('checkbox')"
-              class="text-gray-700"
-            ></span>
-            <span
-              x-text="`${item[0].toUpperCase() + item.slice(1)}`"
-              class="text-gray-900"
-            ></span>
-            <span
-              x-text="`(${shop.products.filter(p => p.stock === item).length})`"
-              class="text-gray-500"
-            ></span>
-          </label>
-        </template>
-      </section>
+      <div
+        id="products-filter≤md"
+        x-html="component('products-filter')"
+        class="flex-1 px-8 overflow-y-auto"
+      ></div>
     </aside>
+    <aside
+      id="products-filter-lg"
+      x-html="component('products-filter')"
+      class="hidden lg:block w-48 xl:w-56 select-none"
+    ></aside>
     <div class="flex-1">
       <ul
         id="products"

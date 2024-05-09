@@ -1,0 +1,165 @@
+<section class="py-8 border-t border-gray-300">
+  <h3 class="text-lg mb-8">Category</h3>
+  <template x-for="item in shop.filter.categories.toSorted()" :key="item">
+    <label
+      :for="`item-${item}`"
+      class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
+      @change="shop.filterOption.categories.includes(item) ? shop.filterOption.categories.splice(shop.filterOption.categories.indexOf(item), 1) : shop.filterOption.categories.push(item);"
+    >
+      <input type="checkbox" :id="`item-${item}`" class="size-5 sr-only" />
+      <span
+        x-show="!shop.filterOption.categories.includes(item)"
+        x-html="svg('square')"
+        class="text-gray-900"
+      ></span>
+      <span
+        x-show="shop.filterOption.categories.includes(item)"
+        x-html="svg('checkbox')"
+        class="text-gray-700"
+      ></span>
+      <span
+        x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+        class="text-gray-900"
+      ></span>
+      <span
+        x-text="`(${shop.products.filter(p => p.category === item).length})`"
+        class="text-gray-500"
+      ></span>
+    </label>
+  </template>
+</section>
+
+<section class="py-8 border-t border-gray-300">
+  <h3 class="text-lg mb-8">Price</h3>
+  <div
+    class="relative w-[95%] h-8 mx-auto flex items-center"
+    aria-hidden="false"
+  >
+    <div class="w-full absolute border-t border border-gray-300"></div>
+    <div
+      class="absolute border-t border border-gray-700"
+      :class="`w-[${(shop.filterOption.price.max - shop.filterOption.price.min) / (shop.filter.price.max - shop.filter.price.min) * 100}%] left-[${(shop.filterOption.price.min - shop.filter.price.min) / shop.filter.price.max * 100}%]`"
+    ></div>
+    <input
+      type="range"
+      class="w-full absolute"
+      :min="shop.filter.price.min"
+      :max="shop.filter.price.max"
+      step="1"
+      x-model="shop.filterOption.price.min"
+      @input="if (shop.filterOption.price.min >= shop.filterOption.price.max - 50) shop.filterOption.price.min = shop.filterOption.price.max - 50;"
+      aria-label="Filter products by minimum price"
+      :aria-valuetext="shop.filterOption.price.min"
+      tabindex="0"
+    />
+    <input
+      type="range"
+      class="w-full absolute"
+      :min="shop.filter.price.min"
+      :max="shop.filter.price.max"
+      step="1"
+      x-model="shop.filterOption.price.max"
+      @input="if (shop.filterOption.price.max <= shop.filterOption.price.min + 50) shop.filterOption.price.max = shop.filterOption.price.min + 50;"
+      aria-label="Filter products by maximum price"
+      :aria-valuetext="shop.filterOption.price.max"
+      tabindex="0"
+    />
+  </div>
+  <div class="flex justify-between">
+    <span x-text="'$' + shop.filterOption.price.min"></span>
+    <span x-text="'$' + shop.filterOption.price.max"></span>
+  </div>
+</section>
+
+<section class="py-8 border-t border-gray-300">
+  <h3 class="text-lg mb-8">Discount</h3>
+  <template x-for="item in shop.filter.discounts" :key="item">
+    <label
+      :for="`item-${item}`"
+      class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
+      @change="shop.filterOption.discounts.includes(item) ? shop.filterOption.discounts.splice(shop.filterOption.discounts.indexOf(item), 1) : shop.filterOption.discounts.push(item);"
+    >
+      <input type="checkbox" :id="`item-${item}`" class="size-5 sr-only" />
+      <span
+        x-show="!shop.filterOption.discounts.includes(item)"
+        x-html="svg('square')"
+        class="text-gray-900"
+      ></span>
+      <span
+        x-show="shop.filterOption.discounts.includes(item)"
+        x-html="svg('checkbox')"
+        class="text-gray-700"
+      ></span>
+      <span
+        x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+        class="text-gray-900"
+      ></span>
+      <span
+        x-text="`(${shop.products.filter(p => p.discount === item).length})`"
+        class="text-gray-500"
+      ></span>
+    </label>
+  </template>
+</section>
+
+<section class="py-8 border-t border-gray-300">
+  <h3 class="text-lg mb-8">Color</h3>
+  <template x-for="item in shop.filter.colors.toSorted()" :key="item">
+    <label
+      :for="`item-${item}`"
+      class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
+      @change="shop.filterOption.colors.includes(item) ? shop.filterOption.colors.splice(shop.filterOption.colors.indexOf(item), 1) : shop.filterOption.colors.push(item);"
+    >
+      <input type="checkbox" :id="`item-${item}`" class="size-5 sr-only" />
+      <span
+        x-show="!shop.filterOption.colors.includes(item)"
+        x-html="svg('square')"
+        class="text-gray-900"
+      ></span>
+      <span
+        x-show="shop.filterOption.colors.includes(item)"
+        x-html="svg('checkbox')"
+        class="text-gray-700"
+      ></span>
+      <span
+        x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+        class="text-gray-900"
+      ></span>
+      <span
+        x-text="`(${shop.products.filter(p => p.colors.includes(item)).length})`"
+        class="text-gray-500"
+      ></span>
+    </label>
+  </template>
+</section>
+
+<section class="py-8 border-t border-gray-300">
+  <h3 class="text-lg mb-8">Stock</h3>
+  <template x-for="item in shop.filter.stocks.toSorted()" :key="item">
+    <label
+      :for="`item-${item}`"
+      class="mt-4 flex items-center gap-x-2 cursor-pointer accent-gray-600"
+      @change="shop.filterOption.stocks.includes(item) ? shop.filterOption.stocks.splice(shop.filterOption.stocks.indexOf(item), 1) : shop.filterOption.stocks.push(item);"
+    >
+      <input type="checkbox" :id="`item-${item}`" class="size-5 sr-only" />
+      <span
+        x-show="!shop.filterOption.stocks.includes(item)"
+        x-html="svg('square')"
+        class="text-gray-900"
+      ></span>
+      <span
+        x-show="shop.filterOption.stocks.includes(item)"
+        x-html="svg('checkbox')"
+        class="text-gray-700"
+      ></span>
+      <span
+        x-text="`${item[0].toUpperCase() + item.slice(1)}`"
+        class="text-gray-900"
+      ></span>
+      <span
+        x-text="`(${shop.products.filter(p => p.stock === item).length})`"
+        class="text-gray-500"
+      ></span>
+    </label>
+  </template>
+</section>
