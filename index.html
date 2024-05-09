@@ -36,10 +36,10 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.x.x/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, sideMenu, router, shop, cart, user }"
+    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, overlay, sideMenu, router, shop, cart, user }"
     x-init="await shop.init()"
     class="min-h-dvh flex flex-col tracking-wide bg-gray-100"
-    :class="sideMenu.isOpen && 'overflow-hidden'"
+    :class="overlay.isShow && 'overflow-hidden'"
     @dragstart.prevent
   >
     <nav class="sticky top-0 bg-inherit border-b border-gray-300 z-[1]">
@@ -47,7 +47,7 @@
         <button
           class="p-2 rounded-full hover:bg-gray-200 transition md:hidden"
           x-html="svg('menu')"
-          @click="sideMenu.open()"
+          @click="sideMenu.show()"
         ></button>
         <a
           href="#/"
@@ -172,7 +172,7 @@
     <div
       id="overlay"
       x-cloak
-      x-show="sideMenu.isOpen"
+      x-show="overlay.isShow"
       x-transition.opacity.duration.300ms
       class="fixed left-0 top-0 w-full h-full bg-zinc-600/50 z-[1]"
     ></div>
@@ -180,21 +180,21 @@
       id="side-menu"
       class="block fixed w-full max-w-80 h-dvh flex flex-col justify-between bg-inherit border-r border-2 shadow-xl select-none z-[1]"
       style="display: none"
-      x-show="sideMenu.isOpen"
+      x-show="sideMenu.isShow"
       x-transition:enter="transition ease-gentle duration-300"
       x-transition:enter-start="-translate-x-full"
       x-transition:enter-end="translate-x-0"
       x-transition:leave="transition ease-gentle duration-300"
       x-transition:leave-start="translate-x-0"
       x-transition:leave-end="-translate-x-full"
-      @click.outside="sideMenu.close()"
-      @resize.window="sideMenu.close()"
+      @click.outside="sideMenu.hide()"
+      @resize.window="sideMenu.hide()"
     >
       <section class="px-4 py-2 flex gap-x-2 bg-gray-100 border-b border-gray-300">
         <button
           class="p-2 aspect-square rounded-full flex justify-center items-center text-gray-700 hover:bg-gray-200 transition"
           x-html="svg('menu')"
-          @click="sideMenu.close()"
+          @click="sideMenu.hide()"
         ></button>
         <a
           href="#/"
@@ -354,7 +354,7 @@
     <main
       class="flex-1"
       x-init="await router.init()"
-      @hashchange.window="sideMenu.close(); await scrollToTop(); router.updatePath(); router.renderPage();"
+      @hashchange.window="sideMenu.hide(); await scrollToTop(); router.updatePath(); router.renderPage();"
     >
       <div class="max-w-screen-xl mx-auto px-4 sm:px-8 py-12">
         <h1

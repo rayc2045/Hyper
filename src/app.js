@@ -163,13 +163,25 @@ const utils = {
   },
 };
 
-const sideMenu = {
-  isOpen: false,
-  open() {
-    this.isOpen = true;
+const overlay = {
+  isShow: false,
+  show() {
+    this.isShow = true;
   },
-  close() {
-    this.isOpen = false;
+  hide() {
+    this.isShow = false;
+  },
+};
+
+const sideMenu = {
+  isShow: false,
+  show() {
+    overlay.show();
+    this.isShow = true;
+  },
+  hide() {
+    this.isShow = false;
+    overlay.hide();
   },
 };
 
