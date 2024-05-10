@@ -25,7 +25,7 @@
     <!-- Noto Sans TC -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500,700&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,500,700,900&display=swap"/>
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./src/style.css"/>
@@ -368,6 +368,7 @@
     >
       <div class="max-w-screen-xl mx-auto px-4 sm:px-8 py-12">
         <h1
+          x-show="router.currentRoute.title"
           x-text="router.currentRoute.title"
           class="mb-12 text-4xl font-bold"
         ></h1>
