@@ -174,7 +174,7 @@
             }
           }"
           class="p-2 relative after:absolute after:rounded-full after:flex after:justify-center after:items-center after:text-xs after:text-gray-100 after:bg-red-600"
-          :class="`after:content-['${num}'] after:size-${num >= 100 ? 6 : num >= 10 ? 5 : 4} ${num >= 100 ? 'after:-right-1.5 after:-top-1.5' : num >= 10 ? 'after:-right-0.5 after:-top-0.5' : 'after:right-0 after:top-0'}`"
+          :class="`after:content-['${num}'] after:size-${num >= 100 ? 6 : num >= 10 ? 5 : num > 0 ? 4 : 0} ${num >= 100 ? 'after:-right-1.5 after:-top-1.5' : num >= 10 ? 'after:-right-0.5 after:-top-0.5' : 'after:right-0 after:top-0'}`"
         ></a>
       </div>
     </nav>
