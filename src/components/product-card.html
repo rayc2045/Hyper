@@ -20,20 +20,11 @@
 
     <div class="flex justify-between items-start">
       <div id="product-title">
-        <small class="text-xs font-semibold">
-          <template x-if="product.stock === 'in stock'">
-            <span
-              x-text="product.label && product.label[0].toUpperCase() + product.label.slice(1)"
-              class="text-red-500"
-            ></span>
-          </template>
-          <template x-if="product.stock !== 'in stock'">
-            <span
-              x-text="product.stock[0].toUpperCase() + product.stock.slice(1)"
-              class="text-blue-500"
-            ></span>
-          </template>
-        </small>
+        <small
+          x-text="product.stock === 'in stock' ? (product.label && product.label[0].toUpperCase() + product.label.slice(1)) : product.stock[0].toUpperCase() + product.stock.slice(1)"
+          class="text-xs font-semibold"
+          :class="`text-${product.stock === 'in stock' ? 'red' : 'blue'}-500`"
+        ></small>
         <a
           :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
           class="block mb-1"
