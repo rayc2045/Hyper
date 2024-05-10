@@ -37,7 +37,7 @@
   </head>
   <body
     x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, overlay, sideMenu, router, shop, cart, user }"
-    x-init="await shop.init()"
+    x-init="await shop.init(); await cart.init();"
     class="min-h-dvh flex flex-col tracking-wide bg-gray-100"
     :class="overlay.isShow && 'overflow-hidden'"
     @dragstart.prevent
@@ -165,7 +165,17 @@
             class="size-6 rounded-full object-cover"
           />
         </a>
-        <a class="p-2" href="#/cart" x-html="svg('cart')"></a>
+        <a
+          href="#/cart"
+          x-html="svg('cart')"
+          x-data="{
+            get num() {
+              return cart.items.reduce((acc, cur) => acc + cur.num, 0);
+            }
+          }"
+          class="p-2 relative after:absolute after:rounded-full after:flex after:justify-center after:items-center after:text-xs after:text-gray-100 after:bg-red-600"
+          :class="`after:content-['${num}'] after:size-${num >= 100 ? 6 : num >= 10 ? 5 : 4} ${num >= 100 ? 'after:-right-1.5 after:-top-1.5' : num >= 10 ? 'after:-right-0.5 after:-top-0.5' : 'after:right-0 after:top-0'}`"
+        ></a>
       </div>
     </nav>
 
@@ -359,13 +369,8 @@
       <div class="max-w-screen-xl mx-auto px-4 sm:px-8 py-12">
         <h1
           x-text="router.currentRoute.title"
-          class="mb-2 text-4xl font-bold"
+          class="mb-12 text-4xl font-bold"
         ></h1>
-        <p
-          x-show="router.currentRoute.title"
-          x-text="router.currentRoute.description"
-          class="mb-12 text-lg"
-        ></p>
         <div id="router-view"></div>
       </div>
     </main>

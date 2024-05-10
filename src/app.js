@@ -339,7 +339,10 @@ const shop = {
 
 const cart = {
   storeName: 'cart-items',
-  items: localStore.get(this.storeName) || [],
+  items: [],
+  init() {
+    this.items = localStore.get(this.storeName) || [];
+  },
   addItem(item) {
     let isInCart = false;
     for (const cartItem of this.items)
