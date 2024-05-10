@@ -9,14 +9,14 @@ const prefer = {
 
 const STORAGE_KEY = `${BRAND_NAME.replaceAll(' ', '-')}-hyper-app`;
 const localStore = {
-  fetch() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
+  get(name) {
+    return JSON.parse(localStorage.getItem(`${STORAGE_KEY}-${name}`));
   },
-  save(id) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(id));
+  set(name, data) {
+    localStorage.setItem(`${STORAGE_KEY}-${name}`, JSON.stringify(data));
   },
-  remove() {
-    localStorage.removeItem(STORAGE_KEY);
+  remove(name) {
+    localStorage.removeItem(`${STORAGE_KEY}-${name}`);
   },
 };
 
@@ -338,9 +338,11 @@ const shop = {
 };
 
 const cart = {
-  items: [],
+  storeName: 'cart-items',
+  items: localStore.get(this.storeName) || [],
   addItem(item) {
     this.items.push(item);
+    localStore.set(this.storeName, cart.items);
   },
 };
 

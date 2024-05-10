@@ -129,6 +129,14 @@
                     x-html="svg('bag')"
                     class="mt-4 ml-1"
                     :class="btn.roundedLight"
+                    @click="cart.addItem({
+                      name: product.name,
+                      color: currentColor,
+                      category: product.category,
+                      price: product.price,
+                      discount: product.discount,
+                      SKU: product.SKU,
+                    })"
                   ></button>
                 </template>
               </div>
