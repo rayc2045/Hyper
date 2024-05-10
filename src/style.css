@@ -13,6 +13,7 @@ body {
 
 .disabled {
   opacity: 0.65;
+  user-select: none;
   pointer-events: none;
 }
 
