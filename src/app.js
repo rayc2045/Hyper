@@ -341,8 +341,28 @@ const cart = {
   storeName: 'cart-items',
   items: localStore.get(this.storeName) || [],
   addItem(item) {
-    this.items.push(item);
+    let isInCart = false;
+    for (const cartItem of this.items)
+      if (cartItem.name === item.name && cartItem.color === item.color) {
+        isInCart = true;
+        cartItem.num++;
+        break;
+      }
+    if (!isInCart) this.items.push({ ...item, num: 1 });
     localStore.set(this.storeName, cart.items);
+  },
+  deleteItem(item) {
+    this.items.splice(
+      this.items.findIndex(cartItem => cartItem.name === item.name && cartItem.color === item.color),
+      1
+    );
+    this.items.length
+      ? localStore.set(this.storeName, cart.items)
+      : localStore.remove(this.storeName);
+  },
+  deleteAll() {
+    this.items.length = 0;
+    localStore.remove(this.storeName);
   },
 };
 
