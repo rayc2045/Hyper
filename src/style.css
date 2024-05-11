@@ -71,6 +71,10 @@ input[type='range']::-moz-range-thumb {
   background-color: olivedrab;
 }
 
+.cyan {
+  background-color: lightseagreen;
+}
+
 .blue {
   background-color: steelblue;
 }
