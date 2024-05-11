@@ -341,6 +341,19 @@ const shop = {
     this.filterOption.price.min = this.filter.price.min;
     this.filterOption.price.max = this.filter.price.max;
   },
+  resetFilterOption() {
+    this.filterOption = {
+      labels: [],
+      categories: [],
+      price: {
+        min: this.filter.price.min,
+        max: this.filter.price.max,
+      },
+      discounts: [],
+      colors: [],
+      stocks: [],
+    };
+  },
 };
 
 const cart = {
