@@ -8,13 +8,13 @@
   >
     <a
       :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
-      class="block rounded-md overflow-hidden relative"
+      class="block bg-neutral-200/75 rounded-md overflow-hidden"
     >
       <img
-        :src="`./src/images/products/${lowerName}_${currentColor}.png`"
+        :src="`./src/images/products/${lowerName}_${currentColor}.jpg`"
         :alt="product.name"
         loading="lazy"
-        class="min-w-full hover:brightness-95 transition duration-300"
+        class="min-w-full mix-blend-multiply hover:brightness-95 transition duration-300"
       />
     </a>
 
