@@ -39,7 +39,7 @@ const style = {
       return `${this.raw} text-zinc-100 bg-zinc-600 border-zinc-600 hover:bg-zinc-700 hover:border-zinc-700`;
     },
     get light() {
-      return `${this.raw} text-zinc-700 bg-zinc-200 border-zinc-200 hover:brightness-95`;
+      return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-100 hover:brightness-95`;
     },
     get outlined() {
       return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-600 hover:brightness-95`;
