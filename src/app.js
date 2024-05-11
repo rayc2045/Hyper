@@ -41,6 +41,9 @@ const style = {
     get light() {
       return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-100 hover:brightness-95`;
     },
+    get gray() {
+      return this.light.replaceAll('zinc-100', 'zinc-200');
+    },
     get outlined() {
       return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-600 hover:brightness-95`;
     },
@@ -50,6 +53,9 @@ const style = {
     },
     get roundedLight() {
       return this.light.replace(this.raw, this.roundedRaw);
+    },
+    get roundedGray() {
+      return this.gray.replace(this.raw, this.roundedRaw);
     },
     get roundedOutlined() {
       return this.outlined.replace(this.raw, this.roundedRaw);

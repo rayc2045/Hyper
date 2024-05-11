@@ -56,7 +56,7 @@
           }"
           x-text="`${length} product${length > 1 ? 's' : ''}`"
         ></div>
-        <button :class="btn.roundedLight" @click="filter.hide()">✕</button>
+        <button :class="btn.roundedGray" @click="filter.hide()">✕</button>
       </section>
       <div
         x-html="component('products-filter')"
