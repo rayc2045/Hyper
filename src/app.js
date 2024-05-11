@@ -42,7 +42,7 @@ const style = {
       return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-100 hover:brightness-95`;
     },
     get gray() {
-      return this.light.replaceAll('zinc-100', 'zinc-200');
+      return this.light.replaceAll('zinc-100', 'neutral-200');
     },
     get outlined() {
       return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-600 hover:brightness-95`;
