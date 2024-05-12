@@ -42,7 +42,7 @@
           x-html="svg('bag')"
           class="mt-4 ml-1"
           :class="btn.roundedGray"
-          @click="cart.addItem({
+          @click="await cart.addItem({
             name: product.name,
             color: currentColor,
             category: product.category,

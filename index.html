@@ -36,7 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.x.x/dist/gsap.min.js" defer></script>
   </head>
   <body
-    x-data="{ BRAND_NAME, prefer, localStore, ...style, ...utils, overlay, sideMenu, router, shop, cart, user }"
+    x-data="{ BRAND_NAME, prefer, idxDB, ...style, ...utils, overlay, sideMenu, router, shop, cart, user }"
     x-init="await shop.init(); await cart.init();"
     class="min-h-dvh flex flex-col tracking-wide bg-gray-100"
     :class="overlay.isShow && 'overflow-hidden'"

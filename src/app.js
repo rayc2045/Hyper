@@ -7,16 +7,76 @@ const prefer = {
   motion: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 };
 
-const STORAGE_KEY = `${BRAND_NAME.replaceAll(' ', '-')}-hyper-app`;
-const localStore = {
-  get(name) {
-    return JSON.parse(localStorage.getItem(`${STORAGE_KEY}-${name}`));
+const idxDB = {
+  dbName: BRAND_NAME,
+  storeName: 'store',
+  db: null,
+  async init() {
+    if (!this.db) {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(this.dbName);
+        request.onerror = event => {
+          reject('IndexedDB error: ' + event.target.errorCode);
+        };
+        request.onupgradeneeded = event => {
+          const db = event.target.result;
+          db.createObjectStore(this.storeName, { keyPath: 'key' });
+        };
+        request.onsuccess = event => {
+          this.db = event.target.result;
+          resolve();
+        };
+      });
+    }
   },
-  set(name, data) {
-    localStorage.setItem(`${STORAGE_KEY}-${name}`, JSON.stringify(data));
+  async operate(operation, key, value) {
+    await this.init();
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction(
+        [this.storeName],
+        operation === 'get' ? 'readonly' : 'readwrite'
+      );
+      const objectStore = transaction.objectStore(this.storeName);
+      let request;
+      if (operation === 'get') {
+        request = objectStore.get(key);
+      } else if (operation === 'set') {
+        request = objectStore.put({ key, value });
+      } else if (operation === 'del') {
+        request = objectStore.delete(key);
+      } else if (operation === 'clear') {
+        request = objectStore.clear();
+      } else if (operation === 'keys') {
+        request = objectStore.getAllKeys();
+      }
+      request.onsuccess = () => {
+        if (operation === 'get') {
+          resolve(request.result ? request.result.value : undefined);
+        } else if (operation === 'keys') {
+          resolve(request.result);
+        } else {
+          resolve();
+        }
+      };
+      request.onerror = event => {
+        reject('Error ' + operation + ' data: ' + event.target.errorCode);
+      };
+    });
   },
-  remove(name) {
-    localStorage.removeItem(`${STORAGE_KEY}-${name}`);
+  async get(key) {
+    return this.operate('get', key);
+  },
+  async set(key, value) {
+    return this.operate('set', key, value);
+  },
+  async del(key) {
+    return this.operate('del', key);
+  },
+  async clear() {
+    return this.operate('clear');
+  },
+  async keys() {
+    return this.operate('keys');
   },
 };
 
@@ -357,12 +417,12 @@ const shop = {
 };
 
 const cart = {
-  storeName: 'cart-items',
+  storeKey: 'cartItems',
   items: [],
-  init() {
-    this.items = localStore.get(this.storeName) || [];
+  async init() {
+    this.items = (await idxDB.get(this.storeKey)) || [];
   },
-  addItem(item) {
+  async addItem(item) {
     let isInCart = false;
     for (const cartItem of this.items)
       if (cartItem.name === item.name && cartItem.color === item.color) {
@@ -371,20 +431,16 @@ const cart = {
         break;
       }
     if (!isInCart) this.items.push({ ...item, num: 1 });
-    localStore.set(this.storeName, cart.items);
+    await idxDB.set(this.storeKey, cart.items);
   },
-  deleteItem(item) {
+  async deleteItem(item) {
     this.items.splice(
       this.items.findIndex(cartItem => cartItem.name === item.name && cartItem.color === item.color),
       1
     );
     this.items.length
-      ? localStore.set(this.storeName, cart.items)
-      : localStore.remove(this.storeName);
-  },
-  deleteAll() {
-    this.items.length = 0;
-    localStore.remove(this.storeName);
+      ? await idxDB.set(this.storeKey, cart.items)
+      : await idxDB.del(this.storeKey);
   },
 };
 
