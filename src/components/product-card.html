@@ -64,6 +64,8 @@
           x-text="`$${Math.round(product.price * (100 - product.discount.split('%')[0]) / 100) }`"
           class="text-gray-600"
         ></span>
+      </template>
+      <template x-if="product.discount">
         <span
           x-text="`-${product.discount}`"
           class="px-2 rounded-xl text-xs text-red-600 border border-red-600"
