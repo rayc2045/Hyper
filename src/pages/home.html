@@ -87,4 +87,21 @@
       </div>
     </div>
   </section>
+
+  <section>
+    <h3 class="mb-12 text-xl text-center">Handpicked this Week</h3>
+    <ul class="grid place-content-center grid-cols-2 md:grid-cols-4 gap-8">
+      <template
+        x-for="product in shop.products.filter(p => p.discount.length).slice(0, 4)"
+        :key="product.name"
+      >
+        <li x-html="component('product-card')"></li>
+      </template>
+    </section>
+  </ul>
+
+  <a href="#/shop" :class="btn.dark" class="w-fit mx-auto">
+    Explore the shop&nbsp;
+    <span x-html="svg('arrow-right')" class="text-semibold"></span>
+  </a>
 </div>
