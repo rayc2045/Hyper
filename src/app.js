@@ -398,21 +398,20 @@ const shop = {
     filter.discounts.sort((a, b) => parseFloat(b.split('%')[0]) - parseFloat(a.split('%')[0]));
     return filter;
   },
-  async init() {
+  async loadProducts() {
     this.products = await utils.getData('./src/data/products.json');
-    this.filterOption.price.min = this.filter.price.min;
-    this.filterOption.price.max = this.filter.price.max;
   },
-  resetFilterOption() {
+  initFilterOption() {
+    const toArray = input => typeof input === 'string' ? [input] : input || [];
     this.filterOption = {
-      labels: [],
-      categories: [],
+      labels: toArray(router.currentParam.labels),
+      categories: toArray(router.currentParam.categories),
       price: {
         min: this.filter.price.min,
         max: this.filter.price.max,
       },
       discounts: [],
-      colors: [],
+      colors: toArray(router.currentParam.colors),
       stocks: [],
     };
   },

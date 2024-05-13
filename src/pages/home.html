@@ -1,62 +1,64 @@
-<section
-  class="mb-12 py-48 mx-auto space-y-8 flex flex-col justify-center items-center text-center text-gray-100 bg-[url('./src/images/covers/banner.jpg')] bg-cover bg-center rounded-md"
->
-  <h1 class="text-6xl">
-    <div>Buy less,</div>
-    <div class="font-black">but better</div>
-  </h1>
-  <p class="text-balance">
-    We offer a unique collection of high end items for every home.
-  </p>
-  <a href="#/shop" :class="btn.light">
-    Explore the shop&nbsp;
-    <span x-html="svg('arrow-right')" class="text-semibold"></span>
-  </a>
-</section>
+<div class="space-y-12">
+  <section
+    class="py-48 mx-auto space-y-8 flex flex-col justify-center items-center text-center text-gray-100 bg-[url('./src/images/covers/banner.jpg')] bg-cover bg-center rounded-md"
+  >
+    <h1 class="text-6xl">
+      <div>Buy less,</div>
+      <div class="font-black">but better</div>
+    </h1>
+    <p class="text-balance">
+      We offer a unique collection of high end items for every home.
+    </p>
+    <a href="#/shop" :class="btn.light">
+      Explore the shop&nbsp;
+      <span x-html="svg('arrow-right')" class="text-semibold"></span>
+    </a>
+  </section>
 
-<section class="my-12">
-  <h3 class="mb-12 text-xl text-center">New & Noteworthy</h3>
-  <ul class="grid place-content-center grid-cols-2 md:grid-cols-4 gap-8">
-    <template
-      x-for="product in shop.products.filter(p => p.label === 'new').slice(0, 4)"
-      :key="product.name"
-    >
-      <li x-html="component('product-card')"></li>
-    </template>
-  </ul>
-</section>
+  <section>
+    <h3 class="mb-12 text-xl text-center">New & Noteworthy</h3>
+    <ul class="grid place-content-center grid-cols-2 md:grid-cols-4 gap-8">
+      <template
+        x-for="product in shop.products.filter(p => p.label === 'new').slice(0, 4)"
+        :key="product.name"
+      >
+        <li x-html="component('product-card')"></li>
+      </template>
+    </ul>
+  </section>
 
-<section class="my-12">
-  <div class="grid gap-8 md:grid-cols-3">
-    <a
-      href="#/shop?category=accessory"
-      class="aspect-square rounded-md bg-[url('./src/images/covers/accessories.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
-    >
-      <h3
-        class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+  <section>
+    <div class="grid gap-8 md:grid-cols-3">
+      <a
+        href="#/shop?categories=accessories"
+        class="aspect-square rounded-md bg-[url('./src/images/covers/accessories.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
       >
-        Accessories
-      </h3>
-    </a>
-    <a
-      href="#/shop?category=essential"
-      class="aspect-square rounded-md bg-[url('./src/images/covers/essentials.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
-    >
-      <h3
-        class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+        <h3
+          class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+        >
+          Accessories
+        </h3>
+      </a>
+      <a
+        href="#/shop?categories=essentials"
+        class="aspect-square rounded-md bg-[url('./src/images/covers/essentials.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
       >
-        Essentials
-      </h3>
-    </a>
-    <a
-      href="#/shop?category=living"
-      class="aspect-square rounded-md bg-[url('./src/images/covers/living.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
-    >
-      <h3
-        class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+        <h3
+          class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+        >
+          Essentials
+        </h3>
+      </a>
+      <a
+        href="#/shop?categories=living"
+        class="aspect-square rounded-md bg-[url('./src/images/covers/living.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
       >
-        Living
-      </h3>
-    </a>
-  </div>
-</section>
+        <h3
+          class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+        >
+          Living
+        </h3>
+      </a>
+    </div>
+  </section>
+</div>

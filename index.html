@@ -37,7 +37,7 @@
   </head>
   <body
     x-data="{ BRAND_NAME, prefer, idxDB, ...style, ...utils, overlay, sideMenu, router, shop, cart, user }"
-    x-init="await shop.init(); await cart.init();"
+    x-init="await shop.loadProducts(); await cart.init();"
     class="min-h-dvh flex flex-col tracking-wide bg-gray-100"
     :class="overlay.isShow && 'overflow-hidden'"
     @dragstart.prevent
