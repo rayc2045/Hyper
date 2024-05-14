@@ -1,48 +1,46 @@
-<div :class="product.stock !== 'in stock' && 'cursor-not-allowed'">
-  <div
-    :class="product.stock !== 'in stock' && 'disabled'"
-    x-data="{
-      lowerName: product.name.toLowerCase().replaceAll(' ', '_'),
-      currentColor: product.colors[0],
-    }"
+<div
+  x-data="{
+    lowerName: product.name.toLowerCase().replaceAll(' ', '_'),
+    currentColor: product.colors[0],
+  }"
+>
+  <a
+    :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
+    class="block bg-neutral-200/75 rounded-md overflow-hidden"
   >
-    <a
-      :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
-      class="block bg-neutral-200/75 rounded-md overflow-hidden"
-    >
-      <img
-        :src="`./src/images/products/${lowerName}_${currentColor}.jpg`"
-        :alt="product.name"
-        loading="lazy"
-        class="min-w-full mix-blend-multiply hover:brightness-95 transition duration-300"
-      />
-    </a>
+    <img
+      :src="`./src/images/products/${lowerName}_${currentColor}.jpg`"
+      :alt="product.name"
+      loading="lazy"
+      class="min-w-full mix-blend-multiply hover:brightness-95 transition duration-300"
+    />
+  </a>
 
-    <div class="flex justify-between items-start">
-      <div id="product-title">
-        <small
-          x-text="product.stock === 'in stock' ? (product.label && product.label[0].toUpperCase() + product.label.slice(1)) : product.stock[0].toUpperCase() + product.stock.slice(1)"
-          class="text-xs font-bold"
-          :class="`text-${product.stock === 'in stock' ? 'red' : 'blue'}-500`"
-        ></small>
-        <a
-          :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
-          class="block mb-1"
-          :class="(product.stock === 'in stock' && !product.label.length) && 'mt-6'"
-        >
-          <h3
-            x-text="`${product.name}${product.colors.length > 1 ? ` (${currentColor})` : ''}`"
-            class="font-bold"
-          ></h3>
-        </a>
-      </div>
-      <template x-if="product.stock === 'in stock'">
-        <button
-          id="cart-button"
-          x-html="svg('bag')"
-          class="mt-4 ml-1"
-          :class="btn.roundedGray"
-          @click="await cart.addItem({
+  <div class="flex justify-between items-start">
+    <div id="product-title">
+      <small
+        x-text="product.stock === 'in stock' ? (product.label && product.label[0].toUpperCase() + product.label.slice(1)) : product.stock[0].toUpperCase() + product.stock.slice(1)"
+        class="text-xs font-bold"
+        :class="`text-${product.stock === 'in stock' ? 'red' : 'blue'}-500`"
+      ></small>
+      <a
+        :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
+        class="block mb-1"
+        :class="(product.stock === 'in stock' && !product.label.length) && 'mt-6'"
+      >
+        <h3
+          x-text="`${product.name}${product.colors.length > 1 ? ` (${currentColor})` : ''}`"
+          class="font-bold"
+        ></h3>
+      </a>
+    </div>
+    <template x-if="product.stock === 'in stock'">
+      <button
+        id="cart-button"
+        x-html="svg('bag')"
+        class="mt-4 ml-1"
+        :class="btn.roundedGray"
+        @click="await cart.addItem({
             name: product.name,
             color: currentColor,
             category: product.category,
@@ -50,40 +48,39 @@
             discount: product.discount,
             SKU: product.SKU,
           })"
+      ></button>
+    </template>
+  </div>
+
+  <div id="product-price" class="space-x-1">
+    <span
+      :class="product.discount && 'line-through text-gray-400'"
+      x-text="`$${product.price}`"
+    ></span>
+    <template x-if="product.discount">
+      <span
+        x-text="`$${Math.round(product.price * (100 - product.discount.split('%')[0]) / 100) }`"
+        class="text-gray-600"
+      ></span>
+    </template>
+    <template x-if="product.discount">
+      <span
+        x-text="`-${product.discount}`"
+        class="px-2 rounded-xl text-xs text-red-600 border border-red-600"
+      ></span>
+    </template>
+  </div>
+
+  <template x-if="product.colors.length > 1">
+    <div id="product-colors" class="mt-3 flex gap-x-1.5">
+      <template x-for="color in product.colors" :key="color">
+        <button
+          class="w-5 aspect-square rounded-full border border-gray-500 pointer"
+          :class="color"
+          :title="color"
+          @click="currentColor = color"
         ></button>
       </template>
     </div>
-
-    <div id="product-price" class="space-x-1">
-      <span
-        :class="product.discount && 'line-through text-gray-400'"
-        x-text="`$${product.price}`"
-      ></span>
-      <template x-if="product.discount">
-        <span
-          x-text="`$${Math.round(product.price * (100 - product.discount.split('%')[0]) / 100) }`"
-          class="text-gray-600"
-        ></span>
-      </template>
-      <template x-if="product.discount">
-        <span
-          x-text="`-${product.discount}`"
-          class="px-2 rounded-xl text-xs text-red-600 border border-red-600"
-        ></span>
-      </template>
-    </div>
-
-    <template x-if="product.colors.length > 1">
-      <div id="product-colors" class="mt-3 flex gap-x-1.5">
-        <template x-for="color in product.colors" :key="color">
-          <button
-            class="w-5 aspect-square rounded-full border border-gray-500 pointer"
-            :class="color"
-            :title="color"
-            @click="currentColor = color"
-          ></button>
-        </template>
-      </div>
-    </template>
-  </div>
+  </template>
 </div>
