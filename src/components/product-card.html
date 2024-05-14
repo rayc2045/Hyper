@@ -22,7 +22,7 @@
       <div id="product-title">
         <small
           x-text="product.stock === 'in stock' ? (product.label && product.label[0].toUpperCase() + product.label.slice(1)) : product.stock[0].toUpperCase() + product.stock.slice(1)"
-          class="text-xs font-semibold"
+          class="text-xs font-bold"
           :class="`text-${product.stock === 'in stock' ? 'red' : 'blue'}-500`"
         ></small>
         <a
@@ -32,7 +32,7 @@
         >
           <h3
             x-text="`${product.name}${product.colors.length > 1 ? ` (${currentColor})` : ''}`"
-            class="font-semibold"
+            class="font-bold"
           ></h3>
         </a>
       </div>
