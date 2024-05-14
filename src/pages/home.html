@@ -1,107 +1,107 @@
-<div class="space-y-12">
-  <section
-    class="py-48 mx-auto space-y-8 flex flex-col justify-center items-center text-center text-gray-100 bg-[url('./src/images/covers/banner.jpg')] bg-cover bg-center rounded-md"
-  >
-    <h1 class="text-5xl md:text-6xl">
-      <div>Buy less,</div>
-      <div class="font-black">but better</div>
-    </h1>
-    <p class="text-balance">
-      We offer a unique collection of high end items for every home.
-    </p>
-    <a href="#/shop" :class="btn.light">
-      Explore the shop&nbsp;
-      <span x-html="svg('arrow-right')"></span>
-    </a>
-  </section>
-
-  <section>
-    <h3 class="mb-12 text-xl text-center">New & Noteworthy</h3>
-    <ul class="grid place-content-center grid-cols-2 md:grid-cols-4 gap-8">
-      <template
-        x-for="product in shop.products.filter(p => p.label === 'new').slice(0, 4)"
-        :key="product.name"
-      >
-        <li x-html="component('product-card')"></li>
-      </template>
-    </ul>
-  </section>
-
-  <section>
-    <div class="grid gap-8 md:grid-cols-3">
-      <a
-        href="#/shop?categories=accessories"
-        class="aspect-square rounded-md bg-[url('./src/images/covers/accessories.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
-      >
-        <h3
-          class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
-        >
-          Accessories
-        </h3>
-      </a>
-      <a
-        href="#/shop?categories=essentials"
-        class="aspect-square rounded-md bg-[url('./src/images/covers/essentials.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
-      >
-        <h3
-          class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
-        >
-          Essentials
-        </h3>
-      </a>
-      <a
-        href="#/shop?categories=living"
-        class="aspect-square rounded-md bg-[url('./src/images/covers/living.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
-      >
-        <h3
-          class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
-        >
-          Living
-        </h3>
-      </a>
-    </div>
-  </section>
-
-  <section class="p-8 space-y-8 md:px-16 md:py-10 md:space-y-10 bg-neutral-200 rounded-md">
-    <p>Our Mantra</p>
-    <blockquote
-      class="px-6 text-2xl text-semibold font-serif relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-2 before:h-full before:bg-gray-600"
-    >
-      We don't need more things, we need better choices. In our ongoing search
-      for quality products we value sustainability, durable materials and
-      beautiful design.
-    </blockquote>
-    <div class="flex items-center gap-x-4">
-      <img
-        src="https://avatars.githubusercontent.com/u/39514595?v=4&size=200"
-        alt="avatar"
-        class="size-14 rounded-full overflow-hidden shadow-md"
-      />
-      <div class="grid gap-y-1">
-        <p class="font-bold">
-          Ray C, founder of <span x-text="BRAND_NAME"></span>
-        </p>
-        <p class="text-sm">
-          Read more <a href="#/about" class="underline">About Us</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h3 class="mb-12 text-xl text-center">Handpicked this Week</h3>
-    <ul class="grid place-content-center grid-cols-2 md:grid-cols-4 gap-8">
-      <template
-        x-for="product in shop.products.filter(p => p.discount.length).slice(0, 4)"
-        :key="product.name"
-      >
-        <li x-html="component('product-card')"></li>
-      </template>
-    </ul>
-  </section>
-
-  <a href="#/shop" :class="btn.dark" class="w-fit mx-auto">
+<section
+  class="py-48 mx-auto space-y-8 flex flex-col justify-center items-center text-center text-gray-100 bg-[url('./src/images/covers/banner.jpg')] bg-cover bg-center rounded-md"
+>
+  <h1 class="text-5xl md:text-6xl">
+    <div>Buy less,</div>
+    <div class="font-black">but better</div>
+  </h1>
+  <p class="text-balance">
+    We offer a unique collection of high end items for every home.
+  </p>
+  <a href="#/shop" :class="btn.light">
     Explore the shop&nbsp;
     <span x-html="svg('arrow-right')"></span>
   </a>
-</div>
+</section>
+
+<section>
+  <h3 class="mb-12 text-xl text-center">New & Noteworthy</h3>
+  <ul class="grid place-content-center grid-cols-2 md:grid-cols-4 gap-8">
+    <template
+      x-for="product in shop.products.filter(p => p.label === 'new').slice(0, 4)"
+      :key="product.name"
+    >
+      <li x-html="component('product-card')"></li>
+    </template>
+  </ul>
+</section>
+
+<section>
+  <div class="grid gap-8 md:grid-cols-3">
+    <a
+      href="#/shop?categories=accessories"
+      class="aspect-square rounded-md bg-[url('./src/images/covers/accessories.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
+    >
+      <h3
+        class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+      >
+        Accessories
+      </h3>
+    </a>
+    <a
+      href="#/shop?categories=essentials"
+      class="aspect-square rounded-md bg-[url('./src/images/covers/essentials.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
+    >
+      <h3
+        class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+      >
+        Essentials
+      </h3>
+    </a>
+    <a
+      href="#/shop?categories=living"
+      class="aspect-square rounded-md bg-[url('./src/images/covers/living.jpg')] bg-cover bg-center hover:brightness-90 transition duration-300 relative"
+    >
+      <h3
+        class="absolute left-8 bottom-8 text-gray-100 text-xl text-bold tracking-wider"
+      >
+        Living
+      </h3>
+    </a>
+  </div>
+</section>
+
+<section
+  class="p-8 space-y-8 md:px-16 md:py-10 md:space-y-10 bg-neutral-200 rounded-md"
+>
+  <p>Our Mantra</p>
+  <blockquote
+    class="px-6 text-2xl text-semibold font-serif relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-2 before:h-full before:bg-gray-600"
+  >
+    We don't need more things, we need better choices. In our ongoing search for
+    quality products we value sustainability, durable materials and beautiful
+    design.
+  </blockquote>
+  <div class="flex items-center gap-x-4">
+    <img
+      src="https://avatars.githubusercontent.com/u/39514595?v=4&size=200"
+      alt="avatar"
+      class="size-14 rounded-full overflow-hidden shadow-md"
+    />
+    <div class="grid gap-y-1">
+      <p class="font-bold">
+        Ray C, founder of <span x-text="BRAND_NAME"></span>
+      </p>
+      <p class="text-sm">
+        Read more <a href="#/about" class="underline">About Us</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3 class="mb-12 text-xl text-center">Handpicked this Week</h3>
+  <ul class="grid place-content-center grid-cols-2 md:grid-cols-4 gap-8">
+    <template
+      x-for="product in shop.products.filter(p => p.discount.length).slice(0, 4)"
+      :key="product.name"
+    >
+      <li x-html="component('product-card')"></li>
+    </template>
+  </ul>
+</section>
+
+<a href="#/shop" :class="btn.dark" class="w-fit mx-auto">
+  Explore the shop&nbsp;
+  <span x-html="svg('arrow-right')"></span>
+</a>
