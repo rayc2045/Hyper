@@ -225,6 +225,16 @@ const utils = {
   getUniques(arr) {
     return arr.filter((item, idx) => arr.indexOf(item) === idx);
   },
+  getShuffles(arr) {
+    const array = arr.slice();
+    let currentIdx = array.length;
+    while (currentIdx !== 0) {
+      let randomIdx = Math.floor(Math.random() * currentIdx);
+      currentIdx--;
+      [array[currentIdx], array[randomIdx]] = [array[randomIdx], array[currentIdx]];
+    }
+    return array;
+  },
   copyText(text) {
     navigator.clipboard.writeText(text.trim());
   },
@@ -426,9 +436,13 @@ const cart = {
   async addItem(item) {
     let isInCart = false;
     for (const cartItem of this.items)
-      if (cartItem.name === item.name && cartItem.color === item.color) {
+      if (
+        cartItem.name === item.name &&
+        cartItem.category === item.category &&
+        cartItem.color === item.color
+      ) {
         isInCart = true;
-        cartItem.num++;
+        cartItem.num += item.num || 1;
         break;
       }
     if (!isInCart) this.items.push({ ...item, num: 1 });
