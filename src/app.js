@@ -94,7 +94,7 @@ const style = {
     footer: 'text-gray-700 hover:underline',
   },
   btn: {
-    raw: 'px-4 py-3 text-sm rounded-md flex justify-center items-center font-medium border-2 select-none active:scale-95 transition',
+    raw: 'px-4 py-3 text-sm rounded-md flex gap-x-1 justify-center items-center font-medium border-2 select-none active:scale-95 transition',
     get dark() {
       return `${this.raw} text-zinc-100 bg-zinc-600 border-zinc-600 hover:bg-zinc-700 hover:border-zinc-700`;
     },
