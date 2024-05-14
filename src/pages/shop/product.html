@@ -1,0 +1,213 @@
+<section
+  x-data="{
+    get product() {
+      const { name, category } = router.currentParam;
+      return shop.products.find(p =>
+        p.name.toLowerCase() === name.replaceAll('_', ' ').toLowerCase() &&
+        p.category === category.toLowerCase()
+      );
+    }
+  }"
+  x-init="product ?? (location.href = '#/404')"
+  class="space-y-12"
+>
+  <nav id="breadcrumb" aria-label="breadcrumb">
+    <ol
+      class="flex justify-center lg:justify-start items-center gap-2 text-sm text-gray-500"
+    >
+      <li>
+        <a href="#/" class="hover:underline">
+          <span class="sr-only">Home</span>
+          <span x-html="svg('home')"></span>
+        </a>
+      </li>
+      /
+      <li>
+        <a href="#/shop" class="hover:underline">Shop</a>
+      </li>
+      /
+      <li>
+        <a
+          :href="`#/shop?categories=${product.category}`"
+          x-text="product.category[0].toUpperCase() + product.category.slice(1)"
+          class="hover:underline"
+        ></a>
+      </li>
+      /
+      <li class="disabled" x-text="product.name"></li>
+    </ol>
+  </nav>
+
+  <div
+    class="grid grid-cols-1 lg:grid-cols-2 gap-8"
+    x-data="{
+      currentColor: product.colors.includes(router.currentParam.color)
+        ? router.currentParam.color
+        : product.colors[0],
+    }"
+  >
+    <div class="bg-neutral-200/75 aspect-[4/5]">
+      <img
+        :src="`./src/images/products/${router.currentParam.name}_${currentColor}.jpg`"
+        :alt="product.name"
+        class="mix-blend-multiply rounded-md"
+      />
+    </div>
+
+    <div class="space-y-2 md:space-y-8">
+      <h1 x-text="product.name" class="text-3xl font-medium"></h1>
+
+      <section id="product-price" class="text-lg space-x-1">
+        <span
+          :class="product.discount && 'line-through text-gray-400'"
+          x-text="`$${product.price}`"
+        ></span>
+        <template x-if="product.discount">
+          <span
+            x-text="`$${Math.round(product.price * (100 - product.discount.split('%')[0]) / 100) }`"
+            class="text-gray-600"
+          ></span>
+        </template>
+        <template x-if="product.discount">
+          <span
+            x-text="`-${product.discount}`"
+            class="px-2 rounded-xl text-xs text-red-600 border border-red-600"
+          ></span>
+        </template>
+      </section>
+
+      <template x-if="product.colors.length > 1">
+        <section id="product-colors">
+          <div class="mt-2 flex gap-x-1.5">
+            <template x-for="color in product.colors" :key="color">
+              <button
+                class="w-5 aspect-square rounded-full border border-gray-500 pointer"
+                :class="color"
+                :title="color"
+                @click="currentColor = color"
+              ></button>
+            </template>
+          </div>
+        </section>
+      </template>
+
+      <p x-text="product.description"></p>
+
+      <table id="information" class="border-separate border-spacing-y-4">
+        <tbody>
+          <tr>
+            <th class="text-left align-top text-gray-500 font-normal pr-8">
+              Category
+            </th>
+            <td
+              x-text="product.category[0].toUpperCase() + product.category.slice(1)"
+            ></td>
+          </tr>
+          <tr>
+            <th class="text-left align-top text-gray-500 font-normal pr-8">
+              Color
+            </th>
+            <td
+              x-text="currentColor[0].toUpperCase() + currentColor.slice(1)"
+            ></td>
+          </tr>
+          <tr>
+            <th class="text-left align-top text-gray-500 font-normal pr-8">
+              Weight
+            </th>
+            <td x-text="product.weight"></td>
+          </tr>
+          <tr>
+            <th class="text-left align-top text-gray-500 font-normal pr-8">
+              Dimensions
+            </th>
+            <td x-text="product.dimensions"></td>
+          </tr>
+          <tr>
+            <th class="text-left align-top text-gray-500 font-normal pr-8">
+              Stock
+            </th>
+            <td
+              x-text="product.stock[0].toUpperCase() + product.stock.slice(1)"
+            ></td>
+          </tr>
+          <tr>
+            <th class="text-left align-top text-gray-500 font-normal pr-8">
+              SKU
+            </th>
+            <td x-text="product.SKU"></td>
+          </tr>
+          <tr>
+            <th class="text-left align-top text-gray-500 font-normal pr-8">
+              Manufacturer
+            </th>
+            <td>Brandless</td>
+          </tr>
+          <tr>
+            <th class="text-left align-top text-gray-500 font-normal pr-8">
+              Shipping
+            </th>
+            <td>Ships within 12-24 hours on weekdays</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <template x-if="product.stock === 'in stock'">
+        <div id="add-to-cart" x-data="{ num: 1 }" class="space-x-4 flex">
+          <div
+            class="px-1 flex items-center border-2 border-zinc-600 rounded-md"
+          >
+            <button
+              class="size-8 text-xl rounded-full hover:bg-gray-200 transition"
+              @click="num > 1 && num--"
+            >
+              –
+            </button>
+            <span
+              x-text="num"
+              class="w-12 text-center pointer-events-none"
+            ></span>
+            <button
+              class="size-8 text-xl rounded-full hover:bg-gray-200 transition"
+              @click="num++"
+            >
+              +
+            </button>
+          </div>
+          <button
+            :class="btn.dark"
+            @click="await cart.addItem({
+              name: product.name,
+              color: currentColor,
+              category: product.category,
+              num,
+              price: product.price,
+              discount: product.discount,
+              SKU: product.SKU,
+            }); num = 1;"
+          >
+            <span x-html="svg('bag')"></span>Add to Cart
+          </button>
+        </div>
+      </template>
+    </div>
+  </div>
+</section>
+
+<section class="space-y-12">
+  <h3 class="text-xl text-center">Related products</h3>
+  <ul
+    class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+  >
+    <template
+      x-for="product in getShuffles(
+        shop.products.filter(p =>
+          p.category === router.currentParam.category.toLowerCase() &&
+          p.name.toLowerCase() !== router.currentParam.name.replaceAll('_', ' ')
+        )).slice(0, 4)"
+      :key="product.name"
+    >
+      <li x-html="component('product-card')"></li>
+    </template>
+  </ul>
+</section>
