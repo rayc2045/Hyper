@@ -102,17 +102,25 @@
             <th class="text-left align-top text-gray-500 font-normal pr-8">
               Category
             </th>
-            <td
-              x-text="product.category[0].toUpperCase() + product.category.slice(1)"
-            ></td>
+            <td>
+              <a
+                :href="`#/shop?categories=${product.category}`"
+                x-text="product.category[0].toUpperCase() + product.category.slice(1)"
+                class="underline"
+              ></a>
+            </td>
           </tr>
           <tr>
             <th class="text-left align-top text-gray-500 font-normal pr-8">
               Color
             </th>
-            <td
-              x-text="currentColor[0].toUpperCase() + currentColor.slice(1)"
-            ></td>
+            <td>
+              <a
+                :href="`#/shop?colors=${currentColor}`"
+                x-text="currentColor[0].toUpperCase() + currentColor.slice(1)"
+                class="underline"
+              ></a>
+            </td>
           </tr>
           <tr>
             <th class="text-left align-top text-gray-500 font-normal pr-8">
