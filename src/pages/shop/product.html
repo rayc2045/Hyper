@@ -210,6 +210,7 @@
     <template
       x-for="product in getShuffles(
         shop.products.filter(p =>
+          p.stock === 'in stock' &&
           p.category === router.currentParam.category.toLowerCase() &&
           p.name.toLowerCase() !== router.currentParam.name.replaceAll('_', ' ')
         )).slice(0, 4)"

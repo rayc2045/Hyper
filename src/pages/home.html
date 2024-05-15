@@ -17,7 +17,9 @@
   <h3 class="text-xl text-center">New & Noteworthy</h3>
   <ul class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
     <template
-      x-for="product in getShuffles(shop.products.filter(p => p.label === 'new')).slice(0, 4)"
+      x-for="product in getShuffles(
+        shop.products.filter(p => p.stock === 'in stock' && p.label === 'new')
+      ).slice(0, 4)"
       :key="product.name"
     >
       <li x-html="component('product-card')"></li>
@@ -92,7 +94,9 @@
   <h3 class="text-xl text-center">Handpicked this Week</h3>
   <ul class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
     <template
-      x-for="product in getShuffles(shop.products.filter(p => p.discount.length)).slice(0, 4)"
+      x-for="product in getShuffles(
+        shop.products.filter(p => p.stock === 'in stock' && p.discount.length)
+      ).slice(0, 4)"
       :key="product.name"
     >
       <li x-html="component('product-card')"></li>
