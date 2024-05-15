@@ -55,8 +55,10 @@
       />
     </div>
 
-    <div class="w-full md:w-4/5 lg:w-full mx-auto space-y-4 lg:space-y-8">
+    <div class="w-full md:w-4/5 lg:w-full mx-auto space-y-8">
       <h1 x-text="product.name" class="text-3xl font-medium"></h1>
+
+      <p x-text="product.description" :class="quote" class="text-lg"></p>
 
       <div class="flex space-x-2 text-lg">
         <span
@@ -93,8 +95,6 @@
           </div>
         </section>
       </template>
-
-      <p x-text="product.description"></p>
 
       <table id="information" class="border-separate border-spacing-y-4">
         <tbody>

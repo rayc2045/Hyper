@@ -123,6 +123,7 @@ const style = {
       return this.outlined.replace(this.raw, this.roundedRaw);
     },
   },
+  quote: 'px-6 text-medium font-serif relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-2 before:h-full before:bg-gray-600'
 };
 
 const utils = {
