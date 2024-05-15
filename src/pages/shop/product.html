@@ -9,9 +9,8 @@
     }
   }"
   x-init="product ?? (location.href = '#/404')"
-  class="space-y-12"
 >
-  <nav id="breadcrumb" aria-label="breadcrumb">
+  <nav id="breadcrumb" class="mb-4" aria-label="breadcrumb">
     <ol
       class="flex justify-center lg:justify-start items-center gap-2 text-sm text-gray-500"
     >
@@ -46,7 +45,9 @@
         : product.colors[0],
     }"
   >
-    <div class="bg-neutral-200/75 aspect-[4/5]">
+    <div
+      class="aspect-[4/5] w-full md:w-4/5 lg:w-full mx-auto bg-neutral-200/75"
+    >
       <img
         :src="`./src/images/products/${router.currentParam.name}_${currentColor}.jpg`"
         :alt="product.name"
@@ -54,7 +55,7 @@
       />
     </div>
 
-    <div class="space-y-2 md:space-y-8">
+    <div class="w-full md:w-4/5 lg:w-full mx-auto space-y-4 lg:space-y-8">
       <h1 x-text="product.name" class="text-3xl font-medium"></h1>
 
       <section id="product-price" class="text-lg space-x-1">
@@ -153,9 +154,13 @@
       </table>
 
       <template x-if="product.stock === 'in stock'">
-        <div id="add-to-cart" x-data="{ num: 1 }" class="space-x-4 flex">
+        <div
+          id="add-to-cart"
+          x-data="{ num: 1 }"
+          class="grid grid-cols-2 sm:grid-cols-3 lg:flex gap-x-4"
+        >
           <div
-            class="px-1 flex items-center border-2 border-zinc-600 rounded-md"
+            class="px-1 flex justify-between items-center border-2 border-zinc-600 rounded-md"
           >
             <button
               class="size-8 text-xl rounded-full hover:bg-gray-200 transition"
@@ -175,6 +180,7 @@
             </button>
           </div>
           <button
+            class="sm:col-span-2"
             :class="btn.dark"
             @click="await cart.addItem({
               name: product.name,
