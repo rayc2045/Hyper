@@ -86,7 +86,7 @@
           <div class="mt-2 flex gap-x-1.5">
             <template x-for="color in product.colors" :key="color">
               <button
-                class="w-5 aspect-square rounded-full border border-gray-500 pointer"
+                class="w-5 md:w-6 aspect-square rounded-full border border-gray-500 pointer"
                 :class="color"
                 :title="color"
                 @click="currentColor = color"
