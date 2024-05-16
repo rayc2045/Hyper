@@ -12,7 +12,7 @@
 >
   <nav id="breadcrumb" class="mb-4" aria-label="breadcrumb">
     <ol
-      class="flex justify-center lg:justify-start gap-2 text-sm text-gray-500"
+      class="flex justify-center items-center lg:justify-start gap-2 text-sm text-gray-500"
     >
       <li>
         <a href="#/" class="hover:underline">
@@ -167,10 +167,10 @@
         <div
           id="add-to-cart"
           x-data="{ num: 1 }"
-          class="grid grid-cols-2 sm:grid-cols-3 lg:flex gap-x-4"
+          class="grid grid-cols-5 sm:grid-cols-3 lg:flex gap-x-4"
         >
           <div
-            class="px-1 flex justify-between items-center border-2 border-zinc-600 rounded-md"
+            class="col-span-2 sm:col-span-1 px-1 flex justify-between items-center border-2 border-zinc-600 rounded-md"
           >
             <button
               class="size-8 text-xl rounded-full hover:bg-gray-200 transition"
@@ -190,7 +190,7 @@
             </button>
           </div>
           <button
-            class="sm:col-span-2"
+            class="col-span-3 sm:col-span-2"
             :class="btn.dark"
             @click="await cart.addItem({
               name: product.name,
