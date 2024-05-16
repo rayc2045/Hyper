@@ -82,17 +82,20 @@
       </div>
 
       <template x-if="product.colors.length > 1">
-        <section id="product-colors">
-          <div class="mt-2 flex gap-x-1.5">
-            <template x-for="color in product.colors" :key="color">
+        <section id="colors" class="flex gap-x-1.5">
+          <template x-for="color in product.colors" :key="color">
+            <div
+              class="p-0.5 border rounded-full flex justify-center items-center"
+              :class="color === currentColor ? 'border-gray-500' : 'border-transparent'"
+            >
               <button
                 class="w-5 md:w-6 aspect-square rounded-full border border-gray-500 pointer"
                 :class="color"
                 :title="color"
                 @click="currentColor = color"
               ></button>
-            </template>
-          </div>
+            </div>
+          </template>
         </section>
       </template>
 
