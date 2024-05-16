@@ -42,7 +42,20 @@
     :class="overlay.isShow && 'overflow-hidden'"
     @dragstart.prevent
   >
-    <nav class="sticky top-0 bg-inherit border-b border-gray-300 z-[1]">
+    <nav
+      class="sticky bg-inherit border-b border-gray-300 z-[1]"
+      x-data="{
+        lastScrollTop: 0,
+        get newScrollTop() {
+          return document.documentElement.scrollTop;
+        }
+      }"
+      @scroll.document="setStyle($el, newScrollTop < lastScrollTop
+        ? { top: '0', transition: 'top .5s' }
+        : { top: '-100vh', transition: 'top 1s' }
+      )"
+      @scrollend.document="lastScrollTop = newScrollTop <= 0 ? 0 : newScrollTop;"
+    >
       <div class="max-w-screen-xl mx-auto px-6 md:pl-8 py-2 flex items-center gap-x-2 md:gap-x-4">
         <button
           class="p-2 md:hidden"
@@ -63,6 +76,7 @@
               class="relative"
               x-data="{ open: false }"
               @mouseleave="open = false"
+              @scroll.document="open = false"
             >
               <button
                 class="inline-flex py-2 items-center hover:text-gray-500 transition"
@@ -104,6 +118,7 @@
         <div
           class="hidden md:flex ml-auto max-w-60 relative"
           x-data="{ open: false }"
+          @scroll.document="select('input', $el).blur()"
         >
           <label for="search" class="sr-only">Search</label>
           <input
@@ -113,7 +128,7 @@
             x-model="shop.searchText"
             class="w-full pl-2.5 pr-10 py-2.5 sm:text-sm rounded-md bg-inherit border-gray-300 shadow"
             @focus="open = true"
-            @click.outside="open = false"
+            @blur="open = false"
           />
           <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
             <button type="button" class="text-gray-600 hover:text-gray-700">
