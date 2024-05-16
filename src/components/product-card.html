@@ -43,13 +43,13 @@
         class="mt-5 ml-1"
         :class="btn.roundedGray"
         @click="await cart.addItem({
-            name: product.name,
-            color: currentColor,
-            category: product.category,
-            price: product.price,
-            discount: product.discount,
-            SKU: product.SKU,
-          })"
+          name: product.name,
+          color: currentColor,
+          category: product.category,
+          price: product.price,
+          discount: product.discount,
+          SKU: product.SKU,
+        })"
       ></button>
     </template>
   </div>
@@ -76,14 +76,19 @@
   </div>
 
   <template x-if="product.colors.length > 1">
-    <div id="product-colors" class="mt-3 flex gap-x-1.5">
+    <div id="colors" class="mt-3 flex gap-x-1.5">
       <template x-for="color in product.colors" :key="color">
-        <button
-          class="w-5 aspect-square rounded-full border border-gray-500 pointer"
-          :class="color"
-          :title="color"
-          @click="currentColor = color"
-        ></button>
+        <div
+          class="p-0.5 border rounded-full flex justify-center items-center"
+          :class="color === currentColor ? 'border-gray-500' : 'border-transparent'"
+        >
+          <button
+            class="w-5 aspect-square rounded-full border border-gray-500 pointer"
+            :class="color"
+            :title="color"
+            @click="currentColor = color"
+          ></button>
+        </div>
       </template>
     </div>
   </template>
