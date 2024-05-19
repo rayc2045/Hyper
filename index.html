@@ -50,11 +50,13 @@
           return document.documentElement.scrollTop;
         }
       }"
-      @scroll.document="setStyle($el, newScrollTop < lastScrollTop
-        ? { top: '0', transition: 'top .5s' }
-        : { top: '-100vh', transition: 'top 1s' }
-      )"
-      @scrollend.document="lastScrollTop = newScrollTop <= 0 ? 0 : newScrollTop;"
+      @scroll.document="
+        setStyle($el, newScrollTop < lastScrollTop
+          ? { top: '0', transition: 'top .5s' }
+          : { top: '-100vh', transition: 'top 1s' }
+        );
+        lastScrollTop = newScrollTop <= 0 ? 0 : newScrollTop;
+      "
     >
       <div class="max-w-screen-xl mx-auto px-6 md:pl-8 py-2 flex items-center gap-x-2 md:gap-x-4">
         <button
