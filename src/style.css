@@ -22,6 +22,10 @@ body {
   width: 0;
 }
 
+hr {
+  border-color: silver;
+}
+
 input[type='range'] {
   appearance: none;
   -webkit-appearance: none;

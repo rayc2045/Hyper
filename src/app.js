@@ -434,6 +434,9 @@ const cart = {
   async init() {
     this.items = (await idxDB.get(this.storeKey)) || [];
   },
+  async save() {
+    await idxDB.set(this.storeKey, cart.items);
+  },
   async addItem(item) {
     let isInCart = false;
     for (const cartItem of this.items)
@@ -447,15 +450,18 @@ const cart = {
         break;
       }
     if (!isInCart) this.items.push({ ...item, num: 1 });
-    await idxDB.set(this.storeKey, cart.items);
+    await this.save();
   },
   async deleteItem(item) {
     this.items.splice(
-      this.items.findIndex(cartItem => cartItem.name === item.name && cartItem.color === item.color),
+      this.items.findIndex(cartItem => 
+        cartItem.name === item.name &&
+        cartItem.color === item.color
+      ),
       1
     );
     this.items.length
-      ? await idxDB.set(this.storeKey, cart.items)
+      ? await this.save()
       : await idxDB.del(this.storeKey);
   },
 };

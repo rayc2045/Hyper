@@ -1,0 +1,141 @@
+<section>
+  <div x-show="cart.items.length" class="grid lg:grid-cols-12 gap-8 relative">
+    <div class="lg:col-span-8">
+      <template x-for="item in cart.items" :key="item.name">
+        <div
+          x-data="{ lowerName: item.name.toLowerCase().replaceAll(' ', '_') }"
+          class="py-8 grid grid-cols-10 gap-8 border-t border-gray-300"
+        >
+          <a
+            :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
+            class="col-span-2 block bg-neutral-200/75 rounded-md overflow-hidden"
+          >
+            <img
+              :src="`./src/images/products/${lowerName}_${item.color}.jpg`"
+              :alt="item.name"
+              loading="lazy"
+              class="min-w-full mix-blend-multiply hover:brightness-95 transition duration-300"
+            />
+          </a>
+
+          <div class="col-span-4 space-y-2 self-center">
+            <h3 x-text="item.name" class="text-lg font-bold"></h3>
+            <div class="text-gray-500">
+              Color:
+              <span
+                x-text="item.color[0].toUpperCase() + item.color.slice(1)"
+              ></span>
+            </div>
+            <div class="flex items-center space-x-2 text-gray-500">
+              <span>Price:</span>
+              <span
+                x-text="`$${thousandFormat(Math.round(item.price * (100 - item.discount.split('%')[0]) / 100))}`"
+              ></span>
+              <span
+                x-show="item.discount"
+                x-text="`-${item.discount}`"
+                class="px-2 py-0.5 rounded-xl text-xs text-red-600 border border-red-600"
+              ></span>
+            </div>
+          </div>
+
+          <div class="col-span-2 self-center">
+            <div
+              class="py-1.5 flex justify-between items-center border-2 border-zinc-600 rounded-md"
+            >
+              <button
+                class="size-8 text-xl"
+                @click="item.num > 1 && item.num--; await cart.save();"
+              >
+                –
+              </button>
+              <span
+                x-text="item.num"
+                class="w-12 text-center pointer-events-none"
+              ></span>
+              <button
+                class="size-8 text-xl"
+                @click="item.num++; await cart.save();"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <div class="col-span-2 self-center">
+            <button
+              :class="btn.roundedLight"
+              class="ml-auto"
+              @click="cart.deleteItem(item)"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <div
+      id="order-summary"
+      class="lg:col-span-4 sticky top-20 h-fit p-8 grid gap-y-4 bg-neutral-200 rounded-md"
+      x-data="{
+        summary: {
+          get subtotal() {
+            return cart.items.reduce((acc, cur) =>
+              acc + cur.num * cur.price
+              , 0
+            );
+          },
+          shipping: 12,
+          tax: 8.32,
+        },
+        get discount() {
+          return cart.items.reduce((acc, cur) =>
+            acc + cur.num * cur.price * cur.discount.split('%')[0] / 100
+            , 0
+          );
+        },
+        get total() {
+          return Object.values(this.summary).reduce((a, b) => a + b, 0) - this.discount;
+        }
+      }"
+    >
+      <h3 class="text-lg font-medium">Order Summary</h3>
+      <template x-for="title in Object.keys(summary)" :key="title">
+        <div class="flex justify-between text-sm">
+          <span
+            class="text-gray-500"
+            x-text="title[0].toUpperCase() + title.slice(1)"
+          ></span>
+          <span
+            class="before:content-['$']"
+            x-text="thousandFormat(summary[title].toFixed(2))"
+          ></span>
+        </div>
+      </template>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Discount</span>
+        <span
+          class="text-red-600 font-medium"
+          x-text="`–$${discount.toFixed(2)}`"
+        ></span>
+      </div>
+      <hr />
+      <div class="flex justify-between">
+        <span>Total</span>
+        <span class="before:content-['$']" x-text="total.toFixed(2)"></span>
+      </div>
+      <a href="#/checkout" :class="btn.dark">Checkout</a>
+      <a href="#shop" class="text-gray-500 text-sm text-center underline">
+        Continue shopping
+      </a>
+    </div>
+  </div>
+
+  <div x-show="!cart.items.length" class="pt-8 pb-16 space-y-8">
+    <h3 class="text-xl text-center">Your cart is currently empty.</h3>
+    <a href="#/shop" :class="btn.dark" class="w-fit mx-auto text-sm">
+      Return to shop
+    </a>
+  </div>
+</section>
