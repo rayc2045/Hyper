@@ -142,10 +142,37 @@
     </div>
   </div>
 
-  <div x-show="!cart.items.length" class="pt-8 pb-16 space-y-8">
+  <div x-show="!cart.items.length" class="pt-4 pb-20 space-y-8">
     <h3 class="text-xl text-center">Your cart is currently empty.</h3>
     <a href="#/shop" :class="btn.dark" class="w-fit mx-auto text-sm">
       Return to shop
     </a>
   </div>
 </section>
+
+<template
+  x-if="shop.products.some(p =>
+    p.stock === 'in stock' && !cart.items.some(item => item.name === p.name)
+  )"
+  x-data="{
+    get productsNotInCart() {
+      return shop.products.filter(p =>
+        p.stock === 'in stock' && !cart.items.some(item => item.name === p.name)
+      );
+    },
+  }"
+>
+  <section class="space-y-12">
+    <h3 class="text-xl text-center">
+      You may <span x-show="cart.items.length">also</span> like
+    </h3>
+    <ul
+      class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      x-data="{ recommendedProducts: getShuffles(productsNotInCart).slice(0, 4) }"
+    >
+      <template x-for="product in recommendedProducts" :key="product.name">
+        <li x-html="component('product-card')"></li>
+      </template>
+    </ul>
+  </section>
+</template>
