@@ -150,9 +150,6 @@
 </section>
 
 <template
-  x-if="shop.products.some(p =>
-    p.stock === 'in stock' && !cart.items.some(item => item.name === p.name)
-  )"
   x-data="{
     get productsNotInCart() {
       return shop.products.filter(p =>
@@ -160,6 +157,7 @@
       );
     },
   }"
+  x-if="productsNotInCart.length"
 >
   <section class="space-y-12">
     <h3 class="text-xl text-center">
@@ -167,11 +165,13 @@
     </h3>
     <ul
       class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-      x-data="{ recommendedProducts: getShuffles(productsNotInCart) }"
+      x-data="{
+        recommendedProducts: getShuffles(productsNotInCart),
+      }"
       x-init="$watch('cart.items', value => {
         recommendedProducts = [
           ...recommendedProducts.filter(
-            p => !cart.items.some(item => item.name === p.name),
+            p => !value.some(item => item.name === p.name),
           ),
           ...productsNotInCart.filter(
             p => !recommendedProducts.some(item => item.name === p.name),
