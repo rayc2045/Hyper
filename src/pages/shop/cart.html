@@ -7,8 +7,7 @@
       <template x-for="item in cart.items" :key="item.name">
         <div
           x-data="{ lowerName: item.name.toLowerCase().replaceAll(' ', '_') }"
-          class="py-8 grid grid-cols-12 gap-4 sm:gap-8"
-          :class="cart.items.length > 1 && 'border-t border-gray-300'"
+          class="py-8 grid grid-cols-12 gap-4 sm:gap-8 border-t border-gray-300"
         >
           <a
             :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
@@ -168,9 +167,22 @@
     </h3>
     <ul
       class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-      x-data="{ recommendedProducts: getShuffles(productsNotInCart).slice(0, 4) }"
+      x-data="{ recommendedProducts: getShuffles(productsNotInCart) }"
+      x-init="$watch('cart.items', value => {
+        recommendedProducts = [
+          ...recommendedProducts.filter(
+            p => !cart.items.some(item => item.name === p.name),
+          ),
+          ...productsNotInCart.filter(
+            p => !recommendedProducts.some(item => item.name === p.name),
+          )
+        ];
+      });"
     >
-      <template x-for="product in recommendedProducts" :key="product.name">
+      <template
+        x-for="product in recommendedProducts.slice(0, 4)"
+        :key="product.name"
+      >
         <li x-html="component('product-card')"></li>
       </template>
     </ul>
