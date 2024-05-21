@@ -105,7 +105,7 @@ const style = {
       return this.light.replaceAll('zinc-100', 'neutral-200');
     },
     get outlined() {
-      return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-600 hover:brightness-95`;
+      return `${this.raw} text-zinc-700 bg-zinc-100 border-zinc-600`;
     },
     get roundedRaw() {
       return `${this.raw.split('rounded-md')[1]} p-2 aspect-square rounded-full`;
@@ -277,6 +277,7 @@ const router = {
     { path: '/shop', component: '/shop/shop.html', title: 'Shop' },
     { path: '/shop/:category/:name', component: '/shop/product.html' },
     { path: '/cart', component: '/shop/cart.html', title: 'My cart' },
+    { path: '/checkout', component: '/shop/checkout.html', title: 'Checkout' },
     { path: '/login', component: '/login.html', title: 'Log in' },
     { path: '/account', component: '/account.html', title: 'My account' },
     { path: '/order-tracking', component: '/account/order-tracking.html', title: 'Order Tracking' },

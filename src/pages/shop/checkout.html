@@ -1,0 +1,186 @@
+<section>
+  <div
+    x-show="cart.items.length"
+    class="grid lg:grid-cols-12 gap-8 md:px-12 lg:p-0 relative"
+  >
+    <div class="lg:col-span-8 space-y-8">
+
+    </div>
+
+    <div class="lg:col-span-4 space-y-8">
+      <div x-data="{ open: false }">
+        <button
+          class="w-full flex items-center text-lg font-medium"
+          @click="open = !open"
+        >
+          Your order
+          <span
+            x-html="svg('arrow-down')"
+            class="ml-auto"
+            :class="[open && '-rotate-180', prefer.motion && 'transition duration-300']"
+          ></span>
+        </button>
+        <div x-cloak x-show="open" x-transition.origin.top>
+          <ul>
+            <template x-for="(item, idx) in cart.items" :key="item.name">
+              <div
+                x-data="{ lowerName: item.name.toLowerCase().replaceAll(' ', '_') }"
+                class="py-8 grid grid-cols-12 gap-x-4"
+                :class="idx > 0 && 'border-t border-gray-300'"
+              >
+                <a
+                  :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
+                  class="col-span-3 self-center block aspect-[4/5] bg-neutral-200/75 rounded-md overflow-hidden"
+                >
+                  <img
+                    :src="`./src/images/products/${lowerName}_${item.color}.jpg`"
+                    :alt="item.name"
+                    loading="lazy"
+                    class="min-w-full mix-blend-multiply hover:brightness-95 transition duration-300"
+                  />
+                </a>
+
+                <div
+                  :class="item.num > 100 ? 'col-span-6' : 'col-span-7'"
+                  class="self-center space-y-2"
+                >
+                  <h3 x-text="item.name" class="text-lg font-bold"></h3>
+                  <div class="text-gray-500">
+                    Color:
+                    <span
+                      x-text="item.color[0].toUpperCase() + item.color.slice(1)"
+                    ></span>
+                  </div>
+                  <div class="flex items-center space-x-2 text-gray-500">
+                    <span>Price:</span>
+                    <span
+                      x-text="`$${thousandFormat(Math.round(item.price * (100 - item.discount.split('%')[0]) / 100))}`"
+                    ></span>
+                    <span
+                      x-show="item.discount"
+                      x-text="`-${item.discount}`"
+                      class="px-2 py-0.5 rounded-xl text-xs text-red-600 border border-red-600"
+                    ></span>
+                  </div>
+                </div>
+
+                <div
+                  :class="item.num > 100 ? 'col-span-3' : 'col-span-2'"
+                  class="self-center mx-auto"
+                >
+                  <span class="text-sm">✕</span>&nbsp;<span
+                    x-text="`${item.num}`"
+                  ></span>
+                </div>
+              </div>
+            </template>
+          </ul>
+          <a href="#/cart" :class="btn.outlined">
+            <span x-html="svg('edit')"></span>
+            Edit order
+          </a>
+        </div>
+      </div>
+      <div
+        id="order-summary"
+        class="h-fit p-8 space-y-6 bg-neutral-200 rounded-md"
+        x-data="{
+          summary: {
+            get subtotal() {
+              return cart.items.reduce((acc, cur) => acc + cur.num * cur.price, 0);
+            },
+            shipping: 12,
+            tax: 8.32,
+          },
+          get discount() {
+            return cart.items.reduce((acc, cur) =>
+              acc + cur.num * cur.price * cur.discount.split('%')[0] / 100,
+              0
+            );
+          },
+          get total() {
+            return Object.values(this.summary).reduce((a, b) => a + b, 0) - this.discount;
+          },
+        }"
+      >
+        <h2 class="text-lg font-medium">Order Summary</h2>
+        <div class="space-y-4">
+          <template x-for="title in Object.keys(summary)" :key="title">
+            <div class="flex justify-between text-sm">
+              <span
+                class="text-gray-500"
+                x-text="title[0].toUpperCase() + title.slice(1)"
+              ></span>
+              <span
+                class="before:content-['$']"
+                x-text="thousandFormat(summary[title].toFixed(2))"
+              ></span>
+            </div>
+          </template>
+          <div x-show="discount" class="flex justify-between text-sm">
+            <span class="text-gray-500">Discount</span>
+            <span
+              class="text-red-600 font-medium"
+              x-text="`–$${thousandFormat(discount.toFixed(2))}`"
+            ></span>
+          </div>
+        </div>
+        <hr />
+        <div class="flex justify-between text-lg">
+          <span>Total</span>
+          <span
+            class="before:content-['$']"
+            x-text="thousandFormat(total.toFixed(2))"
+          ></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div x-show="!cart.items.length" class="pt-4 pb-20 space-y-8">
+    <h3 class="text-xl text-center">Your cart is currently empty.</h3>
+    <a href="#/shop" :class="btn.dark" class="w-fit mx-auto text-sm">
+      Return to shop
+    </a>
+  </div>
+</section>
+
+<template
+  x-data="{
+    get productsNotInCart() {
+      return shop.products.filter(p =>
+        p.stock === 'in stock' && !cart.items.some(item => item.name === p.name)
+      );
+    },
+  }"
+  x-if="!cart.items.length && productsNotInCart.length"
+>
+  <section class="space-y-12">
+    <h3 class="text-xl text-center">
+      You may <span x-show="cart.items.length">also</span> like
+    </h3>
+    <ul
+      class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      x-data="{
+        recommendedProducts: getShuffles(productsNotInCart),
+      }"
+      x-init="$watch('cart.items', value => {
+        recommendedProducts = [
+          ...recommendedProducts.filter(
+            p => !value.some(item => item.name === p.name),
+          ),
+          ...productsNotInCart.filter(
+            p => !recommendedProducts.some(item => item.name === p.name),
+          )
+        ];
+      });"
+    >
+      <template
+        x-for="product in recommendedProducts.slice(0, 4)"
+        :key="product.name"
+      >
+        <li x-html="component('product-card')"></li>
+      </template>
+    </ul>
+  </section>
+</template>
