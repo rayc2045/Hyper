@@ -4,7 +4,8 @@
       <template x-for="item in cart.items" :key="item.name">
         <div
           x-data="{ lowerName: item.name.toLowerCase().replaceAll(' ', '_') }"
-          class="py-8 grid grid-cols-10 gap-8 border-t border-gray-300"
+          class="py-8 grid grid-cols-10 gap-8"
+          :class="cart.items.length > 1 && 'border-t border-gray-300'"
         >
           <a
             :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
@@ -18,7 +19,7 @@
             />
           </a>
 
-          <div class="col-span-4 space-y-2 self-center">
+          <div class="col-span-4 self-center space-y-2">
             <h3 x-text="item.name" class="text-lg font-bold"></h3>
             <div class="text-gray-500">
               Color:
@@ -62,9 +63,9 @@
             </div>
           </div>
 
-          <div class="col-span-2 self-center">
+          <div class="col-span-2">
             <button
-              class="block ml-auto p-2 text-sm text-gray-400 hover:text-gray-900"
+              class="block ml-auto p-2 text-sm text-gray-400 hover:text-gray-900 transition"
               @click="cart.deleteItem(item)"
             >
               ✕
@@ -110,7 +111,7 @@
             ></span>
           </div>
         </template>
-        <div class="flex justify-between text-sm">
+        <div x-show="discount" class="flex justify-between text-sm">
           <span class="text-gray-500">Discount</span>
           <span
             class="text-red-600 font-medium"
