@@ -130,7 +130,8 @@
             x-model="shop.searchText"
             class="w-full pl-2.5 pr-10 py-2.5 sm:text-sm rounded-md bg-inherit border-gray-300 shadow"
             @focus="open = true"
-            @blur="open = false"
+            @click.outside="open = false"
+            @scroll.window="open = false"
           />
           <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
             <button type="button" class="text-gray-600 hover:text-gray-700">
@@ -151,7 +152,7 @@
                 <li>
                   <a
                     class="flex items-center justify-between rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:bg-gray-50"
-                    :href="`#/shop/${product.category}/${product.name}`.toLowerCase().replaceAll(' ', '_')"
+                    :href="`#/shop/${product.category}/${product.name.toLowerCase().replaceAll(' ', '_')}`"
                   >
                     <span x-text="product.name"></span>
                     <span
