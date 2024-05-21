@@ -1,15 +1,18 @@
 <section>
-  <div x-show="cart.items.length" class="grid lg:grid-cols-12 gap-8 relative">
+  <div
+    x-show="cart.items.length"
+    class="grid lg:grid-cols-12 gap-8 md:px-12 lg:p-0 relative"
+  >
     <div class="lg:col-span-8">
       <template x-for="item in cart.items" :key="item.name">
         <div
           x-data="{ lowerName: item.name.toLowerCase().replaceAll(' ', '_') }"
-          class="py-8 grid grid-cols-10 gap-8"
+          class="py-8 grid grid-cols-12 gap-4 sm:gap-8"
           :class="cart.items.length > 1 && 'border-t border-gray-300'"
         >
           <a
             :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
-            class="col-span-2 block bg-neutral-200/75 rounded-md overflow-hidden"
+            class="col-span-3 sm:col-span-2 self-center block aspect-[4/5] bg-neutral-200/75 rounded-md overflow-hidden"
           >
             <img
               :src="`./src/images/products/${lowerName}_${item.color}.jpg`"
@@ -19,7 +22,7 @@
             />
           </a>
 
-          <div class="col-span-4 self-center space-y-2">
+          <div class="col-span-5 self-center space-y-2">
             <h3 x-text="item.name" class="text-lg font-bold"></h3>
             <div class="text-gray-500">
               Color:
@@ -40,9 +43,9 @@
             </div>
           </div>
 
-          <div class="col-span-2 self-center">
+          <div class="col-span-3 sm:col-span-4 self-center">
             <div
-              class="py-1.5 flex justify-between items-center border-2 border-zinc-600 rounded-md"
+              class="max-w-32 py-1.5 flex justify-between items-center border-2 border-zinc-600 rounded-md"
             >
               <button
                 class="size-8 text-xl"
@@ -63,7 +66,7 @@
             </div>
           </div>
 
-          <div class="col-span-2">
+          <div>
             <button
               class="block ml-auto p-2 text-sm text-gray-400 hover:text-gray-900 transition"
               @click="cart.deleteItem(item)"
