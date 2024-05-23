@@ -22,6 +22,10 @@ body {
   width: 0;
 }
 
+img {
+  pointer-events: none;
+}
+
 hr {
   border-color: silver;
 }

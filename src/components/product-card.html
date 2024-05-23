@@ -6,13 +6,13 @@
 >
   <a
     :href="`#/shop/${product.category}/${lowerName}?color=${currentColor}`"
-    class="block bg-neutral-200/75 rounded-md overflow-hidden"
+    class="group block bg-neutral-200/75 rounded-md overflow-hidden"
   >
     <img
       :src="`./src/images/products/${lowerName}_${currentColor}.jpg`"
       :alt="product.name"
       loading="lazy"
-      class="min-w-full mix-blend-multiply hover:brightness-95 transition duration-300"
+      class="min-w-full mix-blend-multiply group-hover:brightness-95 transition duration-300"
     />
   </a>
 
