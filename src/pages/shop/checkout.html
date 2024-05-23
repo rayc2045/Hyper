@@ -4,7 +4,15 @@
     class="grid lg:grid-cols-12 gap-8 md:px-12 lg:p-0 relative"
   >
     <div class="lg:col-span-8 space-y-8">
+      <div class="space-y-4">
+        <h2 class="text-xl font-medium">Billing details</h2>
+        <form action=""></form>
+      </div>
 
+      <div class="space-y-4">
+        <h2 class="text-xl font-medium">Payment Options</h2>
+        <form action=""></form>
+      </div>
     </div>
 
     <div class="lg:col-span-4 space-y-8">
@@ -47,18 +55,16 @@
                   <h3 x-text="item.name" class="text-lg font-bold"></h3>
                   <div class="text-gray-500">
                     Color:
-                    <span
-                      x-text="item.color[0].toUpperCase() + item.color.slice(1)"
-                    ></span>
+                    <span x-text="capitalizeFirstLetter(item.color)"></span>
                   </div>
                   <div class="flex items-center space-x-2 text-gray-500">
                     <span>Price:</span>
                     <span
-                      x-text="`$${thousandFormat(Math.round(item.price * (100 - item.discount.split('%')[0]) / 100))}`"
+                      x-text="currencyFormat(Math.round(item.price * (100 - item.discount.split('%')[0]) / 100))"
                     ></span>
                     <span
                       x-show="item.discount"
-                      x-text="`-${item.discount}`"
+                      x-text="`–${item.discount}`"
                       class="px-2 py-0.5 rounded-xl text-xs text-red-600 border border-red-600"
                     ></span>
                   </div>
@@ -109,28 +115,24 @@
             <div class="flex justify-between text-sm">
               <span
                 class="text-gray-500"
-                x-text="title[0].toUpperCase() + title.slice(1)"
+                x-text="capitalizeFirstLetter(title)"
               ></span>
-              <span
-                class="before:content-['$']"
-                x-text="thousandFormat(summary[title].toFixed(2))"
-              ></span>
+              <span x-text="currencyFormat(summary[title])"></span>
             </div>
           </template>
           <div x-show="discount" class="flex justify-between text-sm">
             <span class="text-gray-500">Discount</span>
             <span
-              class="text-red-600 font-medium"
-              x-text="`–$${thousandFormat(discount.toFixed(2))}`"
+              class="text-red-600 font-medium before:content-['–']"
+              x-text="currencyFormat(discount)"
             ></span>
           </div>
         </div>
         <hr />
-        <div class="flex justify-between text-lg">
+        <div class="flex justify-between text-lg font-medium">
           <span>Total</span>
           <span
-            class="before:content-['$']"
-            x-text="thousandFormat(total.toFixed(2))"
+            x-text="currencyFormat(total)"
           ></span>
         </div>
       </div>
@@ -161,22 +163,9 @@
     </h3>
     <ul
       class="grid place-content-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-      x-data="{
-        recommendedProducts: getShuffles(productsNotInCart),
-      }"
-      x-init="$watch('cart.items', value => {
-        recommendedProducts = [
-          ...recommendedProducts.filter(
-            p => !value.some(item => item.name === p.name),
-          ),
-          ...productsNotInCart.filter(
-            p => !recommendedProducts.some(item => item.name === p.name),
-          )
-        ];
-      });"
     >
       <template
-        x-for="product in recommendedProducts.slice(0, 4)"
+        x-for="product in getShuffles(productsNotInCart).slice(0, 4)"
         :key="product.name"
       >
         <li x-html="component('product-card')"></li>

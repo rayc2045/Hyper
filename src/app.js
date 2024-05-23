@@ -239,11 +239,21 @@ const utils = {
   copyText(text) {
     navigator.clipboard.writeText(text.trim());
   },
-  thousandFormat(num) {
-    const parts = num.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return parts.join('.');
+  capitalizeFirstLetter(str) {
+    return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
   },
+  truncate(str, maxLength, replacer = '...') {
+    return str.length > maxLength ? `${str.slice(0, maxLength)}${replacer}` : str;
+  },
+  currencyFormat(number, fixed = 2, first = '$', last = '') {
+    return (
+      first +
+      new Intl.NumberFormat().format(
+        Math.round((number + Number.EPSILON) * 10 ** fixed) / 10 ** fixed
+      ) +
+      last
+    );
+  }
 };
 
 const overlay = {

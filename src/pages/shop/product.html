@@ -28,7 +28,7 @@
       <li>
         <a
           :href="`#/shop?categories=${product.category}`"
-          x-text="product.category[0].toUpperCase() + product.category.slice(1)"
+          x-text="capitalizeFirstLetter(product.category)"
           class="hover:underline"
         ></a>
       </li>
@@ -63,18 +63,18 @@
       <div class="flex space-x-2 text-lg">
         <span
           id="original-price"
-          x-text="`$${thousandFormat(product.price)}`"
+          x-text="currencyFormat(product.price)"
           :class="product.discount && 'line-through text-gray-400'"
         ></span>
         <template x-if="product.discount">
           <div class="flex items-center space-x-2">
             <span
               id="new-price"
-              x-text="`$${thousandFormat(Math.round(product.price * (100 - product.discount.split('%')[0]) / 100))}`"
+              x-text="currencyFormat(Math.round(product.price * (100 - product.discount.split('%')[0]) / 100))"
             ></span>
             <span
               id="discount-badge"
-              x-text="`-${product.discount}`"
+              x-text="`–${product.discount}`"
               class="px-2 py-0.5 rounded-xl text-xs text-red-600 border border-red-600"
             ></span>
           </div>
@@ -108,7 +108,7 @@
             <td>
               <a
                 :href="`#/shop?categories=${product.category}`"
-                x-text="product.category[0].toUpperCase() + product.category.slice(1)"
+                x-text="capitalizeFirstLetter(product.category)"
                 class="underline"
               ></a>
             </td>
@@ -120,7 +120,7 @@
             <td>
               <a
                 :href="`#/shop?colors=${currentColor}`"
-                x-text="currentColor[0].toUpperCase() + currentColor.slice(1)"
+                x-text="capitalizeFirstLetter(currentColor)"
                 class="underline"
               ></a>
             </td>
@@ -141,9 +141,7 @@
             <th class="text-left align-top text-gray-500 font-normal pr-8">
               Stock
             </th>
-            <td
-              x-text="product.stock[0].toUpperCase() + product.stock.slice(1)"
-            ></td>
+            <td x-text="capitalizeFirstLetter(product.stock)"></td>
           </tr>
           <tr>
             <th class="text-left align-top text-gray-500 font-normal pr-8">
