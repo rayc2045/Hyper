@@ -31,9 +31,9 @@
         <div x-cloak x-show="open" x-transition.origin.top>
           <ul>
             <template x-for="(item, idx) in cart.items" :key="item.name">
-              <div
+              <li
                 x-data="{ lowerName: item.name.toLowerCase().replaceAll(' ', '_') }"
-                class="py-8 grid grid-cols-12 gap-x-4"
+                class="py-6 grid grid-cols-12 gap-x-4"
                 :class="idx > 0 && 'border-t border-gray-300'"
               >
                 <a
@@ -50,11 +50,15 @@
 
                 <div
                   :class="item.num > 100 ? 'col-span-6' : 'col-span-7'"
-                  class="self-center space-y-2"
+                  class="self-center space-y-1"
                 >
-                  <h3 x-text="item.name" class="text-lg font-bold"></h3>
-                  <div class="text-gray-500">
-                    Color:
+                  <a
+                    :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
+                  >
+                    <h3 x-text="item.name" class="text-lg font-bold"></h3>
+                  </a>
+                  <div class="flex items-center space-x-2 text-gray-500">
+                    <span>Color:</span>
                     <span x-text="capitalizeFirstLetter(item.color)"></span>
                   </div>
                   <div class="flex items-center space-x-2 text-gray-500">
@@ -74,11 +78,10 @@
                   :class="item.num > 100 ? 'col-span-3' : 'col-span-2'"
                   class="self-center mx-auto"
                 >
-                  <span class="text-sm">✕</span>&nbsp;<span
-                    x-text="`${item.num}`"
-                  ></span>
+                  <span class="text-sm">✕</span>
+                  <span x-text="`${item.num}`"></span>
                 </div>
-              </div>
+              </li>
             </template>
           </ul>
           <a href="#/cart" :class="btn.outlined">

@@ -3,9 +3,9 @@
     x-show="cart.items.length"
     class="grid lg:grid-cols-12 gap-8 md:px-12 lg:p-0 relative"
   >
-    <div class="lg:col-span-8">
+    <ul class="lg:col-span-8">
       <template x-for="item in cart.items" :key="item.name">
-        <div
+        <li
           x-data="{ lowerName: item.name.toLowerCase().replaceAll(' ', '_') }"
           class="py-8 grid grid-cols-12 gap-4 sm:gap-8 border-t border-gray-300"
         >
@@ -22,9 +22,13 @@
           </a>
 
           <div class="col-span-5 self-center space-y-2">
-            <h3 x-text="item.name" class="text-lg font-bold"></h3>
-            <div class="text-gray-500">
-              Color:
+            <a
+              :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
+            >
+              <h3 x-text="item.name" class="text-lg font-bold"></h3>
+            </a>
+            <div class="flex items-center space-x-2 text-gray-500">
+              <span>Color:</span>
               <span x-text="capitalizeFirstLetter(item.color)"></span>
             </div>
             <div class="flex items-center space-x-2 text-gray-500">
@@ -71,9 +75,9 @@
               ✕
             </button>
           </div>
-        </div>
+        </li>
       </template>
-    </div>
+    </ul>
 
     <div
       id="order-summary"
