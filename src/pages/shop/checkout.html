@@ -5,12 +5,12 @@
   >
     <div class="lg:col-span-8 space-y-8">
       <div class="space-y-4">
-        <h2 class="text-xl font-medium">Billing details</h2>
+        <h2 class="text-xl font-bold">Billing details</h2>
         <form action=""></form>
       </div>
 
       <div class="space-y-4">
-        <h2 class="text-xl font-medium">Payment Options</h2>
+        <h2 class="text-xl font-bold">Payment Options</h2>
         <form action=""></form>
       </div>
     </div>
@@ -18,7 +18,7 @@
     <div class="lg:col-span-4 space-y-8">
       <div x-data="{ open: false }">
         <button
-          class="w-full flex items-center text-lg font-medium"
+          class="w-full flex items-center text-lg font-bold"
           @click="open = !open"
         >
           Your order
@@ -109,7 +109,7 @@
           },
         }"
       >
-        <h2 class="text-lg font-medium">Order Summary</h2>
+        <h2 class="text-lg font-bold">Order Summary</h2>
         <div class="space-y-4">
           <template x-for="title in Object.keys(summary)" :key="title">
             <div class="flex justify-between text-sm">
@@ -131,9 +131,7 @@
         <hr />
         <div class="flex justify-between text-lg font-medium">
           <span>Total</span>
-          <span
-            x-text="currencyFormat(total)"
-          ></span>
+          <span x-text="currencyFormat(total)"></span>
         </div>
       </div>
     </div>

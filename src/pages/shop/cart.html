@@ -97,7 +97,7 @@
         },
       }"
     >
-      <h2 class="text-lg font-medium">Order Summary</h2>
+      <h2 class="text-lg font-bold">Order Summary</h2>
       <div class="space-y-4">
         <template x-for="title in Object.keys(summary)" :key="title">
           <div class="flex justify-between text-sm">
@@ -117,7 +117,7 @@
         </div>
       </div>
       <hr />
-      <div class="flex justify-between">
+      <div class="flex justify-between font-medium">
         <span>Total</span>
         <span x-text="currencyFormat(total)"></span>
       </div>
