@@ -484,4 +484,45 @@ const user = {
     name: '',
     email: '',
   },
+  info: {
+    'Name': {
+      type: 'text',
+      placeholder: 'John, Doe',
+      content: ''
+    },
+    'Company name (optional)': {
+      type: 'text',
+      content: ''
+    },
+    'Country / Region': {
+      type: 'text',
+      content: ''
+    },
+    'Street address': {
+      type: 'text',
+      content: ''
+    },
+    'Town / City': {
+      type: 'text',
+      content: ''
+    },
+    'State': {
+      type: 'text',
+      content: ''
+    },
+    'ZIP Code': {
+      type: 'number',
+      placeholder: '22004',
+      content: ''
+    },
+    'Phone': {
+      type: 'tel',
+      content: ''
+    },
+    'Email': {
+      type: 'email',
+      placeholder: 'example@gmail.com',
+      content: ''
+    }
+  }
 };

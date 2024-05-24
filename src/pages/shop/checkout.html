@@ -3,16 +3,37 @@
     x-show="cart.items.length"
     class="grid lg:grid-cols-12 gap-8 md:px-12 lg:p-0 relative"
   >
-    <div class="lg:col-span-8 space-y-8">
-      <div class="space-y-4">
+    <div
+      x-data="{
+        agreePolicy: false,
+      }"
+      class="lg:col-span-8 space-y-8"
+    >
+      <div class="space-y-8">
         <h2 class="text-xl font-bold">Billing details</h2>
-        <form action=""></form>
+        <form class="space-y-4">
+          <template x-for="title in Object.keys(user.info)" :key="title">
+            <label
+              :for="title"
+              class="block px-3 py-2 rounded-md border border-gray-400 invalid:border-red-500 invalid:text-red-600 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 shadow-sm overflow-hidden space-y-1"
+            >
+              <span
+                x-text="title"
+                class="text-xs text-gray-700 font-medium"
+              ></span>
+              <input
+                :id="title"
+                :type="user.info[title].type"
+                :placeholder="user.info[title].placeholder"
+                x-model="user.info[title].content"
+                class="w-full p-0 sm:text-sm border-none bg-transparent appearance-none focus:border-transparent focus:outline-none focus:ring-0"
+              />
+            </label>
+          </template>
+        </form>
       </div>
 
-      <div class="space-y-4">
-        <h2 class="text-xl font-bold">Payment Options</h2>
-        <form action=""></form>
-      </div>
+      <button :class="btn.dark" class="w-full">Place order</button>
     </div>
 
     <div class="lg:col-span-4 space-y-8">
@@ -55,13 +76,13 @@
                   <a
                     :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
                   >
-                    <h3 x-text="item.name" class="text-lg font-bold"></h3>
+                    <h3 x-text="item.name" class="font-bold"></h3>
                   </a>
-                  <div class="flex items-center space-x-2 text-gray-500">
+                  <div class="flex items-center space-x-2 text-sm text-gray-500">
                     <span>Color:</span>
                     <span x-text="capitalizeFirstLetter(item.color)"></span>
                   </div>
-                  <div class="flex items-center space-x-2 text-gray-500">
+                  <div class="flex items-center space-x-2 text-sm text-gray-500">
                     <span>Price:</span>
                     <span
                       x-text="currencyFormat(Math.round(item.price * (100 - item.discount.split('%')[0]) / 100))"
