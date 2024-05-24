@@ -1,31 +1,32 @@
 <section>
   <div
     x-show="cart.items.length"
-    class="grid lg:grid-cols-12 gap-8 md:px-12 lg:p-0 relative"
+    class="grid lg:grid-cols-12 gap-12 lg:gap-8 md:px-12 lg:p-0 relative"
   >
     <div
+      id="user-info"
+      class="lg:col-span-8 space-y-12"
       x-data="{
         agreePolicy: false,
       }"
-      class="lg:col-span-8 space-y-8"
     >
       <div class="space-y-8">
         <h2 class="text-xl font-bold">Billing details</h2>
         <form class="space-y-4">
-          <template x-for="title in Object.keys(user.info)" :key="title">
+          <template x-for="block in user.billingDetails" :key="block.title">
             <label
-              :for="title"
+              :for="block.title"
               class="block px-3 py-2 rounded-md border border-gray-400 invalid:border-red-500 invalid:text-red-600 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 shadow-sm overflow-hidden space-y-1"
             >
               <span
-                x-text="title"
+                x-text="block.title"
                 class="text-xs text-gray-700 font-medium"
               ></span>
               <input
-                :id="title"
-                :type="user.info[title].type"
-                :placeholder="user.info[title].placeholder"
-                x-model="user.info[title].content"
+                :id="block.title"
+                :type="block.type"
+                :placeholder="block.placeholder"
+                x-model="block.content"
                 class="w-full p-0 sm:text-sm border-none bg-transparent appearance-none focus:border-transparent focus:outline-none focus:ring-0"
               />
             </label>
@@ -36,10 +37,13 @@
       <button :class="btn.dark" class="w-full">Place order</button>
     </div>
 
-    <div class="lg:col-span-4 space-y-8">
+    <div
+      id="order-info"
+      class="lg:col-span-4 order-first lg:order-none space-y-8"
+    >
       <div x-data="{ open: false }">
         <button
-          class="w-full flex items-center text-lg font-bold"
+          class="w-full flex items-center text-xl font-bold"
           @click="open = !open"
         >
           Your order
@@ -59,13 +63,13 @@
               >
                 <a
                   :href="`#/shop/${item.category}/${lowerName}?color=${item.color}`"
-                  class="col-span-3 self-center block aspect-[4/5] bg-neutral-200/75 rounded-md overflow-hidden"
+                  class="col-span-3 self-center block aspect-[4/5] max-w-28 mx-auto bg-neutral-200/75 rounded-md overflow-hidden"
                 >
                   <img
                     :src="`./src/images/products/${lowerName}_${item.color}.jpg`"
                     :alt="item.name"
                     loading="lazy"
-                    class="min-w-full mix-blend-multiply hover:brightness-95 transition duration-300"
+                    class="w-full mix-blend-multiply hover:brightness-95 transition duration-300"
                   />
                 </a>
 
@@ -78,11 +82,15 @@
                   >
                     <h3 x-text="item.name" class="font-bold"></h3>
                   </a>
-                  <div class="flex items-center space-x-2 text-sm text-gray-500">
+                  <div
+                    class="flex items-center space-x-2 lg:text-sm text-gray-500"
+                  >
                     <span>Color:</span>
                     <span x-text="capitalizeFirstLetter(item.color)"></span>
                   </div>
-                  <div class="flex items-center space-x-2 text-sm text-gray-500">
+                  <div
+                    class="flex items-center space-x-2 lg:text-sm text-gray-500"
+                  >
                     <span>Price:</span>
                     <span
                       x-text="currencyFormat(Math.round(item.price * (100 - item.discount.split('%')[0]) / 100))"

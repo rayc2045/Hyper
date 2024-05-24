@@ -484,45 +484,54 @@ const user = {
     name: '',
     email: '',
   },
-  info: {
-    'Name': {
+  billingDetails: [
+    {
+      title: 'Name',
       type: 'text',
       placeholder: 'John, Doe',
-      content: ''
+      content: '',
     },
-    'Company name (optional)': {
+    {
+      title: 'Company name (optional)',
       type: 'text',
-      content: ''
+      content: '',
     },
-    'Country / Region': {
+    {
+      title: 'Country / Region',
       type: 'text',
-      content: ''
+      content: '',
     },
-    'Street address': {
+    {
+      title: 'Street address',
       type: 'text',
-      content: ''
+      content: '',
     },
-    'Town / City': {
+    {
+      title: 'Town / City',
       type: 'text',
-      content: ''
+      content: '',
     },
-    'State': {
+    {
+      title: 'State',
       type: 'text',
-      content: ''
+      content: '',
     },
-    'ZIP Code': {
+    {
+      title: 'ZIP Code',
       type: 'number',
       placeholder: '22004',
-      content: ''
+      content: '',
     },
-    'Phone': {
+    {
+      title: 'Phone',
       type: 'tel',
-      content: ''
+      content: '',
     },
-    'Email': {
+    {
+      title: 'Email',
       type: 'email',
       placeholder: 'example@gmail.com',
-      content: ''
-    }
-  }
+      content: '',
+    },
+  ],
 };
