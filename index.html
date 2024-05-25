@@ -58,7 +58,7 @@
         lastScrollTop = newScrollTop <= 0 ? 0 : newScrollTop;
       "
     >
-      <div class="max-w-screen-xl mx-auto px-6 md:pl-8 py-2 flex items-center gap-x-2 md:gap-x-4">
+      <div class="max-w-screen-lg 2xl:max-w-screen-xl mx-auto px-6 md:pl-8 py-2 flex items-center gap-x-2 md:gap-x-4">
         <button
           class="p-2 md:hidden"
           x-html="svg('menu')"
@@ -359,7 +359,7 @@
     </aside>
 
     <section id="announcement" class="bg-gray-200 border-b border-gray-300">
-      <div class="mx-auto max-w-screen-xl px-4 sm:px-6 flex text-sm font-medium">
+      <div class="mx-auto max-w-screen-lg 2xl:max-w-screen-xl px-4 sm:px-6 flex text-sm font-medium">
         <a
           href="https://github.com/rayc2045/Hyper"
           rel="noreferrer"
@@ -384,7 +384,7 @@
       x-init="await router.init()"
       @hashchange.window="sideMenu.hide(); overlay.hide(); await scrollToTop(); router.updatePath(); router.renderPage();"
     >
-      <div class="max-w-screen-xl mx-auto px-4 sm:px-8 py-12">
+      <div class="max-w-screen-lg 2xl:max-w-screen-xl mx-auto px-4 sm:px-8 py-12">
         <h1
           x-show="router.currentRoute.title"
           x-text="router.currentRoute.title"
@@ -395,7 +395,7 @@
     </main>
 
     <footer class="border-t border-gray-300">
-      <div class="max-w-screen-xl mx-auto px-4 sm:px-8 py-8 lg:py-12">
+      <div class="max-w-screen-lg 2xl:max-w-screen-xl mx-auto px-4 sm:px-8 py-8 lg:py-12">
         <aside class="grid gap-y-8 lg:grid-cols-5">
           <section class="lg:col-span-3">
             <h4
