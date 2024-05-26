@@ -87,7 +87,7 @@
           <template x-for="block in billingDetails" :key="block.title">
             <label
               :for="block.title"
-              class="block px-3 py-2 rounded-md border border-gray-400 invalid:border-red-500 invalid:text-red-600 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 shadow-sm overflow-hidden space-y-1"
+              class="block px-3 py-2 space-y-1 rounded-md border border-gray-500 invalid:border-red-500 shadow-sm overflow-hidden invalid:text-red-500 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500"
             >
               <span
                 x-text="block.title"
@@ -116,28 +116,27 @@
             <div>
               <label
                 :for="option.title"
-                class="block p-4 space-y-2 border border-gray-400 rounded-lg shadow-sm cursor-pointer has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
+                class="block p-4 space-y-2 border border-gray-500 rounded-lg shadow-sm cursor-pointer has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
+                :class="option.checked && 'bg-blue-100/75'"
               >
-                <div class="flex justify-between items-end">
-                  <p
-                    x-text="option.title"
-                    :class="option.checked ? 'text-gray-700 font-semibold' : 'text-gray-400'"
-                  ></p>
-                  <input
-                    type="radio"
-                    name="paymentOption"
-                    :id="option.title"
-                    :value="option.title"
-                    :checked="option.checked"
-                    @input="paymentOptions.forEach((opt, idx) => opt.checked = (idx === optionIdx))"
-                    class="size-5"
-                  />
-                </div>
+                <h3
+                  x-text="option.title"
+                  :class="option.checked ? 'text-gray-700 font-semibold' : 'text-gray-500'"
+                ></h3>
                 <p
                   x-show="option.checked"
                   x-text="option.note"
                   class="text-gray-500 text-sm"
                 ></p>
+                <input
+                  type="radio"
+                  class="sr-only"
+                  name="paymentOption"
+                  :id="option.title"
+                  :value="option.title"
+                  :checked="option.checked"
+                  @input="paymentOptions.forEach((opt, idx) => opt.checked = (idx === optionIdx))"
+                />
               </label>
             </div>
           </template>
