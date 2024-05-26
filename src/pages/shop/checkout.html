@@ -7,34 +7,177 @@
       id="user-info"
       class="lg:col-span-8 space-y-12"
       x-data="{
+        billingDetails: [
+          {
+            title: 'Name',
+            placeholder: 'John, Doe',
+            content: '',
+          },
+          {
+            title: 'Company name (optional)',
+            content: '',
+          },
+          {
+            title: 'Country / Region',
+            content: '',
+          },
+          {
+            title: 'Street address',
+            content: '',
+          },
+          {
+            title: 'Town / City',
+            content: '',
+          },
+          {
+            title: 'State',
+            content: '',
+          },
+          {
+            title: 'ZIP Code',
+            type: 'number',
+            placeholder: '22004',
+            content: '',
+          },
+          {
+            title: 'Phone',
+            type: 'tel',
+            content: '',
+          },
+          {
+            title: 'Email',
+            type: 'email',
+            placeholder: 'example@gmail.com',
+            content: '',
+          },
+          {
+            title: 'Order notes (optional)',
+            placeholder: 'Notes about your order, e.g. special notes for delivery.',
+            content: ''
+          },
+        ],
+        paymentOptions: [
+          {
+            title: 'Direct bank transfer ',
+            note: 'Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.',
+            checked: true
+          },
+          {
+            title: 'Check payments ',
+            note: 'Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.',
+            checked: false
+          },
+          {
+            title: 'PayPal',
+            note: `Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.`,
+            checked: false
+          }
+        ],
         agreePolicy: false,
+        get isValid() {
+          return billingDetails.filter(info => !info.title.includes('(optional)')).every(info => info.content.length) &&
+            paymentOptions.filter(option => option.checked).length === 1 &&
+            agreePolicy;
+        },
       }"
     >
       <div class="space-y-8">
         <h2 class="text-xl font-bold">Billing details</h2>
         <form class="space-y-4">
-          <template x-for="block in user.billingDetails" :key="block.title">
+          <template x-for="block in billingDetails" :key="block.title">
             <label
               :for="block.title"
               class="block px-3 py-2 rounded-md border border-gray-400 invalid:border-red-500 invalid:text-red-600 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 shadow-sm overflow-hidden space-y-1"
             >
               <span
                 x-text="block.title"
-                class="text-xs text-gray-700 font-medium"
+                class="text-sm text-gray-700 font-medium"
               ></span>
               <input
                 :id="block.title"
-                :type="block.type"
+                :type="block.type || 'text'"
                 :placeholder="block.placeholder"
                 x-model="block.content"
-                class="w-full p-0 sm:text-sm border-none bg-transparent appearance-none focus:border-transparent focus:outline-none focus:ring-0"
+                class="w-full p-0 border-none bg-transparent appearance-none focus:border-transparent focus:outline-none focus:ring-0"
               />
             </label>
           </template>
         </form>
       </div>
 
-      <button :class="btn.dark" class="w-full">Place order</button>
+      <div class="space-y-4">
+        <h2 class="text-xl font-bold">Payment Options</h2>
+        <fieldset class="space-y-4">
+          <legend class="sr-only">Payment Options</legend>
+          <template
+            x-for="(option, optionIdx) in paymentOptions"
+            :key="option.title"
+          >
+            <div>
+              <label
+                :for="option.title"
+                class="block p-4 space-y-2 border border-gray-400 rounded-lg shadow-sm cursor-pointer has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
+              >
+                <div class="flex justify-between items-end">
+                  <p
+                    x-text="option.title"
+                    :class="option.checked ? 'text-gray-700 font-semibold' : 'text-gray-400'"
+                  ></p>
+                  <input
+                    type="radio"
+                    name="paymentOption"
+                    :id="option.title"
+                    :value="option.title"
+                    :checked="option.checked"
+                    @input="paymentOptions.forEach((opt, idx) => opt.checked = (idx === optionIdx))"
+                    class="size-5"
+                  />
+                </div>
+                <p
+                  x-show="option.checked"
+                  x-text="option.note"
+                  class="text-gray-500 text-sm"
+                ></p>
+              </label>
+            </div>
+          </template>
+        </fieldset>
+        <div class="space-y-4 text-sm">
+          <p>
+            Your personal data will be used to process your order, support your
+            experience throughout this website, and for other purposes described
+            in our
+            <a href="#/privacy-policy" class="underline">privacy policy</a>.
+          </p>
+          <label class="block flex items-center">
+            <input
+              type="checkbox"
+              x-model="agreePolicy"
+              class="appearance-none"
+            />
+            <span
+              x-show="!agreePolicy"
+              x-html="svg('square')"
+              class="text-gray-900"
+            ></span>
+            <span
+              x-show="agreePolicy"
+              x-html="svg('checkbox')"
+              class="text-gray-700"
+            ></span>
+            <span class="ml-2">
+              I have read and agree to the website
+              <a href="#/privacy-policy" class="underline">
+                terms and conditions</a
+              >.
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <button :class="btn.dark" class="w-full" @click="checkInput()">
+        Place order
+      </button>
     </div>
 
     <div
@@ -161,7 +304,7 @@
           </div>
         </div>
         <hr />
-        <div class="flex justify-between text-lg font-medium">
+        <div class="flex justify-between font-medium">
           <span>Total</span>
           <span x-text="currencyFormat(total)"></span>
         </div>
