@@ -53,25 +53,25 @@
           {
             title: 'Order notes (optional)',
             placeholder: 'Notes about your order, e.g. special notes for delivery.',
-            content: ''
+            content: '',
           },
         ],
         paymentOptions: [
           {
-            title: 'Direct bank transfer ',
+            title: 'Direct bank transfer',
             note: 'Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.',
-            checked: true
+            checked: true,
           },
           {
-            title: 'Check payments ',
+            title: 'Check payments',
             note: 'Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.',
-            checked: false
+            checked: false,
           },
           {
             title: 'PayPal',
             note: `Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.`,
-            checked: false
-          }
+            checked: false,
+          },
         ],
         agreePolicy: false,
         get isValid() {
@@ -174,9 +174,14 @@
         </div>
       </div>
 
-      <button :class="btn.dark" class="w-full" @click="checkInput()">
-        Place order
-      </button>
+      <button
+        x-text="paymentOptions.findIndex(opt => opt.checked) > 1
+          ? `Proceed to ${paymentOptions.find(opt => opt.checked).title}`
+          : 'Place order'"
+        :class="btn.dark"
+        class="w-full"
+        @click="checkInput()"
+      ></button>
     </div>
 
     <div
