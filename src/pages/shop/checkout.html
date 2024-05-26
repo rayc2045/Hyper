@@ -175,9 +175,9 @@
       </div>
 
       <button
-        x-text="paymentOptions.findIndex(opt => opt.checked) > 1
-          ? `Proceed to ${paymentOptions.find(opt => opt.checked).title}`
-          : 'Place order'"
+        x-text="paymentOptions.findIndex(opt => opt.checked) <= 1
+          ? 'Place order'
+          : `Proceed to ${paymentOptions.find(opt => opt.checked).title}`"
         :class="btn.dark"
         class="w-full"
         @click="checkInput()"
