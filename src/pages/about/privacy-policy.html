@@ -1,7 +1,10 @@
 <section class="space-y-8">
   <div class="space-y-4">
     <h2 class="text-xl font-bold">Who we are</h2>
-    <p>Our website address is: https://hyper-template.netlify.app/.</p>
+    <p>
+      Our website address is:
+      <span x-text="window.location.href.split('/#')[0]"></span>.
+    </p>
   </div>
 
   <div class="space-y-4">
