@@ -283,7 +283,7 @@ const router = {
     { path: '/posts/:date/:title', component: '/blog/post.html' },
     { path: '/about', component: '/about/about-us.html', title: 'About Us' },
     { path: '/contact', component: '/about/contact.html', title: 'Contact Us' },
-    { path: '/faq', component: '/about/faq.html', title: 'Frequently asked questions' },
+    { path: '/faq', component: '/about/faq.html', title: 'FAQ' },
     { path: '/privacy-policy', component: '/about/privacy-policy.html', title: 'Privacy Policy' },
     { path: '/shop', component: '/shop/shop.html', title: 'Shop' },
     { path: '/shop/:category/:name', component: '/shop/product.html' },

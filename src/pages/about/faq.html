@@ -1,0 +1,63 @@
+<div
+  x-data="{
+    faq: {
+      shopping: [
+        {
+          question: 'What shipping methods are available?',
+          answer: 'Ex Portland Pitchfork irure mustache. Neutra fap before they sold out literally. Aliquip ugh bicycle rights actually mlkshk, seitan squid craft readymade beer tempor.',
+        },
+        {
+          question: 'Do you ship internationally?',
+          answer: 'Hoodie tote bag mixtape tofu. Typewriter jean shorts wolf quinoa, organic freegan cray. Raw denim polaroid paleo farm-to-table letterpress.',
+        },
+        {
+          question: 'How long will it take to get my package?',
+          answer: 'Swag slow-carb quinoa VHS typewriter pork belly brunch, paleo single-origin coffee Wes Anderson. Flexitarian Pitchfork forage, literally paleo pour-over. Twee chia photo booth readymade food truck, hoodie roof party swag keytar PBR DIY.',
+        },
+      ],
+      payments: [
+        {
+          question: 'What payment methods are accepted?',
+          answer: 'Keytar cray slow-carb, Godard banh mi salvia pour-over. Slow-carb odd future seitan normcore. Master cleanse American Apparel gentrify flexitarian beard slow-carb next level.',
+        },
+        {
+          question: 'Is buying online safe?',
+          answer: 'Neutra Austin roof party Brooklyn, synth Thundercats swag 8-bit photo booth. Plaid letterpress leggings craft beer meh ethical.',
+        },
+      ],
+      orders: [
+        {
+          question: 'How do I track my order?',
+          answer: 'Ex Portland Pitchfork irure mustache. Neutra fap before they sold out literally. Aliquip ugh bicycle rights actually mlkshk, seitan squid craft beer tempor.',
+        },
+        {
+          question: 'How can I return a product?',
+          answer: 'Kale chips Truffaut Williamsburg, hashtag fixie Pinterest raw denim hambray drinking vinegar Carles street art Bushwick gastropub. Wolf Tumblr paleo church-key. Plaid food truck Echo Park YOLO bitters hella, direct trade.',
+        },
+        {
+          question: 'Do I need an account to place an order?',
+          answer: 'Keytar cray slow-carb, Godard banh mi salvia pour-over. Slow-carb @Odd Future seitan normcore.',
+        },
+        {
+          question: 'How can I cancel my order?',
+          answer: 'Swag slow-carb quinoa VHS typewriter pork belly brunch, paleo single-origin coffee Wes Anderson. Flexitarian Pitchfork forage, literally paleo pour-over. Twee chia photo booth readymade food truck, hoodie roof party swag keytar PBR DIY.',
+        },
+      ],
+    }
+  }"
+  class="space-y-12"
+>
+  <template x-for="title in Object.keys(faq)" :key="title">
+    <section class="space-y-8">
+      <h2 x-text="capitalizeFirstLetter(title)" class="text-2xl font-bold"></h2>
+      <ul class="space-y-6">
+        <template x-for="block in faq[title]">
+          <li class="space-y-2">
+            <h3 x-text="block.question" class="text-lg font-bold"></h3>
+            <p x-text="block.answer"></p>
+          </li>
+        </template>
+      </ul>
+    </section>
+  </template>
+</div>
