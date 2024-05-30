@@ -50,11 +50,11 @@
   <template x-for="title in Object.keys(faq)" :key="title">
     <section class="space-y-8">
       <h2 x-text="capitalizeFirstLetter(title)" class="text-2xl font-bold"></h2>
-      <ul class="space-y-6">
+      <ul class="space-y-6 pl-4">
         <template x-for="block in faq[title]">
-          <li class="space-y-2">
+          <li class="space-y-2 list-disc">
             <h3 x-text="block.question" class="text-lg font-bold"></h3>
-            <p x-text="block.answer"></p>
+            <p x-text="block.answer" class="font-serif text-lg"></p>
           </li>
         </template>
       </ul>
