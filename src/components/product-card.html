@@ -16,8 +16,8 @@
     />
   </a>
 
-  <div class="flex justify-between items-start">
-    <div>
+  <div class="flex justify-between items-start relative">
+    <div class="pr-11">
       <small
         id="product-label"
         x-text="product.stock === 'in stock'
@@ -42,7 +42,7 @@
       <button
         id="add-to-cart-button"
         x-html="svg('bag')"
-        class="mt-4 ml-1"
+        class="absolute right-0 top-4"
         :class="btn.roundedGray"
         @click="await cart.addItem({
           name: product.name,
