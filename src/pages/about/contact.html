@@ -3,37 +3,42 @@
   <p class="font-serif text-lg">
     Have any questions about our products, or would you just like to say hello?
   </p>
-  <div>
+  <div
+    class="max-w-xl rounded-lg overflow-hidden border border-gray-600 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+  >
     <label for="message" class="sr-only">Message</label>
-    <div
-      class="max-w-xl overflow-hidden rounded-lg border border-gray-600 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
-    >
-      <textarea
-        id="message"
-        class="w-full p-2 resize-none align-top border-none bg-transparent focus:ring-0 sm:text-sm"
-        rows="4"
-        placeholder="Leave a message..."
-      ></textarea>
-      <div class="p-3 flex items-center justify-end gap-2">
-        <button
-          type="button"
-          class="rounded px-3 py-1.5 text-sm text-gray-700 bg-gray-200 hover:text-gray-600"
-        >
-          Clear
-        </button>
-        <button
-          type="button"
-          class="rounded px-3 py-1.5 text-sm text-white bg-gray-600 hover:bg-gray-700"
-        >
-          Send
-        </button>
-      </div>
+    <textarea
+      id="message"
+      class="w-full min-h-40 p-2 resize-none align-top border-none bg-transparent focus:ring-0 outline-none"
+      rows="4"
+      placeholder="Leave a message..."
+      x-ref="textarea"
+      @input="$el.removeAttribute('style'); $el.style.height = `${$el.scrollHeight}px`; $el.value = $el.value.replaceAll('  ', ' ').replaceAll('\n\n\n', '\n\n');"
+    ></textarea>
+    <div class="p-3 flex items-center justify-end gap-2">
+      <button
+        type="button"
+        class="rounded px-3 py-1.5 text-sm text-gray-700 bg-gray-200 hover:text-gray-600"
+        @click="$refs.textarea.value = ''; $refs.textarea.focus();"
+      >
+        Clear
+      </button>
+      <button
+        type="button"
+        class="rounded px-3 py-1.5 text-sm text-white bg-gray-600 hover:bg-gray-700"
+      >
+        Send
+      </button>
     </div>
   </div>
 </section>
 
-<section>
+<section class="space-y-4">
   <h2 class="text-2xl font-bold">Follow Us</h2>
+  <p>
+    Join us on social media for inspiration, interesting insights, and fun
+    conversations!
+  </p>
   <ul class="mt-5 flex gap-4 text-lg text-gray-800">
     <li>
       <a
