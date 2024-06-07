@@ -13,7 +13,7 @@
       rows="4"
       placeholder="Leave a message..."
       x-ref="textarea"
-      @input="$el.removeAttribute('style'); $el.style.height = `${$el.scrollHeight}px`; $el.value = $el.value.replaceAll('  ', ' ').replaceAll('\n\n\n', '\n\n');"
+      @input="initHeight($el); $el.value = $el.value.replaceAll('  ', ' ').replaceAll('\n\n\n', '\n\n');"
     ></textarea>
     <div class="p-3 flex items-center justify-end gap-2">
       <button

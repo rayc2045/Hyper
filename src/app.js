@@ -223,6 +223,10 @@ const utils = {
     el.removeAttribute('style');
     for (const prop in style) el.style[prop] = style[prop];
   },
+  initHeight(el) {
+    el.removeAttribute('style');
+    el.style.height = el.scrollHeight + 'px';
+  },
   getUniques(arr) {
     return arr.filter((item, idx) => arr.indexOf(item) === idx);
   },
